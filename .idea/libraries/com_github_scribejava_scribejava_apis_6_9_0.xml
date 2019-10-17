@@ -1,0 +1,26 @@
+<component name="libraryTable">
+  <library name="com.github.scribejava:scribejava-apis:6.9.0" type="repository">
+    <properties maven-id="com.github.scribejava:scribejava-apis:6.9.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/scribejava-apis-6.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/scribejava-core-6.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.10.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.10.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.10.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/scribejava-apis-6.9.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/scribejava-core-6.9.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.10.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.10.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.10.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/scribejava-apis-6.9.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/scribejava-core-6.9.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.10.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.10.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.10.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
