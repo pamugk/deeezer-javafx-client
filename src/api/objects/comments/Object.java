@@ -1,4 +1,4 @@
-package com.psu.deezerunofficialapp.api.objects.comments;
+package api.objects.comments;
 
 public class Object {
     private int id;

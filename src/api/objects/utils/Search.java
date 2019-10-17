@@ -1,7 +1,7 @@
 package api.objects.utils;
 
-import com.psu.deezerunofficialapp.api.objects.playables.Album;
-import com.psu.deezerunofficialapp.api.objects.playables.Artist;
+import api.objects.playables.Album;
+import api.objects.playables.Artist;
 
 import java.net.URL;
 

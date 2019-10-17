@@ -1,6 +1,6 @@
-package com.psu.deezerunofficialapp.api.objects.comments;
+package api.objects.comments;
 
-import com.psu.deezerunofficialapp.api.objects.utils.User;
+import api.objects.utils.User;
 
 import java.security.Timestamp;
 
