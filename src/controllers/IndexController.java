@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 import api.Deezer;
 import api.events.authentication.AuthenticationEvent;
@@ -29,13 +28,7 @@ public class IndexController {
 
         userMenuBar.setPrefWidth(Control.USE_COMPUTED_SIZE);
 
-        User currentUser;
-        try {
-            currentUser = deezerClient.getLoggedInUser();
-        } catch (InterruptedException | ExecutionException | IOException e) {
-            e.printStackTrace();
-            return;
-        }
+        User currentUser = deezerClient.getLoggedInUser();
 
         Image avatar = new Image(currentUser.getPicture_small().toString());
         userAvatar.setImage(avatar);
@@ -44,12 +37,7 @@ public class IndexController {
     }
 
     private void login() {
-        try {
-            deezerClient.login();
-            onLoginResponse(new AuthenticationEvent(true));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
+        deezerClient.login();
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Controls">
