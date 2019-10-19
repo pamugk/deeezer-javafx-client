@@ -1,4 +1,6 @@
 package api.objects.utils;
 
-public class Contributor {
+import api.objects.DeezerEntity;
+
+public class Contributor extends DeezerEntity {
 }

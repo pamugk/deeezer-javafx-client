@@ -1,23 +1,16 @@
 package api.objects.utils;
 
+import api.objects.DeezerEntity;
+
 import java.net.URL;
 
-public class Genre {
-    private int id;
+public class Genre extends DeezerEntity {
     private String name;
     private URL picture;
     private URL picture_small;
     private URL picture_medium;
     private URL picture_big;
     private URL picture_xl;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

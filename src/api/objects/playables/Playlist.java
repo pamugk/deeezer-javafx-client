@@ -1,13 +1,13 @@
 package api.objects.playables;
 
+import api.objects.DeezerEntity;
 import com.google.gson.annotations.SerializedName;
 import api.objects.utils.User;
 
 import java.net.URL;
 import java.util.List;
 
-public class Playlist {
-    private int id;
+public class Playlist extends Playable {
     private String title;
     private String description;
     private int duration;
@@ -29,14 +29,6 @@ public class Playlist {
     private String checksum;
     private User creator;
     private List<Track> tracks;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;

@@ -1,23 +1,15 @@
 package api.objects.comments;
 
+import api.objects.DeezerEntity;
 import api.objects.utils.User;
 
 import java.security.Timestamp;
 
-public class Comment {
-    private int id;
+public class Comment extends DeezerEntity {
     private String text;
     private Timestamp timestamp;
     private Object object;
     private User author;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getText() {
         return text;

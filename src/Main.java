@@ -1,4 +1,4 @@
-import controllers.MainController;
+import controllers.IndexController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,13 +12,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/main.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/index.fxml"), bundle);
 
         Parent root = loader.load();
         primaryStage.setTitle(bundle.getString("title"));
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("img/deezer-icon")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("img/deezer-icon.jpg")));
         primaryStage.setScene(new Scene(root));
-        MainController controller = loader.getController();
+        IndexController controller = loader.getController();
 
         primaryStage.show();
     }

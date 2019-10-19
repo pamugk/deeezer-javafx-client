@@ -1,13 +1,13 @@
 package api.objects.playables;
 
+import api.objects.DeezerEntity;
 import api.objects.utils.Contributor;
 
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
-public class Track {
-    private int id;
+public class Track extends Playable {
     private boolean readable;
     private String title;
     private String title_short;
@@ -32,14 +32,6 @@ public class Track {
     private List<Contributor> contributors;
     private Artist artist;
     private Album album;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public boolean isReadable() {
         return readable;

@@ -1,16 +1,9 @@
 package api.objects.comments;
 
-public class Object {
-    private int id;
+import api.objects.DeezerEntity;
+
+public class Object extends DeezerEntity {
     private String type;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getType() {
         return type;

@@ -1,10 +1,11 @@
 package api.objects.utils;
 
+import api.objects.DeezerEntity;
+
 import java.net.URL;
 import java.util.Date;
 
-public class User {
-    private int id;
+public class User extends DeezerEntity {
     private String name;
     private String lastname;
     private String firstname;
@@ -25,14 +26,6 @@ public class User {
     private String explicit_content_level;
     private String[] explicit_content_levels_available;
     private URL tracklist;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

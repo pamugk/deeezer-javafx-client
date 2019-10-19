@@ -1,9 +1,10 @@
 package api.objects.playables;
 
+import api.objects.DeezerEntity;
+
 import java.net.URL;
 
-public class Artist {
-    private int id;
+public class Artist extends Playable {
     private String name;
     private URL link;
     private URL share;
@@ -16,14 +17,6 @@ public class Artist {
     private int nb_fan;
     private boolean radio;
     private URL tracklist;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

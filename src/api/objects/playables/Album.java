@@ -1,5 +1,6 @@
 package api.objects.playables;
 
+import api.objects.DeezerEntity;
 import api.objects.utils.Contributor;
 import api.objects.utils.Genre;
 
@@ -7,8 +8,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
-public class Album {
-    private int id;
+public class Album extends Playable {
     private String title;
     private String upc;
     private URL link;
@@ -18,7 +18,7 @@ public class Album {
     private URL cover_medium;
     private URL cover_big;
     private URL cover_xl;
-    private int genre_id;
+    private long genre_id;
     private List<Genre> genres;
     private String label;
     private int nb_tracks;
@@ -28,7 +28,7 @@ public class Album {
     private Date release_date;
     private String record_type;
     private boolean available;
-    private Object alternative;
+    private Album alternative;
     private URL tracklist;
     private boolean explicit_lyrics;
     private int explicit_content_lyrics;
@@ -36,14 +36,6 @@ public class Album {
     private List<Contributor> contributors;
     private Artist artist;
     private List<Track> tracks;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -117,11 +109,11 @@ public class Album {
         this.cover_xl = cover_xl;
     }
 
-    public int getGenre_id() {
+    public long getGenre_id() {
         return genre_id;
     }
 
-    public void setGenre_id(int genre_id) {
+    public void setGenre_id(long genre_id) {
         this.genre_id = genre_id;
     }
 
@@ -197,11 +189,11 @@ public class Album {
         this.available = available;
     }
 
-    public Object getAlternative() {
+    public Album getAlternative() {
         return alternative;
     }
 
-    public void setAlternative(Object alternative) {
+    public void setAlternative(Album alternative) {
         this.alternative = alternative;
     }
 
