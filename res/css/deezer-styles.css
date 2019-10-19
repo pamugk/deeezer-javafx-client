@@ -93,11 +93,57 @@
     Main
 ============= */
 
-.tab-pane {
+.card-header {
+    -fx-font-size: 23pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: #32323D;
+}
+
+.column-header {
+    -fx-background-color: white;
+    -fx-border-color: #F9F9F9;
+}
+
+.flow-pane {
+    -fx-hgap: 35;
+    -fx-vgap: 25;
+}
+
+.main-tab-pane {
     -fx-tab-max-height: 0 ;
 }
-.tab-pane .tab-header-area {
+.main-tab-pane > .tab-header-area {
     visibility: hidden ;
+}
+
+.scroll-pane {
+    -fx-background-color: white;
+}
+
+.tab {
+    -fx-background-color: inherit ;
+    -fx-text-size: 11pt;
+}
+
+.table-view {
+    -fx-border-width: 0px;
+}
+
+.tab-header-background {
+    -fx-background-color: inherit ;
+}
+
+.tab-label {
+    -fx-background-color: inherit;
+    -fx-text-fill: #9B9BA5;
+}
+
+.tab-label:selected {
+    -fx-text-fill: #32323D;
+}
+
+.tab-pane {
+    -fx-background-color: white;
 }
 
 /*============
