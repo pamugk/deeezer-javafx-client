@@ -2,12 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/api/objects/utils/search/FullSearchSet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/objects/utils/search/SearchResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/storage" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_8_6_sources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/com_google_code_gson_gson_2_8_6.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deeezerclient.iml" beforeDir="false" afterPath="$PROJECT_DIR$/deeezerclient.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/css/deezer-styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/res/css/deezer-styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/fxml/index.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/res/fxml/index.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/localisation/localisation.properties" beforeDir="false" afterPath="$PROJECT_DIR$/res/localisation/localisation.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/localisation/localisation_en.properties" beforeDir="false" afterPath="$PROJECT_DIR$/res/localisation/localisation_en.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/localisation/localisation_ru.properties" beforeDir="false" afterPath="$PROJECT_DIR$/res/localisation/localisation_ru.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/Deezer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Deezer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/net/DeezerApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerCallbackServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/net/DeezerCallbackServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerRequestExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/net/DeezerRequestExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerTokenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/net/DeezerTokenClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/net/SessionStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/net/SessionStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Album.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/objects/playables/Album.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Artist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/objects/playables/Artist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/objects/playables/Playlist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/objects/playables/Track.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/search/Search.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/objects/playables/TrackSearch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/IndexController.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -82,8 +99,8 @@
       <list>
         <option value="CSS File" />
         <option value="FxmlFile" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -118,14 +135,15 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="true" />
-    <property name="Repository.Attach.Sources" value="false" />
+    <property name="Repository.Attach.Sources" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons-io-1.3.2.jar!/" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.39385474" />
     <property name="recentsLimit" value="5" />
@@ -243,6 +261,9 @@
       <workItem from="1571470248119" duration="1948000" />
       <workItem from="1571478258446" duration="14358000" />
       <workItem from="1571497824853" duration="13166000" />
+      <workItem from="1571575058136" duration="170000" />
+      <workItem from="1571731262353" duration="2498000" />
+      <workItem from="1571737070869" duration="33524000" />
     </task>
     <servers />
   </component>

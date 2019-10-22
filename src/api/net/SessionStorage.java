@@ -7,14 +7,14 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
-public class SessionStorage {
+class SessionStorage {
     private OAuth2AccessToken accessToken;
     private File storageFile;
     private final Cipher cipher;
     private static final String key = "51C7A08D-D34D-4C07-BDB3-BF22B564C8D1";
 
     SessionStorage(String storageFileName) throws NoSuchPaddingException, NoSuchAlgorithmException {
-        cipher = Cipher.getInstance("AES/CBC");
+        cipher = Cipher.getInstance("AES");
         storageFile = new File(storageFileName);
         if (storageFile.exists())
             decipherToken();
@@ -22,22 +22,22 @@ public class SessionStorage {
 
     private void cipherToken() {
         //cipher.init(Cipher.ENCRYPT_MODE, key);
-        try (FileOutputStream writer = new FileOutputStream(storageFile.getPath())) {
+        /*try (FileOutputStream writer = new FileOutputStream(storageFile.getPath())) {
             byte[] cipheredBytes = cipher.doFinal(accessToken.getAccessToken().getBytes(StandardCharsets.UTF_8));
             writer.write(cipheredBytes);
         } catch (IllegalBlockSizeException | BadPaddingException | IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void decipherToken() {
         //cipher.init(Cipher.DECRYPT_MODE, key);
-        try (FileInputStream reader = new FileInputStream(storageFile.getPath())) {
+        /*try (FileInputStream reader = new FileInputStream(storageFile.getPath())) {
             byte[] cipheredBytes = reader.readAllBytes();
             accessToken = new OAuth2AccessToken(new String(cipher.doFinal(cipheredBytes), StandardCharsets.UTF_8));
         } catch (IOException | BadPaddingException | IllegalBlockSizeException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     OAuth2AccessToken getAccessToken() {

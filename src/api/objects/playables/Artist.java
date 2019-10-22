@@ -74,4 +74,9 @@ public class Artist extends Playable {
     public void setTracklist(URL tracklist) {
         this.tracklist = tracklist;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

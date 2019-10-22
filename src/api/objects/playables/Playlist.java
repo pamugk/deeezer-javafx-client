@@ -1,8 +1,7 @@
 package api.objects.playables;
 
-import api.objects.DeezerEntity;
-import com.google.gson.annotations.SerializedName;
 import api.objects.utils.User;
+import com.google.gson.annotations.SerializedName;
 
 import java.net.URL;
 import java.util.List;

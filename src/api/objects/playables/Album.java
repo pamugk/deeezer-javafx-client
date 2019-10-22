@@ -182,4 +182,9 @@ public class Album extends Playable {
     public void setContributors(List<Contributor> contributors) {
         this.contributors = contributors;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

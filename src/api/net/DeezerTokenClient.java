@@ -1,14 +1,11 @@
 package api.net;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.jdk.JDKHttpClient;
 import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.AccessTokenRequestParams;
 import com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme;
-import com.github.scribejava.core.pkce.PKCE;
-import com.google.gson.Gson;
 
 import java.io.Closeable;
 import java.io.IOException;

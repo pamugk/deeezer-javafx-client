@@ -7,6 +7,14 @@
     -fx-border-width: 1px;
 }
 
+.flow-pane {
+    -fx-background-color: white;
+}
+
+.scroll-pane{
+    -fx-background-color: white;
+}
+
 /*============
     Navbar
 ============= */
@@ -15,7 +23,11 @@
 }
 
 .searchbar {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-background-insets: 0;
     -fx-font-size: 12pt;
+    -fx-text-box-border: transparent;
+    -fx-padding: 1 3 1 3;
 }
 
 .searchbar-cancel-btn{
@@ -144,6 +156,164 @@
 
 .tab-pane {
     -fx-background-color: white;
+}
+/*====================
+    Cards
+======================*/
+
+/*============
+    Album card
+============= */
+.albumcard {
+    -fx-alignment: center;
+}
+
+.albumcard-album {
+    -fx-background-color: none;
+    -fx-border-radius: 2px;
+    -fx-max-height: 200px;
+    -fx-max-width: 200px;
+    -fx-vgrow-policy:always;
+}
+
+.albumcard-album:hover {
+    -fx-cursor: Hand;
+}
+
+.albumcard-name {
+    -fx-background-color: none;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #32323D;
+    -fx-wrap-text: true;
+    -fx-vgrow-policy:never;
+}
+
+.albumcard-artist {
+    -fx-background-color: none;
+    -fx-font-size: 9pt;
+    -fx-font-weight: lighter;
+    -fx-text-fill: #83838C;
+    -fx-vgrow-policy:never;
+}
+
+.albumcard-artist:hover {
+    -fx-cursor: Hand;
+    -fx-underline: true;
+}
+
+/*============
+    Artist card
+============= */
+.artistcard {
+    -fx-alignment: center;
+}
+
+.artistcard-artist {
+    -fx-background-color: none;
+    -fx-border-radius: 2px;
+    -fx-max-height: 200px;
+    -fx-max-width: 200px;
+    -fx-vgrow-policy:always;
+}
+
+.artistcard-artist:hover {
+    -fx-cursor: Hand;
+}
+
+.artistcard-name {
+    -fx-background-color: none;
+    -fx-font-size: 10pt;
+    -fx-padding: 20 20 20 20;
+    -fx-text-fill: #32323D;
+    -fx-wrap-text: true;
+    -fx-vgrow-policy:never;
+}
+
+.artistcard-followers {
+    -fx-background-color: none;
+    -fx-font-size: 9pt;
+    -fx-font-weight: lighter;
+    -fx-text-fill: #83838C;
+    -fx-vgrow-policy:never;
+}
+
+/*============
+    Playlists card
+============= */
+.playlistcard {
+}
+
+.playlistcard-playlist {
+    -fx-background-color: none;
+    -fx-border-radius: 2px;
+    -fx-max-height: 200px;
+    -fx-max-width: 200px;
+    -fx-vgrow-policy:always;
+}
+
+.playlistcard-playlist:hover {
+    -fx-cursor: Hand;
+}
+
+.playlistcard-title {
+    -fx-background-color: none;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #32323D;
+    -fx-wrap-text: true;
+    -fx-vgrow-policy:never;
+}
+
+.playlistcard-tracks {
+    -fx-background-color: none;
+    -fx-font-size: 9pt;
+    -fx-font-weight: lighter;
+    -fx-text-fill: #83838C;
+    -fx-vgrow-policy: never;
+}
+
+/*============
+    Radio card
+============= */
+.radiocard {
+}
+
+.radiocard-radio {
+    -fx-background-color: none;
+    -fx-border-radius: 2px;
+    -fx-max-height: 200px;
+    -fx-max-width: 200px;
+    -fx-vgrow-policy:always;
+}
+
+.radiocard-radio:hover {
+    -fx-cursor: Hand;
+}
+
+/*============
+    User card
+============= */
+.usercard {
+    -fx-alignment: center;
+}
+
+.usercard-user {
+    -fx-background-color: none;
+    -fx-border-radius: 2px;
+    -fx-max-height: 200px;
+    -fx-max-width: 200px;
+    -fx-vgrow-policy:always;
+}
+
+.usercard-user:hover {
+    -fx-cursor: Hand;
+}
+
+.usercard-name {
+    -fx-background-color: none;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #32323D;
+    -fx-wrap-text: true;
+    -fx-vgrow-policy:never;
 }
 
 /*============

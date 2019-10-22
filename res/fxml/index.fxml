@@ -50,7 +50,7 @@
             </VBox.margin>
             <Image url="@../img/deezer_logo_light.png" />
          </ImageView>
-         <Button fx:id="homeBtn" mnemonicParsing="false" text="%home" VBox.vgrow="ALWAYS">
+         <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#homeBtn_OnAction" text="%home" VBox.vgrow="ALWAYS">
             <styleClass>
                <String fx:value="drawer-btn" />
                <String fx:value="drawer-btn-primary" />
@@ -98,14 +98,14 @@
             </VBox.margin>
          </Button>
       </VBox>
-      <HBox alignment="CENTER_LEFT" prefWidth="200.0" styleClass="card" GridPane.columnIndex="1">
+      <HBox alignment="CENTER_LEFT" prefWidth="200.0" GridPane.columnIndex="1">
          <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
             <HBox.margin>
                <Insets />
             </HBox.margin>
             <Image url="@../img/icon-search.png" />
          </ImageView>
-         <TextField fx:id="searchTextField" maxWidth="550.0" minWidth="550.0" promptText="%search" HBox.hgrow="ALWAYS">
+         <TextField fx:id="searchTextField" maxWidth="550.0" minWidth="550.0" onKeyPressed="#searchTextField_OnKeyPressed" promptText="%search" styleClass="searchbar" HBox.hgrow="ALWAYS">
             <HBox.margin>
                <Insets />
             </HBox.margin>
@@ -121,7 +121,7 @@
             </HBox.margin>
          </HBox>
          <Button fx:id="loginBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#loginBtn_OnAction" styleClass="login-btn" text="%login" HBox.hgrow="NEVER" />
-         <MenuBar fx:id="userMenuBar" minWidth="-Infinity" prefWidth="0.0" styleClass="navbar-usermenu" visible="false" HBox.hgrow="NEVER">
+         <MenuBar fx:id="userMenuBar" minWidth="-Infinity" styleClass="navbar-usermenu" visible="false" HBox.hgrow="NEVER">
             <HBox.margin>
                <Insets right="20.0" />
             </HBox.margin>
@@ -129,7 +129,7 @@
                <graphic>
                   <ImageView fx:id="userAvatar" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
-               <MenuItem fx:id="userAccounttem" mnemonicParsing="false" onAction="#userAccounttem_OnAction" styleClass="navbar-usermenu-item">
+               <MenuItem fx:id="userAccounttem" mnemonicParsing="false" onAction="#userAccountItem_OnAction" styleClass="navbar-usermenu-item">
                   <graphic>
                      <ImageView fx:id="userMenuAvatar" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                   </graphic>
@@ -139,43 +139,54 @@
                <MenuItem fx:id="logoutItem" mnemonicParsing="false" onAction="#logoutItem_OnAction" styleClass="navbar-usermenu-item" text="%logout" />
             </Menu>
          </MenuBar>
+         <styleClass>
+            <String fx:value="card" />
+            <String fx:value="navbar" />
+         </styleClass>
       </HBox>
       <TabPane fx:id="mainTabPane" styleClass="main-tab-pane" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <Tab fx:id="homeTab">
+            <AnchorPane maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="0.0" />
+         </Tab>
          <Tab fx:id="searchTab">
-            <ScrollPane fitToHeight="true" fitToWidth="true">
-               <TabPane prefWidth="284.0" tabClosingPolicy="UNAVAILABLE">
-                  <padding>
-                     <Insets left="80.0" right="80.0" top="25.0" />
-                  </padding>
-                  <Tab fx:id="allResultsTab" text="%all">
-                     <VBox fx:id="fullFoundBox" prefHeight="200.0" prefWidth="100.0" />
-                  </Tab>
-                  <Tab fx:id="trackResultsTab" text="%tracks">
-                     <VBox>
-                        <HBox>
-                           <VBox.margin>
-                              <Insets top="30.0" />
-                           </VBox.margin>
-                           <Label styleClass="card-header" text="%found" />
-                           <Label fx:id="foundTracksLbl" styleClass="card-header" text="0" />
-                        </HBox>
-                        <TableView fx:id="foundTracksTV" VBox.vgrow="ALWAYS">
-                           <columns>
-                              <TableColumn prefWidth="75.0" />
-                              <TableColumn prefWidth="75.0" text="%track" />
-                              <TableColumn prefWidth="75.0" text="%artist" />
-                              <TableColumn prefWidth="75.0" text="%album" />
-                              <TableColumn prefWidth="75.0" text="%length" />
-                              <TableColumn prefWidth="75.0" text="%popularity" />
-                           </columns>
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
-                        </TableView>
-                     </VBox>
-                  </Tab>
-                  <Tab fx:id="albumResultsTab" text="%albums">
-                     <VBox>
+            <TabPane fx:id="searchTabPane" prefWidth="284.0" tabClosingPolicy="UNAVAILABLE">
+               <padding>
+                  <Insets left="80.0" right="80.0" top="25.0" />
+               </padding>
+               <Tab fx:id="allResultsTab" text="%all">
+                  <VBox fx:id="fullFoundBox" prefHeight="200.0" prefWidth="100.0" />
+               </Tab>
+               <Tab fx:id="trackResultsTab" text="%tracks">
+                  <ScrollPane fx:id="foundTracksScroll">
+                     <content>
+                        <VBox style="-fx-background-color: white;">
+                           <HBox>
+                              <VBox.margin>
+                                 <Insets top="30.0" />
+                              </VBox.margin>
+                              <Label styleClass="card-header" text="%found" />
+                              <Label fx:id="foundTracksLbl" styleClass="card-header" text="0" />
+                           </HBox>
+                           <TableView fx:id="foundTracksTV" VBox.vgrow="NEVER">
+                              <columns>
+                                 <TableColumn fx:id="foundTrAlbImgCol" maxWidth="43.0" minWidth="28.0" prefWidth="43.0" resizable="false" />
+                                 <TableColumn fx:id="foundTrNameCol" maxWidth="197.0" minWidth="100.0" prefWidth="143.0" text="%track" />
+                                 <TableColumn fx:id="foundTrArtistCol" maxWidth="173.0" minWidth="3.0" prefWidth="156.0" text="%artist" />
+                                 <TableColumn fx:id="foundTrAlbumCol" maxWidth="298.0" minWidth="100.0" prefWidth="216.0" text="%album" />
+                                 <TableColumn fx:id="foundTrLengthCol" maxWidth="326.0" minWidth="100.0" prefWidth="154.0" text="%length" />
+                                 <TableColumn fx:id="foundTrPopCol" maxWidth="442.0" minWidth="100.0" prefWidth="173.0" text="%popularity" />
+                              </columns>
+                              <columnResizePolicy>
+                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                              </columnResizePolicy>
+                           </TableView>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </Tab>
+               <Tab fx:id="albumResultsTab" text="%albums">
+                  <ScrollPane fx:id="foundAlbumsScroll" styleClass="scroll-pane">
+                     <VBox maxHeight="1.7976931348623157E308" minWidth="-Infinity">
                         <HBox>
                            <VBox.margin>
                               <Insets top="30.0" />
@@ -187,15 +198,13 @@
                            </Label>
                            <Label fx:id="foundAlbumsLbl" styleClass="card-header" text="0" />
                         </HBox>
-                        <FlowPane fx:id="foundAlbumsFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" vgap="25.0" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
-                        </FlowPane>
+                        <FlowPane fx:id="foundAlbumsFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" styleClass="flow-pane" vgap="25.0" />
                      </VBox>
-                  </Tab>
-                  <Tab fx:id="artistResultsTab" text="%artists">
-                     <VBox>
+                  </ScrollPane>
+               </Tab>
+               <Tab fx:id="artistResultsTab" text="%artists">
+                  <ScrollPane fx:id="foundArtistsScroll" styleClass="scroll-pane">
+                     <VBox maxHeight="1.7976931348623157E308">
                         <HBox>
                            <VBox.margin>
                               <Insets top="30.0" />
@@ -207,15 +216,13 @@
                            </Label>
                            <Label fx:id="foundArtistsLbl" styleClass="card-header" text="0" />
                         </HBox>
-                        <FlowPane fx:id="foundArtistsFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" vgap="25.0" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
-                        </FlowPane>
+                        <FlowPane fx:id="foundArtistsFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" styleClass="flow-pane" vgap="25.0" />
                      </VBox>
-                  </Tab>
-                  <Tab fx:id="playlistResultsTab" text="%playlists">
-                     <VBox>
+                  </ScrollPane>
+               </Tab>
+               <Tab fx:id="playlistResultsTab" text="%playlists">
+                  <ScrollPane fx:id="foundPlaylistsScroll" styleClass="scroll-pane">
+                     <VBox maxHeight="1.7976931348623157E308">
                         <HBox>
                            <VBox.margin>
                               <Insets top="30.0" />
@@ -227,15 +234,13 @@
                            </Label>
                            <Label fx:id="foundPlaylistsLabel" styleClass="card-header" text="0" />
                         </HBox>
-                        <FlowPane fx:id="foundPlaylistsFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" vgap="25.0" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
-                        </FlowPane>
+                        <FlowPane fx:id="foundPlaylistsFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" styleClass="flow-pane" vgap="25.0" />
                      </VBox>
-                  </Tab>
-                  <Tab fx:id="mixResultsTab" closable="false" text="%mixes">
-                     <VBox>
+                  </ScrollPane>
+               </Tab>
+               <Tab fx:id="mixResultsTab" closable="false" text="%mixes">
+                  <ScrollPane fx:id="foundMixesScroll" styleClass="scroll-pane">
+                     <VBox maxHeight="1.7976931348623157E308">
                         <HBox>
                            <VBox.margin>
                               <Insets top="30.0" />
@@ -247,15 +252,13 @@
                            </Label>
                            <Label fx:id="foundMixesLbl" styleClass="card-header" text="0" />
                         </HBox>
-                        <FlowPane fx:id="foundMixesFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" vgap="25.0" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
-                        </FlowPane>
+                        <FlowPane fx:id="foundMixesFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" styleClass="flow-pane" vgap="25.0" />
                      </VBox>
-                  </Tab>
-                  <Tab fx:id="profileResultsTab" closable="false" text="%profiles">
-                     <VBox>
+                  </ScrollPane>
+               </Tab>
+               <Tab fx:id="profileResultsTab" closable="false" text="%profiles">
+                  <ScrollPane fx:id="foundProfilesScroll" styleClass="scroll-pane">
+                     <VBox maxHeight="1.7976931348623157E308">
                         <HBox>
                            <VBox.margin>
                               <Insets top="30.0" />
@@ -267,18 +270,11 @@
                            </Label>
                            <Label fx:id="foundProfilesLbl" styleClass="card-header" text="0" />
                         </HBox>
-                        <FlowPane fx:id="foundProfilesFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" vgap="25.0" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
-                        </FlowPane>
+                        <FlowPane fx:id="foundProfilesFP" hgap="35.0" maxHeight="1.7976931348623157E308" rowValignment="TOP" styleClass="flow-pane" vgap="25.0" />
                      </VBox>
-                  </Tab>
-               </TabPane>
-            </ScrollPane>
-         </Tab>
-         <Tab fx:id="mainTab">
-            <AnchorPane maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="0.0" />
+                  </ScrollPane>
+               </Tab>
+            </TabPane>
          </Tab>
          <Tab fx:id="exploreTab">
             <ScrollPane fitToHeight="true" fitToWidth="true">
@@ -319,7 +315,7 @@
                      </Button>
                   </HBox>
                   <TabPane fx:id="myMusicTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                     <Tab text="%highlights">
+                     <Tab fx:id="highlightsTab" text="%highlights">
                         <VBox maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                            <Label text="%recentlyPlayed">
                               <VBox.margin>
@@ -343,7 +339,7 @@
                            <FlowPane fx:id="highlightsArtistFP" />
                         </VBox>
                      </Tab>
-                     <Tab text="%favTracks">
+                     <Tab fx:id="favTracksTab" text="%favTracks">
                         <VBox>
                            <HBox>
                               <VBox.margin>
@@ -367,7 +363,7 @@
                            </TableView>
                         </VBox>
                      </Tab>
-                     <Tab text="%playlists">
+                     <Tab fx:id="myPlaylistsTab" text="%playlists">
                         <VBox>
                            <HBox>
                               <VBox.margin>
@@ -387,7 +383,7 @@
                            </FlowPane>
                         </VBox>
                      </Tab>
-                     <Tab text="%albums">
+                     <Tab fx:id="favAlbumsTab" text="%albums">
                         <VBox>
                            <HBox>
                               <VBox.margin>
@@ -407,7 +403,7 @@
                            </FlowPane>
                         </VBox>
                      </Tab>
-                     <Tab text="%artists">
+                     <Tab fx:id="favArtistsTab" text="%artists">
                         <VBox>
                            <HBox>
                               <VBox.margin>
@@ -438,16 +434,16 @@
                      <Insets top="25.0" />
                   </VBox.margin>
                   <HBox>
-                     <ImageView fx:id="albumCover"/>
+                     <ImageView fx:id="albumCover" />
                      <VBox>
-                        <Label fx:id="albumName"/>
+                        <Label fx:id="albumName" />
                         <Button fx:id="albumArtist">
                         </Button>
                      </VBox>
                   </HBox>
                   <HBox>
-                     <Button fx:id="listenAlbumBtn" text="%listen"/>
-                     <Button fx:id="addAlbumToLibrary"/>
+                     <Button fx:id="listenAlbumBtn" text="%listen" />
+                     <Button fx:id="addAlbumToLibrary" />
                   </HBox>
                   <TableView fx:id="albumTracksTV" VBox.vgrow="ALWAYS">
                      <columns>
@@ -458,7 +454,7 @@
                         <TableColumn prefWidth="75.0" text="%popularity" />
                      </columns>
                   </TableView>
-                  <Label text="%discography"/>
+                  <Label text="%discography" />
                   <FlowPane fx:id="albumArtistDiscographyFP">
 
                   </FlowPane>
@@ -490,7 +486,7 @@
             <Insets top="-10.0" />
          </padding>
       </TabPane>
-      <HBox alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <HBox fx:id="playerBox" alignment="CENTER_LEFT" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <styleClass>
             <String fx:value="card" />
             <String fx:value="player" />

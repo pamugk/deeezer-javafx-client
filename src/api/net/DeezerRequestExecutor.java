@@ -41,9 +41,9 @@ public class DeezerRequestExecutor {
     public DeezerRequestExecutor(String callbackContext,
         String apiKey, String apiSecret, List<Permissions> requiredPermissions)
             throws IOException, NoSuchAlgorithmException, NoSuchPaddingException {
-        callbackServer = new DeezerCallbackServer(callbackContext);
         storage = new SessionStorage("storage");
         tokenClient = new DeezerTokenClient(apiKey, apiSecret, DeezerApi.getTokenEndpoint());
+        callbackServer = new DeezerCallbackServer(callbackContext);
         service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback(callbackServer.getAuthUrl())
@@ -58,7 +58,6 @@ public class DeezerRequestExecutor {
     }
 
     public void authenticate() throws IOException, URISyntaxException {
-        callbackServer.start();
         authTokenF = callbackServer.getOAuth2Code().thenApply(oauthCode -> {
             boolean success = true;
             try {
@@ -70,6 +69,7 @@ public class DeezerRequestExecutor {
                 throw new CompletionException(e);
             }
             finally {
+                callbackServer.resetOAuth2Code();
                 authenticationEventHandler.invoke(new AuthenticationEvent(success));
             }
         });
@@ -77,13 +77,17 @@ public class DeezerRequestExecutor {
         Desktop.getDesktop().browse(new URI(authUrl));
     }
 
-    public Response execute(OAuthRequest request) throws ExecutionException, InterruptedException, IOException {
-        request.addParameter("access_token", authTokenF.get().getAccessToken());
+    public Response execute(OAuthRequest request, boolean signed)
+            throws ExecutionException, InterruptedException, IOException {
+        if (signed)
+            request.addParameter("access_token", authTokenF.get().getAccessToken());
         return service.execute(request);
     }
 
     public void setAuthenticationEventHandler(DeezerEventHandler<AuthenticationEvent> authenticationEventHandler) {
         this.authenticationEventHandler = authenticationEventHandler;
     }
+
+    public void stop() { callbackServer.stop(); }
 }
 
