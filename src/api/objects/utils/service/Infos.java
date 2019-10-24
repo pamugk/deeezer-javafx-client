@@ -4,6 +4,10 @@ public class Infos {
     private String country_iso;
     private String country;
     private boolean open;
+    private String pop;
+    private String upload_token;
+    private long upload_token_lifetime;
+    private String user_token;
     private Offer[] offers;
 
     public String getCountry_iso() {

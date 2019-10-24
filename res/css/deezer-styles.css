@@ -1,18 +1,72 @@
 .root {
-    -fx-background-color: white;
-}
+     -fx-background-color: white;
+ }
 
 .card {
     -fx-border-color: #E1E1E2;
     -fx-border-width: 1px;
 }
 
+.comment-card {
+    -fx-background-color: #F7F7F7;
+}
+
+.deezer-button {
+    -fx-background-color: none;
+    -fx-font-size: 12pt;
+}
+
+.deezer-button:hover {
+    -fx-cursor: Hand;
+}
+
+.deezer-play-btn {
+    -fx-background-color: #007FEB;
+    -fx-text-fill: white;
+    -fx-font-size: 10pt;
+}
+
+.deezer-follow-btn {
+    -fx-background-color: inherit;
+    -fx-border-color: #D1D1D7;
+    -fx-text-fill: #007FEB;
+    -fx-font-size: 10pt;
+}
+
+.deezer-secondary {
+    -fx-font-size: 10pt;
+    -fx-text-fill: #B6B6BD;
+}
+
+.deezer-subtitle {
+    -fx-font-size: 18pt;
+    -fx-text-fill: #5E5E67;
+}
+
+.deezer-title {
+    -fx-font-size: 23pt;
+    -fx-font-weight: bold;
+}
+
 .flow-pane {
-    -fx-background-color: white;
+    -fx-background-color: inherit;
 }
 
 .scroll-pane{
-    -fx-background-color: white;
+    -fx-background-color: inherit;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: inherit;
+}
+
+.tab {
+    -fx-background-color: inherit ;
+    -fx-text-size: 11pt;
+}
+
+.tab:selected {
+    -fx-text-fill: #007FEB;
 }
 
 /*============
@@ -132,11 +186,6 @@
     -fx-background-color: white;
 }
 
-.tab {
-    -fx-background-color: inherit ;
-    -fx-text-size: 11pt;
-}
-
 .table-view {
     -fx-border-width: 0px;
 }
@@ -171,8 +220,6 @@
 .albumcard-album {
     -fx-background-color: none;
     -fx-border-radius: 2px;
-    -fx-max-height: 200px;
-    -fx-max-width: 200px;
     -fx-vgrow-policy:always;
 }
 
@@ -211,8 +258,6 @@
 .artistcard-artist {
     -fx-background-color: none;
     -fx-border-radius: 2px;
-    -fx-max-height: 200px;
-    -fx-max-width: 200px;
     -fx-vgrow-policy:always;
 }
 
@@ -246,8 +291,6 @@
 .playlistcard-playlist {
     -fx-background-color: none;
     -fx-border-radius: 2px;
-    -fx-max-height: 200px;
-    -fx-max-width: 200px;
     -fx-vgrow-policy:always;
 }
 
@@ -299,8 +342,6 @@
 .usercard-user {
     -fx-background-color: none;
     -fx-border-radius: 2px;
-    -fx-max-height: 200px;
-    -fx-max-width: 200px;
     -fx-vgrow-policy:always;
 }
 
@@ -314,6 +355,15 @@
     -fx-text-fill: #32323D;
     -fx-wrap-text: true;
     -fx-vgrow-policy:never;
+}
+
+/*============
+    Artist
+============= */
+
+.artist-secondary {
+    -fx-text-fill: #94949D;
+    -fx-font-size: 12pt;
 }
 
 /*============

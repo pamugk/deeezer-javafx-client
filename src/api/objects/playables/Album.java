@@ -2,6 +2,7 @@ package api.objects.playables;
 
 import api.objects.utils.Contributor;
 import api.objects.utils.Genre;
+import api.objects.utils.search.SearchResponse;
 
 import java.net.URL;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class Album extends Playable {
     private URL cover_big;
     private URL cover_xl;
     private long genre_id;
-    private List<Genre> genres;
+    private SearchResponse<Genre> genres;
     private String label;
     private int nb_tracks;
     private int duration;
@@ -32,7 +33,7 @@ public class Album extends Playable {
     private int explicit_content_cover;
     private List<Contributor> contributors;
     private Artist artist;
-    private List<Track> tracks;
+    private SearchResponse<Track> tracks;
 
     public String getTitle() {
         return title;
@@ -80,10 +81,10 @@ public class Album extends Playable {
     public void setGenre_id(long genre_id) {
         this.genre_id = genre_id;
     }
-    public List<Genre> getGenres() {
+    public SearchResponse<Genre> getGenres() {
         return genres;
     }
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(SearchResponse<Genre> genres) {
         this.genres = genres;
     }
     public String getLabel() {
@@ -170,10 +171,10 @@ public class Album extends Playable {
     public void setArtist(Artist artist) {
         this.artist = artist;
     }
-    public List<Track> getTracks() {
+    public SearchResponse<Track> getTracks() {
         return tracks;
     }
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(SearchResponse<Track> tracks) {
         this.tracks = tracks;
     }
     public List<Contributor> getContributors() {

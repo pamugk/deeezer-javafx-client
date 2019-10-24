@@ -1,10 +1,10 @@
 package api.objects.playables;
 
 import api.objects.utils.User;
+import api.objects.utils.search.SearchResponse;
 import com.google.gson.annotations.SerializedName;
 
 import java.net.URL;
-import java.util.List;
 
 public class Playlist extends Playable {
     private String title;
@@ -25,7 +25,7 @@ public class Playlist extends Playable {
     private URL picture_xl;
     private String checksum;
     private User creator;
-    private List<Track> tracks;
+    private SearchResponse<TrackSearch> tracks;
 
     public String getTitle() {
         return title;
@@ -130,10 +130,10 @@ public class Playlist extends Playable {
     public void setCreator(User creator) {
         this.creator = creator;
     }
-    public List<Track> getTracks() {
+    public SearchResponse<TrackSearch> getTracks() {
         return tracks;
     }
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(SearchResponse<TrackSearch> tracks) {
         this.tracks = tracks;
     }
 }

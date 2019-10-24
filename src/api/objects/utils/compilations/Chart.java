@@ -1,47 +1,40 @@
 package api.objects.utils.compilations;
 
+import api.objects.DeezerEntity;
 import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Playlist;
 import api.objects.playables.Track;
+import api.objects.utils.search.SearchResponse;
 
-import java.util.List;
+public class Chart extends DeezerEntity {
+    private SearchResponse<Track> tracks;
+    private SearchResponse<Album> albums;
+    private SearchResponse<Artist> artists;
+    private SearchResponse<Playlist> playlists;
 
-public class Chart {
-    private List<Track> tracks;
-    private List<Album> albums;
-    private List<Artist> artists;
-    private List<Playlist> playlists;
-
-    public List<Track> getTracks() {
+    public SearchResponse<Track> getTracks() {
         return tracks;
     }
-
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(SearchResponse<Track> tracks) {
         this.tracks = tracks;
     }
-
-    public List<Album> getAlbums() {
+    public SearchResponse<Album> getAlbums() {
         return albums;
     }
-
-    public void setAlbums(List<Album> albums) {
+    public void setAlbums(SearchResponse<Album> albums) {
         this.albums = albums;
     }
-
-    public List<Artist> getArtists() {
+    public SearchResponse<Artist> getArtists() {
         return artists;
     }
-
-    public void setArtists(List<Artist> artists) {
+    public void setArtists(SearchResponse<Artist> artists) {
         this.artists = artists;
     }
-
-    public List<Playlist> getPlaylists() {
+    public SearchResponse<Playlist> getPlaylists() {
         return playlists;
     }
-
-    public void setPlaylists(List<Playlist> playlists) {
+    public void setPlaylists(SearchResponse<Playlist> playlists) {
         this.playlists = playlists;
     }
 }
