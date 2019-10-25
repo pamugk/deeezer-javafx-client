@@ -25,7 +25,7 @@ public class Playlist extends Playable {
     private URL picture_xl;
     private String checksum;
     private User creator;
-    private SearchResponse<TrackSearch> tracks;
+    private SearchResponse<Track> tracks;
 
     public String getTitle() {
         return title;
@@ -130,10 +130,10 @@ public class Playlist extends Playable {
     public void setCreator(User creator) {
         this.creator = creator;
     }
-    public SearchResponse<TrackSearch> getTracks() {
-        return tracks;
+    public SearchResponse<Track> getTracks() {
+       return tracks;
     }
-    public void setTracks(SearchResponse<TrackSearch> tracks) {
+    public void setTracks(SearchResponse<Track> tracks) {
         this.tracks = tracks;
-    }
+   }
 }

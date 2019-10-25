@@ -26,7 +26,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -36,7 +40,6 @@ import java.util.stream.Collectors;
 public class Deezer {
     private DeezerRequestExecutor requestExecutor;
     private DeezerEventHandler<AuthenticationEvent> authenticationEventHandler;
-    private Long currentUserId;
 
     private static final Type ALBUM_TYPE = new TypeToken<Album>(){}.getType();
     private static final Type ARTIST_TYPE = new TypeToken<Artist>(){}.getType();
@@ -98,7 +101,7 @@ public class Deezer {
                     apiClientProps.getProperty("callbackContext"), apiClientProps.getProperty("apiKey"),
                     apiClientProps.getProperty("apiSecret"), Arrays.asList(Permissions.values()));
             requestExecutor.setAuthenticationEventHandler(authenticationEventHandler);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | CertificateException | KeyStoreException e) {
             e.printStackTrace();
         }
     }
@@ -122,7 +125,7 @@ public class Deezer {
                 API_URL_PREFIX, ALBUMS_SECTION, album.getId(), COMMENTS_SECTION));
         request.addParameter("comment", comment.getText());
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -157,7 +160,7 @@ public class Deezer {
                 API_URL_PREFIX, ALBUM_SECTION, album.getId()));
         request.addParameter("note", String.valueOf(note));
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -185,7 +188,7 @@ public class Deezer {
                 API_URL_PREFIX, ARTIST_SECTION, artist.getId(), COMMENTS_SECTION));
         request.addParameter("comment", comment.getText());
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -217,9 +220,12 @@ public class Deezer {
     }
 
     public PartialSearchResponse<Playlist> getArtistPlaylists(Artist artist, int limit) {
-        return abstractSearch(PLAYLIST_RESPONSE_TYPE,
+        PartialSearchResponse<Playlist> artistPlaylists = abstractSearch(PLAYLIST_RESPONSE_TYPE,
                 null, null, null,
                 String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), PLAYLISTS_SECTION), limit);
+        for (int i = 0; i < artistPlaylists.getData().size(); i++)
+            artistPlaylists.getData().set(i, getPlaylist(artistPlaylists.getData().get(i).getId()));
+        return artistPlaylists;
     }
 
     public PartialSearchResponse<Artist> getArtistRelated(Artist artist, int limit) {
@@ -280,7 +286,7 @@ public class Deezer {
         OAuthRequest request = new OAuthRequest(Verb.DELETE,
                 String.format("%s/%s/%d", API_URL_PREFIX, COMMENT_SECTION, comment.getId()));
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
             success = false;
@@ -295,7 +301,7 @@ public class Deezer {
                 String.format("%s/%s/%d/notifications", API_URL_PREFIX, USER_SECTION, user.getId()));
         request.addParameter("message", message);
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
             success = false;
@@ -305,9 +311,9 @@ public class Deezer {
 
     private Response changeFollowings(long user_id, Verb action) throws InterruptedException, ExecutionException, IOException {
         OAuthRequest request = new OAuthRequest(action,
-                String.format("%s/%s/%d/followings", API_URL_PREFIX, USER_SECTION, currentUserId));
+                String.format("%s/%s/%s/followings", API_URL_PREFIX, USER_SECTION, "me"));
         request.addParameter("user_id", String.valueOf(user_id));
-        return requestExecutor.execute(request, true);
+        return requestExecutor.execute(request);
     }
 
     public boolean followUser(User user) {
@@ -391,29 +397,30 @@ public class Deezer {
     private Response changePlayableFavour(Playable playable, Verb action, String section)
             throws InterruptedException, ExecutionException, IOException {
         OAuthRequest request = new OAuthRequest(action,
-                String.format("%s/%s/%d/%s", API_URL_PREFIX, USER_SECTION, currentUserId, section));
+                String.format("%s/%s/%s/%s", API_URL_PREFIX, USER_SECTION, "me", section));
         request.addParameter(String.format("%s_id", playable.getType()), String.valueOf(playable.getId()));
-        return requestExecutor.execute(request, true);
+        return requestExecutor.execute(request);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Login/logout">
     public void login() {
         try {
             requestExecutor.authenticate();
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException | URISyntaxException | UnrecoverableKeyException |
+                NoSuchAlgorithmException | KeyStoreException | InvalidKeyException e) {
             e.printStackTrace();
         }
     }
 
     public void logout() {
-        currentUserId = null;
+        requestExecutor.tearStorageDown();
     }
 
     public User getLoggedInUser(){
         User loggedInUser = null;
         OAuthRequest request = new OAuthRequest(Verb.GET, String.format("%s/%s/me", API_URL_PREFIX, USER_SECTION));
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
             loggedInUser = new Gson().fromJson(response.getBody(), User.class);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
@@ -422,7 +429,7 @@ public class Deezer {
     }
 
     public LoginStatus getLoginStatus() {
-        if (currentUserId == null)
+        if (!requestExecutor.isAuthorised())
             return LoginStatus.NOT_AUTHORIZED;
         return LoginStatus.UNKNOWN;
     }
@@ -433,7 +440,7 @@ public class Deezer {
                 API_URL_PREFIX, PLAYLIST_SECTION, playlist.getId(), COMMENTS_SECTION));
         request.addParameter("comment", comment);
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -461,10 +468,11 @@ public class Deezer {
     public Playlist createPlaylist(String title) {
         Playlist createdPlaylist = null;
         OAuthRequest request = new OAuthRequest(Verb.POST,
-                String.format("%s/%s/%d/%s", API_URL_PREFIX, USER_SECTION, currentUserId, PLAYLISTS_SECTION));
+                String.format("%s/%s/%s/%s", API_URL_PREFIX, USER_SECTION, "me", PLAYLISTS_SECTION));
         request.addParameter("title", title);
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
+            String body = response.getBody();
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
@@ -472,8 +480,10 @@ public class Deezer {
     }
 
     public Playlist getPlaylist(long playlistId) {
-        return abstractSearch(PLAYLIST_TYPE, null, null,
+        Playlist playlist = abstractSearch(PLAYLIST_TYPE, null, null,
                 String.format("%s/%d", PLAYLIST_SECTION, playlistId));
+        playlist.setCreator(getUser(playlist.getCreator().getId()));
+        return playlist;
     }
 
     public PartialSearchResponse<Comment> getPlaylistComments(Playlist playlist) {
@@ -491,8 +501,8 @@ public class Deezer {
                 String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), RADIO_SECTION));
     }
 
-    public PartialSearchResponse<TrackSearch> getPlaylistTracks(Playlist playlist) {
-        return abstractSearch(TRACKSEARCH_RESPONSE_TYPE, null, null, null,
+    public PartialSearchResponse<Track> getPlaylistTracks(Playlist playlist) {
+        return abstractSearch(TRACK_RESPONSE_TYPE, null, null, null,
                 String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), TRACKS_SECTION), -1);
     }
 
@@ -501,7 +511,7 @@ public class Deezer {
         try {
             OAuthRequest request = new OAuthRequest(Verb.POST,
                     String.format("%s/playlist/%d/seen", API_URL_PREFIX,playlist.getId()));
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
             success = false;
@@ -521,7 +531,7 @@ public class Deezer {
         OAuthRequest request = new OAuthRequest(Verb.POST, String.format("%s/playlist/%d", API_URL_PREFIX, playlist.getId()));
         request.addParameter("note", String.valueOf(note));
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -532,7 +542,7 @@ public class Deezer {
         OAuthRequest request = new OAuthRequest(Verb.DELETE,
                 String.format("%s/playlist/%d", API_URL_PREFIX,playlist.getId()));
         try {
-            Response response = requestExecutor.execute(request, true);
+            Response response = requestExecutor.execute(request);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
             success = false;
@@ -559,13 +569,27 @@ public class Deezer {
         }
     }
 
+    public void updatePlaylist(Playlist playlist) {
+        OAuthRequest request = new OAuthRequest(Verb.POST,
+                String.format("%s/%s/%d", API_URL_PREFIX, PLAYLISTS_SECTION, playlist.getId()));
+        request.addParameter("title", playlist.getTitle());
+        request.addParameter("description", playlist.getDescription());
+        request.addParameter("public", String.valueOf(playlist.is_public()));
+        request.addParameter("collaborative", String.valueOf(playlist.isCollaborative()));
+        try {
+            Response response = requestExecutor.execute(request);
+        } catch (InterruptedException | ExecutionException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Response updatePlaylist(Playlist playlist, List<TrackSearch> songs, String parameter, Verb action)
             throws InterruptedException, ExecutionException, IOException {
         OAuthRequest request = new OAuthRequest(action,
                 String.format("%s/%s/%d/%s", API_URL_PREFIX, PLAYLIST_SECTION, playlist.getId(), TRACKS_SECTION));
         request.addParameter(parameter, songs.stream().map(
                 song -> String.valueOf(song.getId())).collect(Collectors.joining(",")));
-        return requestExecutor.execute(request, true);
+        return requestExecutor.execute(request);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Radio management">
@@ -609,30 +633,30 @@ public class Deezer {
     //<editor-fold defaultstate="collapsed" desc="Recommendations management">
     public PartialSearchResponse<Album> getRecommendedAlbums(int count) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s/%s", USER_SECTION, currentUserId, RECOMMENDATIONS_SECTION, ALBUMS_SECTION), count);
+                String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, ALBUMS_SECTION), count);
     }
 
-    public PartialSearchResponse<Album> getRecommendedArtists(int count) {
+    public PartialSearchResponse<Artist> getRecommendedArtists(int count) {
         return abstractSearch(ARTIST_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s/%s", USER_SECTION, currentUserId, RECOMMENDATIONS_SECTION, ARTISTS_SECTION),
+                String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, ARTISTS_SECTION),
                 count);
     }
 
     public PartialSearchResponse<Playlist> getRecommendedPlaylists(int count) {
         return abstractSearch(PLAYLIST_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s/%s", USER_SECTION, currentUserId, RECOMMENDATIONS_SECTION, PLAYLISTS_SECTION),
+                String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, PLAYLISTS_SECTION),
                 count);
     }
 
     public PartialSearchResponse<Radio> getRecommendedRadios(int count) {
         return abstractSearch(RADIO_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s/%s", USER_SECTION, currentUserId, RECOMMENDATIONS_SECTION, RADIOS_SECTION),
+                String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, RADIOS_SECTION),
                 count);
     }
 
     public PartialSearchResponse<TrackSearch> getRecommendedTracks(int count) {
         return abstractSearch(TRACKSEARCH_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s/%s", USER_SECTION, currentUserId, RECOMMENDATIONS_SECTION, TRACKS_SECTION),
+                String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, TRACKS_SECTION),
                 count);
     }
     //</editor-fold>
@@ -647,7 +671,7 @@ public class Deezer {
             request.addParameter("order", order.name());
         T searchResult = null;
         try {
-            Response response = requestExecutor.execute(request, currentUserId != null);
+            Response response = requestExecutor.execute(request);
             String body = response.getBody();
             searchResult = new Gson().fromJson(body, responseType);
         } catch (ExecutionException | InterruptedException | IOException e) {
@@ -666,12 +690,14 @@ public class Deezer {
             request.addParameter("strict", String.valueOf(strict));
         if (order != null)
             request.addParameter("order", order.name());
+        if (top != -1)
+            request.addParameter("top", String.valueOf(top));
         PartialSearchResponse<T> searchResult = new PartialSearchResponse<>();
         do
             try {
                 Response response = requestExecutor.execute(
-                        searchResult.getPrev() ==  null ? request :
-                                new OAuthRequest(Verb.GET, searchResult.getNext().toString()), currentUserId != null);
+                        searchResult.getNext() ==  null ? request :
+                                new OAuthRequest(Verb.GET, searchResult.getNext().toString()));
                 String body = response.getBody();
                 PartialSearchResponse<T> nextPart = new Gson().fromJson(body, responseType);
                 searchResult.setNext(nextPart.getNext());
@@ -697,32 +723,32 @@ public class Deezer {
 
     public PartialSearchResponse<Album> searchForAlbums(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, ALBUM_SECTION), 25);
+                String.format("%s/%s", SEARCH_SECTION, ALBUM_SECTION), -1);
     }
 
     public PartialSearchResponse<Artist> searchForArtists(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(ARTIST_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, ARTIST_SECTION), 25);
+                String.format("%s/%s", SEARCH_SECTION, ARTIST_SECTION), -1);
     }
 
     public PartialSearchResponse<Playlist> searchForPlaylists(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(PLAYLIST_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, PLAYLIST_SECTION), 25);
+                String.format("%s/%s", SEARCH_SECTION, PLAYLIST_SECTION), -1);
     }
 
     public PartialSearchResponse<Radio> searchForRadios(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(RADIO_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, RADIO_SECTION), 25);
+                String.format("%s/%s", SEARCH_SECTION, RADIO_SECTION), -1);
     }
 
     public PartialSearchResponse<TrackSearch> searchForTracks(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(TRACKSEARCH_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, TRACK_SECTION), 25);
+                String.format("%s/%s", SEARCH_SECTION, TRACK_SECTION), -1);
     }
 
     public PartialSearchResponse<User> searchForUsers(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, USER_SECTION), 25);
+                String.format("%s/%s", SEARCH_SECTION, USER_SECTION), -1);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Track management">
@@ -757,51 +783,45 @@ public class Deezer {
     }*/
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="User management">
-    public PartialSearchResponse<Album> getFavoredAlbums(SearchOrder order) {
+    public PartialSearchResponse<Album> getFavoredAlbums(User user, SearchOrder order) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, ALBUMS_SECTION), -1);
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), ALBUMS_SECTION), -1);
     }
 
-    public PartialSearchResponse<Artist> getFavoredArtists(SearchOrder order) {
+    public PartialSearchResponse<Artist> getFavoredArtists(User user, SearchOrder order) {
         return abstractSearch(ARTIST_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, ARTISTS_SECTION), -1);
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), ARTISTS_SECTION), -1);
     }
 
-    public PartialSearchResponse<Playlist> getFavouredPlaylists(SearchOrder order) {
+    public PartialSearchResponse<Playlist> getFavouredPlaylists(User user, SearchOrder order) {
         return abstractSearch(PLAYLIST_RESPONSE_TYPE, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, PLAYLISTS_SECTION));
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), PLAYLISTS_SECTION));
     }
 
-    public PartialSearchResponse<Radio> getFavouredRadios(SearchOrder order) {
+    public PartialSearchResponse<Radio> getFavouredRadios(User user, SearchOrder order) {
         return abstractSearch(RADIO_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, RADIOS_SECTION), -1);
-    }
-
-    public PartialSearchResponse<Track> getFavoredTracks(SearchOrder order) {
-        return abstractSearch(TRACK_RESPONSE_TYPE, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, "personal_songs"));
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), RADIOS_SECTION), -1);
     }
 
     public PartialSearchResponse<Track> getFlow() {
         return abstractSearch(TRACK_RESPONSE_TYPE, null, null,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, "flow"));
+                String.format("%s/%s/%s", USER_SECTION, "me", "flow"));
     }
 
     public PartialSearchResponse<User> getFollowers(SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followers"), -1);
+                String.format("%s/%s/%s", USER_SECTION, "me", "followers"), -1);
     }
 
     public PartialSearchResponse<User> getFollowings(SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followings"), -1);
+                String.format("%s/%s/%s", USER_SECTION, "me", "followings"), -1);
     }
 
     public Options getOptions() {
         return abstractSearch(OPTIONS_TYPE, null, null,
-                currentUserId == null ?
-                        OPTIONS_SECTION :
-                        String.format("%s/%d/%s", USER_SECTION, currentUserId, OPTIONS_SECTION));
+                requestExecutor.isAuthorised() ?
+                        String.format("%s/%s/%s", USER_SECTION, "me", OPTIONS_SECTION): OPTIONS_SECTION);
     }
 
     public User getUser(long userId) {

@@ -10,7 +10,7 @@ public class TrackSearch extends Playable {
     private int duration;
     private int rank;
     private boolean explicit_lyrics;
-    private URL preview;
+    private String preview;
     private Artist artist;
     private Album album;
 
@@ -56,10 +56,10 @@ public class TrackSearch extends Playable {
     public void setExplicit_lyrics(boolean explicit_lyrics) {
         this.explicit_lyrics = explicit_lyrics;
     }
-    public URL getPreview() {
+    public String getPreview() {
         return preview;
     }
-    public void setPreview(URL preview) {
+    public void setPreview(String preview) {
         this.preview = preview;
     }
     public Artist getArtist() {

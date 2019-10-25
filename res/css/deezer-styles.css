@@ -11,6 +11,11 @@
     -fx-background-color: #F7F7F7;
 }
 
+.deezer-alert {
+    -fx-background-color: black;
+    -fx-text-fill: red;
+}
+
 .deezer-button {
     -fx-background-color: none;
     -fx-font-size: 12pt;
@@ -49,6 +54,8 @@
 }
 
 .flow-pane {
+    -fx-column-halignmentlignment: center;
+    -fx-row-valignment: top;
     -fx-background-color: inherit;
 }
 

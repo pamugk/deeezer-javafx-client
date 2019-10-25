@@ -11,9 +11,14 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -40,8 +45,9 @@ public class DeezerRequestExecutor {
 
     public DeezerRequestExecutor(String callbackContext,
         String apiKey, String apiSecret, List<Permissions> requiredPermissions)
-            throws IOException, NoSuchAlgorithmException, NoSuchPaddingException {
-        storage = new SessionStorage("storage");
+            throws IOException, NoSuchAlgorithmException, NoSuchPaddingException,
+            CertificateException, KeyStoreException {
+        storage = new SessionStorage("storage", "keystorage");
         tokenClient = new DeezerTokenClient(apiKey, apiSecret, DeezerApi.getTokenEndpoint());
         callbackServer = new DeezerCallbackServer(callbackContext);
         service = new ServiceBuilder(apiKey)
@@ -57,7 +63,16 @@ public class DeezerRequestExecutor {
         return permissions.stream().map(permissionCodes::get).collect(Collectors.joining(","));
     }
 
-    public void authenticate() throws IOException, URISyntaxException {
+    public void authenticate()
+            throws IOException, URISyntaxException, UnrecoverableKeyException,
+            NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
+        if (storage.isInitialised()) {
+            CompletableFuture<OAuth2AccessToken> token = new CompletableFuture<>();
+            token.complete(storage.getAccessToken());
+            authTokenF = token;
+            authenticationEventHandler.invoke(new AuthenticationEvent(true));
+            return;
+        }
         authTokenF = callbackServer.getOAuth2Code().thenApply(oauthCode -> {
             boolean success = true;
             try {
@@ -77,11 +92,15 @@ public class DeezerRequestExecutor {
         Desktop.getDesktop().browse(new URI(authUrl));
     }
 
-    public Response execute(OAuthRequest request, boolean signed)
+    public Response execute(OAuthRequest request)
             throws ExecutionException, InterruptedException, IOException {
-        if (signed)
+        if (storage.isInitialised())
             request.addParameter("access_token", authTokenF.get().getAccessToken());
         return service.execute(request);
+    }
+
+    public boolean isAuthorised() {
+        return storage.isInitialised();
     }
 
     public void setAuthenticationEventHandler(DeezerEventHandler<AuthenticationEvent> authenticationEventHandler) {
@@ -89,5 +108,9 @@ public class DeezerRequestExecutor {
     }
 
     public void stop() { callbackServer.stop(); }
+
+    public void tearStorageDown() {
+        storage.tearDown();
+    }
 }
 

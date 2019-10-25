@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Comment extends DeezerEntity {
     private String text;
-    private Date date;
+    private long date;
     private Object object;
     private User author;
 
@@ -17,8 +17,8 @@ public class Comment extends DeezerEntity {
     public void setText(String text) {
         this.text = text;
     }
-    public Date getDate() { return date; }
-    public void setDate(Date date) {
+    public long getDate() { return date; }
+    public void setDate(long date) {
         this.date = date;
     }
     public Object getObject() {
