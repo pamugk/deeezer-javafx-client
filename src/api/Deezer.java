@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 public class Deezer {
     private DeezerRequestExecutor requestExecutor;
     private DeezerEventHandler<AuthenticationEvent> authenticationEventHandler;
+    private Long currentUserId;
 
     private static final Type ALBUM_TYPE = new TypeToken<Album>(){}.getType();
     private static final Type ARTIST_TYPE = new TypeToken<Artist>(){}.getType();
@@ -311,7 +312,7 @@ public class Deezer {
 
     private Response changeFollowings(long user_id, Verb action) throws InterruptedException, ExecutionException, IOException {
         OAuthRequest request = new OAuthRequest(action,
-                String.format("%s/%s/%s/followings", API_URL_PREFIX, USER_SECTION, "me"));
+                String.format("%s/%s/%d/followings", API_URL_PREFIX, USER_SECTION, currentUserId));
         request.addParameter("user_id", String.valueOf(user_id));
         return requestExecutor.execute(request);
     }
@@ -397,7 +398,7 @@ public class Deezer {
     private Response changePlayableFavour(Playable playable, Verb action, String section)
             throws InterruptedException, ExecutionException, IOException {
         OAuthRequest request = new OAuthRequest(action,
-                String.format("%s/%s/%s/%s", API_URL_PREFIX, USER_SECTION, "me", section));
+                String.format("%s/%s/%d/%s", API_URL_PREFIX, USER_SECTION, currentUserId, section));
         request.addParameter(String.format("%s_id", playable.getType()), String.valueOf(playable.getId()));
         return requestExecutor.execute(request);
     }
@@ -413,6 +414,7 @@ public class Deezer {
     }
 
     public void logout() {
+        currentUserId = null;
         requestExecutor.tearStorageDown();
     }
 
@@ -422,6 +424,8 @@ public class Deezer {
         try {
             Response response = requestExecutor.execute(request);
             loggedInUser = new Gson().fromJson(response.getBody(), User.class);
+            if (currentUserId == null)
+                currentUserId = loggedInUser.getId();
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -457,22 +461,32 @@ public class Deezer {
         return success;
     }
 
-    public void addTracksToPlaylist(Playlist playlist, List<TrackSearch> songs) {
+    public boolean addTracksToPlaylist(Playlist playlist, List<TrackSearch> songs) {
+        boolean success = false;
         try {
             Response response = updatePlaylist(playlist, songs, "songs", Verb.POST);
+            String body = response.getBody();
+            success = new Gson().fromJson(body, Boolean.TYPE);
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
+        return success;
     }
 
-    public Playlist createPlaylist(String title) {
+    public Playlist createPlaylist(Playlist newPlaylist) {
         Playlist createdPlaylist = null;
         OAuthRequest request = new OAuthRequest(Verb.POST,
-                String.format("%s/%s/%s/%s", API_URL_PREFIX, USER_SECTION, "me", PLAYLISTS_SECTION));
-        request.addParameter("title", title);
+                String.format("%s/%s/%d/%s", API_URL_PREFIX, USER_SECTION, currentUserId, PLAYLISTS_SECTION));
+        request.addParameter("title", newPlaylist.getTitle());
+        request.addParameter("description", newPlaylist.getDescription());
+        request.addParameter("public", String.valueOf(newPlaylist.is_public()));
+        request.addParameter("collaborative", String.valueOf(newPlaylist.isCollaborative()));
         try {
             Response response = requestExecutor.execute(request);
             String body = response.getBody();
+            createdPlaylist = new Gson().fromJson(body, Playlist.class);
+            newPlaylist.setId(createdPlaylist.getId());
+            createdPlaylist = newPlaylist;
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
@@ -538,11 +552,12 @@ public class Deezer {
     }
 
     public boolean removePlaylist(Playlist playlist) {
-        boolean success = true;
+        boolean success = false;
         OAuthRequest request = new OAuthRequest(Verb.DELETE,
                 String.format("%s/playlist/%d", API_URL_PREFIX,playlist.getId()));
         try {
             Response response = requestExecutor.execute(request);
+            String body = response.getBody();
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
             success = false;
@@ -561,26 +576,34 @@ public class Deezer {
         return success;
     }
 
-    public void removeTracksFromPlaylist(Playlist playlist, List<TrackSearch> songs) {
+    public boolean removeTracksFromPlaylist(Playlist playlist, List<TrackSearch> songs) {
+        boolean success = false;
         try {
             Response response = updatePlaylist(playlist, songs, "songs", Verb.DELETE);
+            String body = response.getBody();
+            success = new Gson().fromJson(body, Boolean.class);
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
+        return success;
     }
 
-    public void updatePlaylist(Playlist playlist) {
+    public boolean updatePlaylist(Playlist playlist) {
         OAuthRequest request = new OAuthRequest(Verb.POST,
-                String.format("%s/%s/%d", API_URL_PREFIX, PLAYLISTS_SECTION, playlist.getId()));
+                String.format("%s/%s/%d", API_URL_PREFIX, PLAYLIST_SECTION, playlist.getId()));
         request.addParameter("title", playlist.getTitle());
         request.addParameter("description", playlist.getDescription());
         request.addParameter("public", String.valueOf(playlist.is_public()));
         request.addParameter("collaborative", String.valueOf(playlist.isCollaborative()));
+        boolean success = false;
         try {
             Response response = requestExecutor.execute(request);
+            String body = response.getBody();
+            success = new Gson().fromJson(body, Boolean.class);
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
+        return success;
     }
 
     private Response updatePlaylist(Playlist playlist, List<TrackSearch> songs, String parameter, Verb action)
@@ -768,12 +791,16 @@ public class Deezer {
     }*/
 
     public boolean removeTrackFromFavourites(TrackSearch track) {
-        boolean success = true;
+        boolean success = false;
         try {
-            Response response = changePlayableFavour(track, Verb.DELETE, TRACKS_SECTION);
+            OAuthRequest request = new OAuthRequest(Verb.DELETE,
+                    String.format("%s/%s/%d/%s", API_URL_PREFIX, USER_SECTION, currentUserId, TRACKS_SECTION));
+            request.addBodyParameter("track_id", String.valueOf(track.getId()));
+            Response response = requestExecutor.execute(request);
+            String body = response.getBody();
+            success = new Gson().fromJson(body, Boolean.TYPE);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
-            success = false;
         }
         return success;
     }
@@ -803,25 +830,30 @@ public class Deezer {
                 String.format("%s/%d/%s", USER_SECTION, user.getId(), RADIOS_SECTION), -1);
     }
 
+    public PartialSearchResponse<Track> getFavouredTracks(User user, SearchOrder order) {
+        return abstractSearch(TRACK_RESPONSE_TYPE, null, null, order,
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), TRACKS_SECTION), -1);
+    }
+
     public PartialSearchResponse<Track> getFlow() {
         return abstractSearch(TRACK_RESPONSE_TYPE, null, null,
-                String.format("%s/%s/%s", USER_SECTION, "me", "flow"));
+                String.format("%s/%d/%s", USER_SECTION, currentUserId, "flow"));
     }
 
     public PartialSearchResponse<User> getFollowers(SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%s/%s", USER_SECTION, "me", "followers"), -1);
+                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followers"), -1);
     }
 
     public PartialSearchResponse<User> getFollowings(SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%s/%s", USER_SECTION, "me", "followings"), -1);
+                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followings"), -1);
     }
 
     public Options getOptions() {
         return abstractSearch(OPTIONS_TYPE, null, null,
                 requestExecutor.isAuthorised() ?
-                        String.format("%s/%s/%s", USER_SECTION, "me", OPTIONS_SECTION): OPTIONS_SECTION);
+                        String.format("%s/%d/%s", USER_SECTION, currentUserId, OPTIONS_SECTION): OPTIONS_SECTION);
     }
 
     public User getUser(long userId) {

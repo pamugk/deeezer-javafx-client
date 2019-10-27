@@ -2,13 +2,11 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -24,7 +22,10 @@ import api.objects.utils.search.SearchOrder;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -37,6 +38,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -47,6 +50,8 @@ import static api.LoginStatus.NOT_AUTHORIZED;
 public class IndexController {
     private Deezer deezerClient;
     private Alert standbyAlert;
+    private TrackSearch selectedTrack;
+    private Playlist currentPlaylist;
 
     public static void show(Stage primaryStage) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
@@ -206,7 +211,7 @@ public class IndexController {
             flow.getChildren().add(playlistBox);
         }
         if (countLabel != null)
-            countLabel.setText(String.valueOf(playlists.getTotal()));
+            countLabel.setText(String.valueOf(playlists.getTotal() - 1));
     }
 
     private void fillFlowPaneWithRadios(FlowPane flow, PartialSearchResponse<Radio> radios, Label countLabel) {
@@ -290,7 +295,7 @@ public class IndexController {
             commentInfoBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
             commentInfoBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             Label commentCreationInfo = new Label(String.format("%s - %s", comment.getAuthor().getName(),
-                    new Date(comment.getDate()).toInstant().atZone(ZoneId.systemDefault())
+                    Instant.ofEpochSecond(comment.getDate()).atZone(ZoneId.systemDefault())
                             .format(DateTimeFormatter.ISO_LOCAL_DATE)));
             commentCreationInfo.getStyleClass().add("deezer-secondary");
             commentInfoBox.getChildren().add(commentCreationInfo);
@@ -480,6 +485,7 @@ public class IndexController {
     }
 
     private void redirectToPlaylist(Playlist playlist) {
+        currentPlaylist = playlist;
         playlistPicture.setImage(new Image(playlist.getPicture_medium().toString()));
         playlistTitleLbl.setText(playlist.getTitle());
         playlistCreatorImg.setImage(new Image(playlist.getCreator().getPicture_small().toString()));
@@ -500,11 +506,12 @@ public class IndexController {
             try {
                 Playlist updatedPlaylist = PlaylistDialog.showAndWait(playlist);
                 if (updatedPlaylist == null) {
-                    deezerClient.removePlaylist(playlist);
+                    if (deezerClient.removePlaylist(playlist))
+                        homeBtn.getOnAction().handle(new ActionEvent());
                 }
                 else {
-                    deezerClient.updatePlaylist(playlist);
-                    redirectToPlaylist(playlist);
+                    if (deezerClient.updatePlaylist(playlist))
+                        redirectToPlaylist(playlist);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -529,10 +536,8 @@ public class IndexController {
         }
 
         addPlaylistBtn.setVisible(loggedInUser);
-        PartialSearchResponse<Track> favTracks = new PartialSearchResponse<>();
+        PartialSearchResponse<Track> favTracks = deezerClient.getFavouredTracks(user, null);
         PartialSearchResponse<Playlist> playlists = deezerClient.getFavouredPlaylists(user, null);
-        playlists.getData().stream().filter(Playlist::isIs_loved_track).findFirst().ifPresent(ftp ->
-                favTracks.setData(deezerClient.getPlaylistTracks(ftp).getData()));
         PartialSearchResponse<Album> favAlbums = deezerClient.getFavoredAlbums(user, SearchOrder.ALBUM_ASC);
         PartialSearchResponse<Artist> favArtists = deezerClient.getFavoredArtists(user, SearchOrder.ARTIST_ASC);
 
@@ -548,6 +553,7 @@ public class IndexController {
 
         favTracksTV.getItems().clear();
         favTracksTV.getItems().addAll(favTracks.getData());
+        favTracksLbl.setText(String.valueOf(favTracks.getTotal()));
         fillFlowPaneWithPlaylists(favPlaylistsFP, playlists, playlistsCntLbl);
         fillFlowPaneWithAlbums(favAlbumsFP, favAlbums, favAlbumsLbl);
         fillFlowPaneWithArtists(favArtistsFP, favArtists, favArtistsLbl);
@@ -581,6 +587,24 @@ public class IndexController {
             TableColumn<T, Album> albumCol,
             TableColumn<T, Integer> durationCol,
             TableColumn<T, Integer> popularityCol) {
+        trackTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<T>() {
+            @Override
+            public void changed(ObservableValue<? extends T> observableValue, T oldVal, T newVal) {
+                selectedTrack = newVal;
+                if (newVal == null) {
+                    trackLink.setText("");
+                    artistLink.setText("");
+                    trackInfoBox.setVisible(false);
+                    addToPlaylistBtn.setDisable(true);
+                }
+                else {
+                    trackLink.setText(newVal.getTitle());
+                    artistLink.setText(newVal.getArtist().getName());
+                    trackInfoBox.setVisible(true);
+                    addToPlaylistBtn.setDisable(false);
+                }
+            }
+        });
 
         trackTable.setFixedCellSize(28);
         trackTable.prefHeightProperty().bind(trackTable.fixedCellSizeProperty()
@@ -1178,7 +1202,7 @@ public class IndexController {
         try {
             Playlist playlist = PlaylistDialog.showAndWait(null);
             if (playlist != null) {
-                deezerClient.createPlaylist(playlist.getTitle());
+                deezerClient.createPlaylist(playlist);
                 playlistsBtn.getOnAction().handle(new ActionEvent());
             }
         } catch (IOException e) {
@@ -1188,19 +1212,19 @@ public class IndexController {
 
     @FXML
     void addToPlaylistBtn_OnAction(ActionEvent event) {
-
+        ChoiceDialog<Playlist> playlistChoicer = new ChoiceDialog<>(null,
+                deezerClient.getFavouredPlaylists(deezerClient.getLoggedInUser(), null).getData());
+        playlistChoicer.showAndWait().ifPresent(playlist -> {
+            if (deezerClient.addTracksToPlaylist(playlist, Collections.singletonList(selectedTrack)))
+                new Alert(Alert.AlertType.INFORMATION, "Трек успешно добавлен в плейлист").showAndWait();
+        });
     }
 
     @FXML
     void albumsBtn_OnAction(ActionEvent event) {
-        CompletableFuture<User> user = new CompletableFuture<>();
-        user.thenAccept(usr -> {
-            Platform.runLater(() -> {
-                redirectToUser(usr);
-                myMusicTabPane.getSelectionModel().select(favAlbumsTab);
-            });
-        });
-        user.completeAsync(() -> deezerClient.getLoggedInUser());
+        redirectToUser(deezerClient.getLoggedInUser());
+        mainTabPane.getSelectionModel().select(myMusicTab);
+        myMusicTabPane.getSelectionModel().select(favAlbumsTab);
     }
 
     @FXML
@@ -1210,14 +1234,9 @@ public class IndexController {
 
     @FXML
     void artistsBtn_OnAction(ActionEvent event) {
-        CompletableFuture<User> user = new CompletableFuture<>();
-        user.thenAccept(usr -> {
-            Platform.runLater(() -> {
-                redirectToUser(usr);
-                myMusicTabPane.getSelectionModel().select(favArtistsTab);
-            });
-        });
-        user.completeAsync(() -> deezerClient.getLoggedInUser());
+        redirectToUser(deezerClient.getLoggedInUser());
+        mainTabPane.getSelectionModel().select(myMusicTab);
+        myMusicTabPane.getSelectionModel().select(favArtistsTab);
     }
 
     @FXML
@@ -1276,14 +1295,9 @@ public class IndexController {
 
     @FXML
     void favouriteTracksBtn_OnAction(ActionEvent event) {
-        CompletableFuture<User> user = new CompletableFuture<>();
-        user.thenAccept(usr -> {
-            Platform.runLater(() -> {
-                redirectToUser(usr);
-                myMusicTabPane.getSelectionModel().select(favTracksTab);
-            });
-        });
-        user.completeAsync(() -> deezerClient.getLoggedInUser());
+        redirectToUser(deezerClient.getLoggedInUser());
+        mainTabPane.getSelectionModel().select(myMusicTab);
+        myMusicTabPane.getSelectionModel().select(favTracksTab);
     }
 
     @FXML
@@ -1305,12 +1319,9 @@ public class IndexController {
 
     @FXML
     void myMusicBtn_OnAction(ActionEvent event) {
-        CompletableFuture<User> user = new CompletableFuture<>();
-        user.thenAccept(usr -> {
-            redirectToUser(usr);
-            mainTabPane.getSelectionModel().select(highlightsTab);
-        });
-        user.completeAsync(() -> deezerClient.getLoggedInUser());
+        redirectToUser(deezerClient.getLoggedInUser());
+        mainTabPane.getSelectionModel().select(myMusicTab);
+        myMusicTabPane.getSelectionModel().select(highlightsTab);
     }
 
     @FXML
@@ -1319,12 +1330,9 @@ public class IndexController {
 
     @FXML
     void playlistsBtn_OnAction(ActionEvent event) {
-        CompletableFuture<User> user = new CompletableFuture<>();
-        user.thenAccept(usr -> {
-            redirectToUser(usr);
-            myMusicTabPane.getSelectionModel().select(myPlaylistsTab);
-        });
-        user.completeAsync(() -> deezerClient.getLoggedInUser());
+        redirectToUser(deezerClient.getLoggedInUser());
+        mainTabPane.getSelectionModel().select(myMusicTab);
+        myMusicTabPane.getSelectionModel().select(myPlaylistsTab);
     }
 
     @FXML
@@ -1387,6 +1395,7 @@ public class IndexController {
 
         setupBaseTrackTable(favTracksTV, favTrackIdxCol, null, favTrackTitleCol, favTrackArtistCol,
                 favTrackAlbumCol, favTrackLengthCol, favTrackPopCol);
+
         setupBaseTrackTable(tracksResultTV, null, trackResultImgCol, trackResultTitleCol, trackResultArtistCol,
                 trackResultAlbumCol, trackResultLengthCol, trackResultPopCol);
         setupBaseTrackTable(foundTracksTV,null, foundTrAlbImgCol, foundTrNameCol, foundTrArtistCol,
@@ -1412,6 +1421,23 @@ public class IndexController {
         deezerClient.getAuthenticationEventHandler().addListener(new DeezerListener<>(this::onLoginResponse));
         if (deezerClient.getLoginStatus() != NOT_AUTHORIZED)
             loginBtn.getOnAction().handle(new ActionEvent());
+    }
+
+    @FXML
+    void removeTrackFromFav(ActionEvent event) {
+        if (deezerClient.removeTrackFromFavourites(selectedTrack)){
+            new Alert(Alert.AlertType.INFORMATION, "Удаление успешно");
+            playlistsBtn.getOnAction().handle(new ActionEvent());
+        }
+        else new Alert(Alert.AlertType.INFORMATION, "Удаление отклонено сервером");
+    }
+
+    public void removeTrackFromPlaylist(ActionEvent event) {
+        if (deezerClient.removeTracksFromPlaylist(currentPlaylist, Collections.singletonList(selectedTrack))){
+            new Alert(Alert.AlertType.INFORMATION, "Удаление успешно");
+            playlistsBtn.getOnAction().handle(new ActionEvent());
+        }
+        else new Alert(Alert.AlertType.INFORMATION, "Удаление отклонено сервером");
     }
     //</editor-fold>
 }

@@ -5,21 +5,12 @@ import api.objects.DeezerEntity;
 import java.net.URL;
 
 public class Editorial extends DeezerEntity {
-    private long id;
     private String name;
     private URL picture;
     private URL picture_small;
     private URL picture_medium;
     private URL picture_big;
     private URL picture_xl;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

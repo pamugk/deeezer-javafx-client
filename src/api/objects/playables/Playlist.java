@@ -136,4 +136,9 @@ public class Playlist extends Playable {
     public void setTracks(SearchResponse<Track> tracks) {
         this.tracks = tracks;
    }
+
+    @Override
+    public String toString(){
+        return title;
+    }
 }
