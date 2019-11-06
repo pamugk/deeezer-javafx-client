@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/deeezerclient.iml" filepath="$PROJECT_DIR$/deeezerclient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/deezerclient.iml" filepath="$PROJECT_DIR$/deezerclient.iml" />
     </modules>
   </component>
 </project>

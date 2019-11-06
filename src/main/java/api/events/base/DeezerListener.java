@@ -1,7 +1,5 @@
 package api.events.base;
 
-import api.events.base.DeezerEvent;
-
 import java.util.function.Consumer;
 
 public class DeezerListener<T extends DeezerEvent> {

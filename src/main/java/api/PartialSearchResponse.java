@@ -12,7 +12,7 @@ public class PartialSearchResponse<T> extends SearchResponse<T> {
     private URL prev;
     private URL next;
 
-    public PartialSearchResponse(Type type) {
+    PartialSearchResponse(Type type) {
         this.type = type;
         setData(null);
     }
@@ -30,7 +30,7 @@ public class PartialSearchResponse<T> extends SearchResponse<T> {
     public boolean hasNext() { return next != null; }
 
     public int getTotal() { return total; }
-    public void setTotal(int total) { this.total = total; }
+    void setTotal(int total) { this.total = total; }
 
     Type getType() { return type; }
     void setType(Type type) { this.type = type; }

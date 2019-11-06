@@ -1,7 +1,5 @@
 package api.objects.playables;
 
-import java.net.URL;
-
 public class TrackSearch extends Playable {
     private boolean readable;
     private String title;

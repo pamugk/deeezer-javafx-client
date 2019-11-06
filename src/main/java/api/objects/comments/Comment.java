@@ -3,8 +3,6 @@ package api.objects.comments;
 import api.objects.DeezerEntity;
 import api.objects.utils.User;
 
-import java.util.Date;
-
 public class Comment extends DeezerEntity {
     private String text;
     private long date;
