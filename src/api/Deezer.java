@@ -715,7 +715,7 @@ public class Deezer {
             request.addParameter("order", order.name());
         if (getTop && top != -1)
             request.addParameter("top", String.valueOf(top));
-        PartialSearchResponse<T> searchResult = new PartialSearchResponse<>();
+        PartialSearchResponse<T> searchResult = new PartialSearchResponse<>(responseType);
         do
             try {
                 Response response = requestExecutor.execute(
@@ -723,13 +723,29 @@ public class Deezer {
                                 new OAuthRequest(Verb.GET, searchResult.getNext().toString()));
                 String body = response.getBody();
                 PartialSearchResponse<T> nextPart = new Gson().fromJson(body, responseType);
+                searchResult.setTotal(nextPart.getTotal());
                 searchResult.setNext(nextPart.getNext());
                 searchResult.getData().addAll(nextPart.getData());
             } catch (ExecutionException | InterruptedException | IOException e) {
                 e.printStackTrace();
             }
-        while ((top == -1 || searchResult.getData().size() < top) && searchResult.getNext() != null);
+        while (searchResult.getData().size() < top && searchResult.getNext() != null);
 
+        return searchResult;
+    }
+
+    public <T> PartialSearchResponse<T> getNextPart(PartialSearchResponse<T> prevPart)
+    {
+        OAuthRequest request = new OAuthRequest(Verb.GET, prevPart.getNext().toString());
+        PartialSearchResponse<T> searchResult = new PartialSearchResponse<>(prevPart.getType());
+        try {
+            Response response = requestExecutor.execute(request);
+            String body = response.getBody();
+            searchResult = new Gson().fromJson(body, prevPart.getType());
+            searchResult.setType(prevPart.getType());
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
         return searchResult;
     }
 

@@ -266,9 +266,9 @@
                </ScrollPane>
             </Tab>
             <Tab fx:id="trackResultsTab" text="%tracks">
-               <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+               <ScrollPane fx:id="trackResultsSP" fitToWidth="true" hbarPolicy="NEVER">
                   <VBox style="-fx-background-color: white;">
-                     <HBox>
+                     <HBox alignment="CENTER_LEFT">
                         <VBox.margin>
                            <Insets top="30.0" />
                         </VBox.margin>
@@ -295,7 +295,7 @@
                </ScrollPane>
             </Tab>
             <Tab fx:id="albumResultsTab" text="%albums">
-               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
+               <ScrollPane fx:id="albumResultsSP" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
                   <VBox>
                      <HBox>
                         <VBox.margin>
@@ -319,7 +319,7 @@
                </ScrollPane>
             </Tab>
             <Tab fx:id="artistResultsTab" text="%artists">
-               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
+               <ScrollPane fx:id="artistResultsSP" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
                   <VBox maxHeight="1.7976931348623157E308">
                      <HBox>
                         <VBox.margin>
@@ -340,7 +340,7 @@
                </ScrollPane>
             </Tab>
             <Tab fx:id="playlistResultsTab" text="%playlists">
-               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
+               <ScrollPane fx:id="playlistResultsSP" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
                   <VBox maxHeight="1.7976931348623157E308">
                      <HBox>
                         <VBox.margin>
@@ -382,7 +382,7 @@
                </ScrollPane>
             </Tab>
             <Tab fx:id="profileResultsTab" closable="false" text="%profiles">
-               <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
+               <ScrollPane fx:id="profileResultsSP" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
                   <VBox maxHeight="1.7976931348623157E308">
                      <HBox>
                         <VBox.margin>
@@ -512,7 +512,7 @@
                   </ScrollPane>
                </Tab>
                <Tab fx:id="favTracksTab" text="%favTracks">
-                  <ScrollPane fitToWidth="true">
+                  <ScrollPane fx:id="favTracksSP" fitToWidth="true">
                      <padding>
                         <Insets right="80.0" />
                      </padding>
@@ -542,7 +542,7 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem mnemonicParsing="false" text="Удалить" onAction="#removeTrackFromFav"/>
+                                  <MenuItem mnemonicParsing="false" onAction="#removeTrackFromFav" text="Удалить" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
@@ -554,7 +554,7 @@
                   </ScrollPane>
                </Tab>
                <Tab fx:id="myPlaylistsTab" text="%playlists">
-                  <ScrollPane fitToWidth="true">
+                  <ScrollPane fx:id="favPlaylistsSP" fitToWidth="true">
                      <padding>
                         <Insets bottom="80.0" />
                      </padding>
@@ -592,7 +592,7 @@
                   </ScrollPane>
                </Tab>
                <Tab fx:id="favAlbumsTab" text="%albums">
-                  <ScrollPane fitToWidth="true">
+                  <ScrollPane fx:id="favAlbumsSP" fitToWidth="true">
                      <padding>
                         <Insets right="80.0" />
                      </padding>
@@ -620,7 +620,7 @@
                   </ScrollPane>
                </Tab>
                <Tab fx:id="favArtistsTab" text="%artists">
-                  <ScrollPane fitToWidth="true">
+                  <ScrollPane fx:id="favArtistsSP" fitToWidth="true">
                      <padding>
                         <Insets right="80.0" />
                      </padding>
@@ -952,7 +952,7 @@
                   <contextMenu>
                      <ContextMenu>
                         <items>
-                           <MenuItem mnemonicParsing="false" text="Удалить" onAction="#removeTrackFromPlaylist"/>
+                           <MenuItem mnemonicParsing="false" onAction="#removeTrackFromPlaylist" text="Удалить" />
                         </items>
                      </ContextMenu>
                   </contextMenu>

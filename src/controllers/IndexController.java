@@ -22,10 +22,7 @@ import api.objects.utils.search.SearchOrder;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -38,8 +35,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -72,7 +67,9 @@ public class IndexController {
         primaryStage.show();
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Auxiliary methods">\
+    //<editor-fold defaultstate="collapsed" desc="Auxiliary methods">
+    private CompletableFuture<PartialSearchResponse<Album>> nextFoundAlbums;
+
     private void changeInterfaceState(boolean logout) {
         alert.setVisible(logout);
         recommendationsBox.setVisible(!logout);
@@ -93,182 +90,254 @@ public class IndexController {
         playerBox.setDisable(logout);
     }
 
-    private void fillFlowPaneWithAlbums(FlowPane flow, PartialSearchResponse<Album> albums, Label countLabel) {
-        flow.getChildren().clear();
-        for (Album album : albums.getData()) {
-            VBox albumBox = new VBox();
-            albumBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
-            albumBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            albumBox.getStyleClass().add("albumcard");
+    private void fillFlowPaneWithAlbums(FlowPane flow, PartialSearchResponse<Album> albums, Label countLabel,
+                                        boolean clear, boolean tryGetNext) {
+        Platform.runLater(() -> {
+            if (clear)
+                flow.getChildren().clear();
+            for (Album album : albums.getData()) {
+                VBox albumBox = new VBox();
+                albumBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
+                albumBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                albumBox.getStyleClass().add("albumcard");
 
-            ImageView albumCover = new ImageView(new Image(album.getCover_medium().toString(), true));
-            albumCover.fitWidthProperty().bind(albumBox.prefWidthProperty());
-            albumCover.fitHeightProperty().bind(albumCover.fitWidthProperty());
-            Button albumRedirectButton = new Button(null, albumCover);
-            albumRedirectButton.setOnAction(event -> redirectToAlbum(deezerClient.getAlbum(album.getId())));
-            albumRedirectButton.prefWidthProperty().bind(albumCover.fitWidthProperty());
-            albumRedirectButton.prefHeightProperty().bind(albumCover.fitHeightProperty());
-            albumRedirectButton.getStyleClass().add("albumcard-album");
-            albumBox.getChildren().add(albumRedirectButton);
+                ImageView albumCover = new ImageView(new Image(album.getCover_medium().toString(), true));
+                albumCover.fitWidthProperty().bind(albumBox.prefWidthProperty());
+                albumCover.fitHeightProperty().bind(albumCover.fitWidthProperty());
+                Button albumRedirectButton = new Button(null, albumCover);
+                albumRedirectButton.setOnAction(event -> redirectToAlbum(deezerClient.getAlbum(album.getId())));
+                albumRedirectButton.prefWidthProperty().bind(albumCover.fitWidthProperty());
+                albumRedirectButton.prefHeightProperty().bind(albumCover.fitHeightProperty());
+                albumRedirectButton.getStyleClass().add("albumcard-album");
+                albumBox.getChildren().add(albumRedirectButton);
 
-            Label albumTitle = new Label(album.getTitle());
-            albumTitle.setWrapText(true);
-            albumTitle.getStyleClass().add("albumcard-name");
-            albumTitle.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            albumTitle.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            albumBox.getChildren().add(albumTitle);
+                Label albumTitle = new Label(album.getTitle());
+                albumTitle.setWrapText(true);
+                albumTitle.getStyleClass().add("albumcard-name");
+                albumTitle.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                albumTitle.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                albumBox.getChildren().add(albumTitle);
 
-            Button artistRedirectButton = new Button(
-                    String.format("%s %s", resources.getString("by"), album.getArtist().getName()));
-            artistRedirectButton.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            artistRedirectButton.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            artistRedirectButton.setOnAction(event -> redirectToArtist(album.getArtist()));
-            artistRedirectButton.getStyleClass().add("albumcard-artist");
-            albumBox.getChildren().add(artistRedirectButton);
+                Button artistRedirectButton = new Button(
+                        String.format("%s %s", resources.getString("by"), album.getArtist().getName()));
+                artistRedirectButton.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                artistRedirectButton.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                artistRedirectButton.setOnAction(event -> redirectToArtist(album.getArtist()));
+                artistRedirectButton.getStyleClass().add("albumcard-artist");
+                albumBox.getChildren().add(artistRedirectButton);
 
-            flow.getChildren().add(albumBox);
-        }
-        if (countLabel != null)
-            countLabel.setText(String.valueOf(albums.getTotal()));
+                flow.getChildren().add(albumBox);
+            }
+            if (!albums.hasPrev() && countLabel != null)
+                countLabel.setText(String.valueOf(albums.getTotal()));
+
+            if (tryGetNext && albums.hasNext())
+            {
+                CompletableFuture<PartialSearchResponse<Album>> nextPart = new CompletableFuture<>();
+                nextPart.completeAsync(() -> deezerClient.getNextPart(albums)).thenAccept(nextAlbums -> {
+                    fillFlowPaneWithAlbums(flow, nextAlbums, countLabel, false, tryGetNext);
+                });
+            }
+        });
     }
 
-    private void fillFlowPaneWithArtists(FlowPane flow, PartialSearchResponse<Artist> artists, Label countLabel) {
-        flow.getChildren().clear();
-        for (Artist artist : artists.getData()) {
-            VBox artistBox = new VBox();
-            artistBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
-            artistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            artistBox.getStyleClass().add("artistcard");
+    private void fillFlowPaneWithArtists(FlowPane flow, PartialSearchResponse<Artist> artists, Label countLabel,
+                                         boolean clear, boolean tryGetNext) {
+        Platform.runLater(() -> {
+            if (clear)
+                flow.getChildren().clear();
+            for (Artist artist : artists.getData()) {
+                VBox artistBox = new VBox();
+                artistBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
+                artistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                artistBox.getStyleClass().add("artistcard");
 
-            ImageView artistPicture = new ImageView(new Image(artist.getPicture_medium().toString(), true));
-            artistPicture.fitWidthProperty().bind(artistBox.prefWidthProperty());
-            artistPicture.fitHeightProperty().bind(artistPicture.fitWidthProperty());
+                ImageView artistPicture = new ImageView(new Image(artist.getPicture_medium().toString(), true));
+                artistPicture.fitWidthProperty().bind(artistBox.prefWidthProperty());
+                artistPicture.fitHeightProperty().bind(artistPicture.fitWidthProperty());
 
-            Button artistRedirectButton = new Button(null, artistPicture);
-            artistRedirectButton.setOnAction(event -> redirectToArtist(deezerClient.getArtist(artist.getId())));
-            artistRedirectButton.prefWidthProperty().bind(artistPicture.fitWidthProperty());
-            artistRedirectButton.prefHeightProperty().bind(artistPicture.fitHeightProperty());
-            artistRedirectButton.getStyleClass().add("artistcard-artist");
-            artistBox.getChildren().add(artistRedirectButton);
+                Button artistRedirectButton = new Button(null, artistPicture);
+                artistRedirectButton.setOnAction(event -> redirectToArtist(deezerClient.getArtist(artist.getId())));
+                artistRedirectButton.prefWidthProperty().bind(artistPicture.fitWidthProperty());
+                artistRedirectButton.prefHeightProperty().bind(artistPicture.fitHeightProperty());
+                artistRedirectButton.getStyleClass().add("artistcard-artist");
+                artistBox.getChildren().add(artistRedirectButton);
 
-            Label artistName = new Label(artist.getName());
-            artistName.setWrapText(true);
-            artistName.getStyleClass().add("artistcard-name");
-            artistName.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            artistName.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            artistBox.getChildren().add(artistName);
-
-            if (artist.getNb_fan() > 0) {
-                Label artistFollowers = new Label(String.format("%s: %s", resources.getString("followers"),
-                        artist.getNb_fan()));
-                artistName.getStyleClass().add("artistcard-followers");
+                Label artistName = new Label(artist.getName());
+                artistName.setWrapText(true);
+                artistName.getStyleClass().add("artistcard-name");
                 artistName.setPrefWidth(Region.USE_COMPUTED_SIZE);
                 artistName.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                artistBox.getChildren().add(artistFollowers);
+                artistBox.getChildren().add(artistName);
+
+                if (artist.getNb_fan() > 0) {
+                    Label artistFollowers = new Label(String.format("%s: %s", resources.getString("followers"),
+                            artist.getNb_fan()));
+                    artistName.getStyleClass().add("artistcard-followers");
+                    artistName.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    artistName.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    artistBox.getChildren().add(artistFollowers);
+                }
+
+                flow.getChildren().add(artistBox);
             }
+            if (!artists.hasPrev() && countLabel != null)
+                countLabel.setText(String.valueOf(artists.getTotal()));
 
-            flow.getChildren().add(artistBox);
-        }
-        if (countLabel != null)
-            countLabel.setText(String.valueOf(artists.getTotal()));
+            if (tryGetNext && artists.hasNext())
+            {
+                CompletableFuture<PartialSearchResponse<Artist>> nextPart = new CompletableFuture<>();
+                nextPart.completeAsync(() -> deezerClient.getNextPart(artists))
+                        .thenAccept(nextArtists -> {
+                            fillFlowPaneWithArtists(flow, nextArtists, countLabel, false, tryGetNext);
+                        });
+            }
+        });
     }
 
-    private void fillFlowPaneWithPlaylists(FlowPane flow, PartialSearchResponse<Playlist> playlists, Label countLabel) {
-        flow.getChildren().clear();
-        for (Playlist playlist : playlists.getData()) {
-            if (playlist.isIs_loved_track())
-                continue;
-            VBox playlistBox = new VBox();
-            playlistBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
-            playlistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            playlistBox.getStyleClass().add("playlistcard");
+    private void fillFlowPaneWithPlaylists(FlowPane flow, PartialSearchResponse<Playlist> playlists, Label countLabel,
+                                           boolean clear, boolean tryGetNext) {
+        Platform.runLater(() -> {
+            if (clear)
+                flow.getChildren().clear();
+            for (Playlist playlist : playlists.getData()) {
+                if (playlist.isIs_loved_track())
+                    continue;
+                VBox playlistBox = new VBox();
+                playlistBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
+                playlistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                playlistBox.getStyleClass().add("playlistcard");
 
-            ImageView playlistPicture = new ImageView(new Image(playlist.getPicture_medium().toString(), true));
-            playlistPicture.fitWidthProperty().bind(playlistBox.prefWidthProperty());
-            playlistPicture.fitHeightProperty().bind(playlistPicture.fitWidthProperty());
+                ImageView playlistPicture = new ImageView(new Image(playlist.getPicture_medium().toString(), true));
+                playlistPicture.fitWidthProperty().bind(playlistBox.prefWidthProperty());
+                playlistPicture.fitHeightProperty().bind(playlistPicture.fitWidthProperty());
 
-            Button playlistRedirectButton = new Button(null, playlistPicture);
-            playlistRedirectButton.setOnAction(event -> redirectToPlaylist(deezerClient.getPlaylist(playlist.getId())));
-            playlistRedirectButton.prefWidthProperty().bind(playlistPicture.fitWidthProperty());
-            playlistRedirectButton.prefHeightProperty().bind(playlistPicture.fitHeightProperty());
-            playlistRedirectButton.getStyleClass().add("playlistcard-playlist");
-            playlistBox.getChildren().add(playlistRedirectButton);
+                Button playlistRedirectButton = new Button(null, playlistPicture);
+                playlistRedirectButton.setOnAction(event -> redirectToPlaylist(deezerClient.getPlaylist(playlist.getId())));
+                playlistRedirectButton.prefWidthProperty().bind(playlistPicture.fitWidthProperty());
+                playlistRedirectButton.prefHeightProperty().bind(playlistPicture.fitHeightProperty());
+                playlistRedirectButton.getStyleClass().add("playlistcard-playlist");
+                playlistBox.getChildren().add(playlistRedirectButton);
 
-            Label playlistTitle = new Label(playlist.getTitle());
-            playlistTitle.setWrapText(true);
-            playlistTitle.getStyleClass().add("playlistcard-title");
-            playlistTitle.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            playlistTitle.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            playlistBox.getChildren().add(playlistTitle);
+                Label playlistTitle = new Label(playlist.getTitle());
+                playlistTitle.setWrapText(true);
+                playlistTitle.getStyleClass().add("playlistcard-title");
+                playlistTitle.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                playlistTitle.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                playlistBox.getChildren().add(playlistTitle);
 
-            Label playlistTrackCount = new Label(String.format("%s: %d", resources.getString("tracksCnt"),
-                    playlist.getNb_tracks()));
-            playlistTrackCount.getStyleClass().add("playlistcard-tracks");
-            playlistTrackCount.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            playlistTrackCount.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            playlistBox.getChildren().add(playlistTrackCount);
+                Label playlistTrackCount = new Label(String.format("%s: %d", resources.getString("tracksCnt"),
+                        playlist.getNb_tracks()));
+                playlistTrackCount.getStyleClass().add("playlistcard-tracks");
+                playlistTrackCount.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                playlistTrackCount.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                playlistBox.getChildren().add(playlistTrackCount);
 
-            flow.getChildren().add(playlistBox);
-        }
-        if (countLabel != null)
-            countLabel.setText(String.valueOf(playlists.getTotal() - 1));
+                flow.getChildren().add(playlistBox);
+            }
+            if (!playlists.hasPrev() && countLabel != null)
+                countLabel.setText(String.valueOf(playlists.getTotal() - 1));
+
+            if (tryGetNext && playlists.hasNext())
+            {
+                CompletableFuture<PartialSearchResponse<Playlist>> nextPart = new CompletableFuture<>();
+                nextPart.completeAsync(() -> deezerClient.getNextPart(playlists))
+                        .thenAccept(nextPlaylists -> fillFlowPaneWithPlaylists(flow, nextPlaylists, countLabel, false, tryGetNext));
+            }
+        });
     }
 
-    private void fillFlowPaneWithRadios(FlowPane flow, PartialSearchResponse<Radio> radios, Label countLabel) {
-        flow.getChildren().clear();
-        for (Radio radio : radios.getData()) {
-            VBox radioBox = new VBox();
-            radioBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
-            radioBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            radioBox.getStyleClass().add("radiocard");
+    private void fillFlowPaneWithRadios(FlowPane flow, PartialSearchResponse<Radio> radios, Label countLabel,
+                                        boolean clear, boolean tryGetNext) {
+        Platform.runLater(() -> {
+            if (clear)
+                flow.getChildren().clear();
+            for (Radio radio : radios.getData()) {
+                VBox radioBox = new VBox();
+                radioBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
+                radioBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                radioBox.getStyleClass().add("radiocard");
 
-            ImageView radioPicture = new ImageView(new Image(radio.getPicture_medium().toString(), true));
-            radioPicture.fitWidthProperty().bind(radioBox.prefWidthProperty());
-            radioPicture.fitHeightProperty().bind(radioPicture.fitWidthProperty());
+                ImageView radioPicture = new ImageView(new Image(radio.getPicture_medium().toString(), true));
+                radioPicture.fitWidthProperty().bind(radioBox.prefWidthProperty());
+                radioPicture.fitHeightProperty().bind(radioPicture.fitWidthProperty());
 
-            Button radioRedirectButton = new Button(null, radioPicture);
-            radioRedirectButton.setOnAction(event -> redirectToRadio(deezerClient.getRadio(radio.getId())));
-            radioRedirectButton.prefWidthProperty().bind(radioPicture.fitWidthProperty());
-            radioRedirectButton.prefHeightProperty().bind(radioPicture.fitHeightProperty());
-            radioRedirectButton.getStyleClass().add("radiocard-radio");
-            radioBox.getChildren().add(radioRedirectButton);
+                Button radioRedirectButton = new Button(null, radioPicture);
+                radioRedirectButton.setOnAction(event -> redirectToRadio(deezerClient.getRadio(radio.getId())));
+                radioRedirectButton.prefWidthProperty().bind(radioPicture.fitWidthProperty());
+                radioRedirectButton.prefHeightProperty().bind(radioPicture.fitHeightProperty());
+                radioRedirectButton.getStyleClass().add("radiocard-radio");
+                radioBox.getChildren().add(radioRedirectButton);
 
-            flow.getChildren().add(radioBox);
-        }
-        if (countLabel != null)
-            countLabel.setText(String.valueOf(radios.getTotal()));
+                flow.getChildren().add(radioBox);
+            }
+            if (!radios.hasPrev() && countLabel != null)
+                countLabel.setText(String.valueOf(radios.getTotal()));
+            if (tryGetNext && radios.getTotal() > flow.getChildren().size())
+            {
+                CompletableFuture<PartialSearchResponse<Radio>> nextPart = new CompletableFuture<>();
+                nextPart.completeAsync(() -> deezerClient.getNextPart(radios))
+                        .thenAccept(nextRadios -> fillFlowPaneWithRadios(flow, nextRadios, countLabel, false, tryGetNext));
+            }
+        });
     }
 
-    private void fillFlowPaneWithUsers(FlowPane flow, PartialSearchResponse<User> users, Label countLabel) {
-        flow.getChildren().clear();
-        for (User user : users.getData()) {
-            VBox userBox = new VBox();
-            userBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
-            userBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            userBox.getStyleClass().add("usercard");
+    private void fillFlowPaneWithUsers(FlowPane flow, PartialSearchResponse<User> users, Label countLabel,
+                                       boolean clear, boolean tryGetNext) {
+        Platform.runLater(() -> {
+            if (clear)
+                flow.getChildren().clear();
+            for (User user : users.getData()) {
+                VBox userBox = new VBox();
+                userBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));
+                userBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                userBox.getStyleClass().add("usercard");
 
-            ImageView userPicture = new ImageView(new Image(user.getPicture_medium().toString(), true));
-            userPicture.fitWidthProperty().bind(userBox.prefWidthProperty());
-            userPicture.fitHeightProperty().bind(userPicture.fitWidthProperty());
+                ImageView userPicture = new ImageView(new Image(user.getPicture_medium().toString(), true));
+                userPicture.fitWidthProperty().bind(userBox.prefWidthProperty());
+                userPicture.fitHeightProperty().bind(userPicture.fitWidthProperty());
 
-            Button userRedirectButton = new Button(null, userPicture);
-            userRedirectButton.setOnAction(event -> redirectToUser(deezerClient.getUser(user.getId())));
-            userRedirectButton.prefWidthProperty().bind(userPicture.fitWidthProperty());
-            userRedirectButton.prefHeightProperty().bind(userPicture.fitHeightProperty());
-            userRedirectButton.getStyleClass().add("usercard-user");
-            userBox.getChildren().add(userRedirectButton);
+                Button userRedirectButton = new Button(null, userPicture);
+                userRedirectButton.setOnAction(event -> redirectToUser(deezerClient.getUser(user.getId())));
+                userRedirectButton.prefWidthProperty().bind(userPicture.fitWidthProperty());
+                userRedirectButton.prefHeightProperty().bind(userPicture.fitHeightProperty());
+                userRedirectButton.getStyleClass().add("usercard-user");
+                userBox.getChildren().add(userRedirectButton);
 
-            Label userName = new Label(user.getName());
-            userName.setWrapText(true);
-            userName.getStyleClass().add("usercard-name");
-            userName.setPrefWidth(Region.USE_COMPUTED_SIZE);
-            userName.setPrefHeight(Region.USE_COMPUTED_SIZE);
-            userBox.getChildren().add(userName);
+                Label userName = new Label(user.getName());
+                userName.setWrapText(true);
+                userName.getStyleClass().add("usercard-name");
+                userName.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                userName.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                userBox.getChildren().add(userName);
 
-            flow.getChildren().add(userBox);
-        }
-        if (countLabel != null)
-            countLabel.setText(String.valueOf(users.getTotal()));
+                flow.getChildren().add(userBox);
+            }
+            if (!users.hasPrev() && countLabel != null)
+                countLabel.setText(String.valueOf(users.getTotal()));
+            if (tryGetNext && users.hasNext())
+            {
+                CompletableFuture<PartialSearchResponse<User>> nextPart = new CompletableFuture<>();
+                nextPart.completeAsync(() -> deezerClient.getNextPart(users))
+                        .thenAccept(nextUsers -> fillFlowPaneWithUsers(flow, nextUsers, countLabel, false, tryGetNext));
+            }
+        });
+    }
+
+    private <T extends TrackSearch> void fillTableWithTracks(TableView<T> trackTable,
+                                                             PartialSearchResponse<T> tracks, Label countLabel)
+    {
+        Platform.runLater(() -> {
+            trackTable.getItems().addAll(tracks.getData());
+            if (!tracks.hasPrev() && countLabel != null)
+                countLabel.setText(String.valueOf(tracks.getTotal()));
+            if (tracks.hasNext())
+            {
+                CompletableFuture<PartialSearchResponse<T>> nextPart = new CompletableFuture<>();
+                nextPart.completeAsync(() -> deezerClient.getNextPart(tracks))
+                        .thenAccept(nextTracks -> fillTableWithTracks(trackTable, nextTracks, countLabel));
+            }
+        });
     }
 
     private void fillVBoxWithComments(VBox commentsBox, PartialSearchResponse<Comment> comments) {
@@ -394,18 +463,18 @@ public class IndexController {
             userAccounttem.setText(currentUser.getName());
             userMenuAvatar.setImage(avatar);
 
-            fillFlowPaneWithPlaylists(recommendedPlaylistsFP, deezerClient.getRecommendedPlaylists(12), null);
-            fillFlowPaneWithArtists(recommendedArtistsFP, deezerClient.getRecommendedArtists(12), null);
-            fillFlowPaneWithAlbums(recommendedAlbumsFP, deezerClient.getRecommendedAlbums(12), null);
+            fillFlowPaneWithPlaylists(recommendedPlaylistsFP, deezerClient.getRecommendedPlaylists(12), null, true, false);
+            fillFlowPaneWithArtists(recommendedArtistsFP, deezerClient.getRecommendedArtists(12), null, true, false);
+            fillFlowPaneWithAlbums(recommendedAlbumsFP, deezerClient.getRecommendedAlbums(12), null, true, false);
 
             changeInterfaceState(false);
         });
     }
 
     private void redirectToAlbum(Album album) {
-        albumCover.setImage(new Image(album.getCover_medium().toString()));
+        albumCover.setImage(new Image(album.getCover_medium().toString(), true));
         albumName.setText(album.getTitle());
-        albumArtistImg.setImage(new Image(album.getArtist().getPicture_small().toString()));
+        albumArtistImg.setImage(new Image(album.getArtist().getPicture_small().toString(), true));
         albumArtist.setText(album.getArtist().getName());
         albumArtist.setOnAction(event -> redirectToArtist(deezerClient.getArtist(album.getArtist().getId())));
         albumTracksLbl.setText(String.format("%s: %d",
@@ -420,9 +489,9 @@ public class IndexController {
         albumTracksTV.getItems().addAll(album.getTracks().getData());
 
         fillFlowPaneWithAlbums(albumArtistDiscographyFP,
-                deezerClient.getArtistDiscography(album.getArtist()), null);
+                deezerClient.getArtistDiscography(album.getArtist()), null, true, true);
         fillFlowPaneWithArtists(albumArtistRelatedFP,
-                deezerClient.getArtistRelated(album.getArtist(), 25), null);
+                deezerClient.getArtistRelated(album.getArtist(), 25), null, true, false);
         if (deezerClient.getLoginStatus() == NOT_AUTHORIZED)
             addAlbumToLibrary.setVisible(false);
         else {
@@ -434,7 +503,7 @@ public class IndexController {
     }
 
     private void redirectToArtist(Artist artist) {
-        artistPicture.setImage(new Image(artist.getPicture_medium().toString()));
+        artistPicture.setImage(new Image(artist.getPicture_medium().toString(), true));
         artistNameLbl.setText(artist.getName());
         artistFansLbl.setText(String.format("%s: %d", resources.getString("followers"), artist.getNb_fan()));
         if (deezerClient.getLoginStatus() == NOT_AUTHORIZED)
@@ -451,14 +520,14 @@ public class IndexController {
 
         PartialSearchResponse<Playlist> playlists = deezerClient.getArtistPlaylists(artist, 25);
         fillVBoxWithPlaylists(artistPlaylistsVBox, playlists.getData().stream().limit(3).collect(Collectors.toList()));
-        fillFlowPaneWithPlaylists(artistPlaylistsFP, playlists, null);
+        fillFlowPaneWithPlaylists(artistPlaylistsFP, playlists, null, true, true);
 
         PartialSearchResponse<Artist> similiarArtists = deezerClient.getArtistRelated(artist, 25);
         fillVBoxWithArtists(artistRelatedVBox, similiarArtists.getData().stream().limit(3).collect(Collectors.toList()));
-        fillFlowPaneWithArtists(artistRelatedFP, similiarArtists, null);
+        fillFlowPaneWithArtists(artistRelatedFP, similiarArtists, null, true, true);
 
         PartialSearchResponse<Album> discography = deezerClient.getArtistDiscography(artist);
-        fillFlowPaneWithAlbums(artistDiscographyFP, discography, null);
+        fillFlowPaneWithAlbums(artistDiscographyFP, discography, null, true, true);
         artistTopAlbumTracksTV.getItems().clear();
         var ref = new Object() {
             boolean albumShowed = false;
@@ -466,7 +535,7 @@ public class IndexController {
         discography.getData().stream().max(Comparator.comparingInt(Album::getRating))
                 .ifPresent(album -> {
             ref.albumShowed = true;
-            artistTopAlbumImg.setImage(new Image(album.getCover_medium().toString()));
+            artistTopAlbumImg.setImage(new Image(album.getCover_medium().toString(), true));
             artistTopAlbumName.setText(album.getTitle());
             artistTopAlbumRelease.setText(album.getRelease_date().toInstant()
                     .atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE));
@@ -486,9 +555,9 @@ public class IndexController {
 
     private void redirectToPlaylist(Playlist playlist) {
         currentPlaylist = playlist;
-        playlistPicture.setImage(new Image(playlist.getPicture_medium().toString()));
+        playlistPicture.setImage(new Image(playlist.getPicture_medium().toString(), true));
         playlistTitleLbl.setText(playlist.getTitle());
-        playlistCreatorImg.setImage(new Image(playlist.getCreator().getPicture_small().toString()));
+        playlistCreatorImg.setImage(new Image(playlist.getCreator().getPicture_small().toString(), true));
         playlistCreatorBtn.setText(playlist.getCreator().getName());
         playlistCreatorBtn.setOnAction(event -> redirectToUser(deezerClient.getUser(playlist.getCreator().getId())));
         playlistDescriptionLbl.setText(playlist.getDescription());
@@ -531,7 +600,7 @@ public class IndexController {
         boolean loggedInUser = deezerClient.getLoginStatus() != NOT_AUTHORIZED &&
                 deezerClient.getLoggedInUser().getId() == user.getId();
         if (!loggedInUser){
-            viewedUserImg.setImage(new Image(user.getPicture_medium().toString()));
+            viewedUserImg.setImage(new Image(user.getPicture_medium().toString(), true));
             viewedUserNameLbl.setText(user.getName());
         }
 
@@ -543,20 +612,18 @@ public class IndexController {
 
         fillFlowPaneWithPlaylists(highlightsPlaylistFP,
                 new PartialSearchResponse<>(playlists.getData().stream().limit(4).collect(Collectors.toList())),
-                null);
+                null, true, false);
         fillFlowPaneWithAlbums(highlightsAlbumFP,
                 new PartialSearchResponse<>(favAlbums.getData().stream().limit(4).collect(Collectors.toList())),
-                null);
+                null, true, false);
         fillFlowPaneWithArtists(highlightsArtistFP,
                 new PartialSearchResponse<>(favArtists.getData().stream().limit(4).collect(Collectors.toList())),
-                null);
+                null, true, false);
 
-        favTracksTV.getItems().clear();
-        favTracksTV.getItems().addAll(favTracks.getData());
-        favTracksLbl.setText(String.valueOf(favTracks.getTotal()));
-        fillFlowPaneWithPlaylists(favPlaylistsFP, playlists, playlistsCntLbl);
-        fillFlowPaneWithAlbums(favAlbumsFP, favAlbums, favAlbumsLbl);
-        fillFlowPaneWithArtists(favArtistsFP, favArtists, favArtistsLbl);
+        fillTableWithTracks(favTracksTV, favTracks, favTracksLbl);
+        fillFlowPaneWithPlaylists(favPlaylistsFP, playlists, playlistsCntLbl, true, true);
+        fillFlowPaneWithAlbums(favAlbumsFP, favAlbums, favAlbumsLbl, true, true);
+        fillFlowPaneWithArtists(favArtistsFP, favArtists, favArtistsLbl, true, true);
 
         myMusicBox.setVisible(loggedInUser);
         viewedUserBox.setVisible(!loggedInUser);
@@ -583,22 +650,20 @@ public class IndexController {
             TableColumn<T, Album> albumCol,
             TableColumn<T, Integer> durationCol,
             TableColumn<T, Integer> popularityCol) {
-        trackTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<T>() {
-            @Override
-            public void changed(ObservableValue<? extends T> observableValue, T oldVal, T newVal) {
-                selectedTrack = newVal;
-                if (newVal == null) {
-                    trackLink.setText("");
-                    artistLink.setText("");
-                    trackInfoBox.setVisible(false);
-                    addToPlaylistBtn.setDisable(true);
-                }
-                else {
-                    trackLink.setText(newVal.getTitle());
-                    artistLink.setText(newVal.getArtist().getName());
-                    trackInfoBox.setVisible(true);
-                    addToPlaylistBtn.setDisable(false);
-                }
+
+        trackTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) -> {
+            selectedTrack = newVal;
+            if (newVal == null) {
+                trackLink.setText("");
+                artistLink.setText("");
+                trackInfoBox.setVisible(false);
+                addToPlaylistBtn.setDisable(true);
+            }
+            else {
+                trackLink.setText(newVal.getTitle());
+                artistLink.setText(newVal.getArtist().getName());
+                trackInfoBox.setVisible(true);
+                addToPlaylistBtn.setDisable(false);
             }
         });
 
@@ -634,7 +699,7 @@ public class IndexController {
                     @Override
                     public void updateItem(Album album, boolean empty) {
                         if (album != null && imageview.getImage() == null) {
-                            imageview.setImage(new Image(album.getCover_small().toString()));
+                            imageview.setImage(new Image(album.getCover_small().toString(), true));
                         } else imageview.setImage(null);
                     }
                 };
@@ -679,9 +744,8 @@ public class IndexController {
             tracksResultTV.getItems().addAll(
                     searchSet.getTrackResponse().getData().stream().limit(6).collect(Collectors.toList()));
             searchTabPane.getTabs().add(trackResultsTab);
-            foundTracksTV.getItems().addAll(searchSet.getTrackResponse().getData().stream().filter(TrackSearch::isReadable).collect(Collectors.toList()));
-            foundTracksLbl.setText(String.valueOf(searchSet.getTrackResponse().getTotal()));
         }
+        fillTableWithTracks(foundTracksTV, searchSet.getTrackResponse(), foundTracksLbl);
         tracksResultBtn.setVisible(found);
         tracksResultTV.setVisible(found);
 
@@ -691,8 +755,8 @@ public class IndexController {
         albumsResultBtn.setVisible(found);
         albumsResultsFP.setVisible(found);
         fillFlowPaneWithAlbums(albumsResultsFP, new PartialSearchResponse<>(searchSet.getAlbumResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null);
-        fillFlowPaneWithAlbums(foundAlbumsFP, searchSet.getAlbumResponse(), foundAlbumsLbl);
+                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
+        fillFlowPaneWithAlbums(foundAlbumsFP, searchSet.getAlbumResponse(), foundAlbumsLbl, true, true);
 
         found=searchSet.getArtistResponse().getData().size() > 0;
         if (found)
@@ -700,8 +764,8 @@ public class IndexController {
         artistsResultBtn.setVisible(found);
         artistsResultsFP.setVisible(found);
         fillFlowPaneWithArtists(artistsResultsFP, new PartialSearchResponse<>(searchSet.getArtistResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null);
-        fillFlowPaneWithArtists(foundArtistsFP, searchSet.getArtistResponse(), foundArtistsLbl);
+                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
+        fillFlowPaneWithArtists(foundArtistsFP, searchSet.getArtistResponse(), foundArtistsLbl, true, true);
 
         found = searchSet.getPlaylistResponse().getData().size() > 0;
         if (found)
@@ -709,8 +773,8 @@ public class IndexController {
         playlistsResultsBtn.setVisible(found);
         playlistsResultsFP.setVisible(found);
         fillFlowPaneWithPlaylists(playlistsResultsFP, new PartialSearchResponse<>(searchSet.getPlaylistResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null);
-        fillFlowPaneWithPlaylists(foundPlaylistsFP, searchSet.getPlaylistResponse(), foundPlaylistsLabel);
+                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
+        fillFlowPaneWithPlaylists(foundPlaylistsFP, searchSet.getPlaylistResponse(), foundPlaylistsLabel, true, true);
 
         //if (searchSet.getRadioResponse().getData().size() > 0)
         //   searchTabPane.getTabs().add(mixResultsTab);
@@ -722,15 +786,15 @@ public class IndexController {
         profilesResultsBtn.setVisible(found);
         profilesResultsFP.setVisible(found);
         fillFlowPaneWithUsers(profilesResultsFP, new PartialSearchResponse<>(searchSet.getUserResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null);
-        fillFlowPaneWithUsers(foundProfilesFP, searchSet.getUserResponse(), foundProfilesLbl);
+                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
+        fillFlowPaneWithUsers(foundProfilesFP, searchSet.getUserResponse(), foundProfilesLbl, true, true);
 
         mainTabPane.getSelectionModel().select(searchTab);
     }
 
     private void showSettings() {
         User loggedInUser = deezerClient.getLoggedInUser();
-        userImg.setImage(new Image(loggedInUser.getPicture_medium().toString()));
+        userImg.setImage(new Image(loggedInUser.getPicture_medium().toString(), true));
         emailTextField.setText(loggedInUser.getEmail());
         passwordTextField.setText("****");
         maleRadioBtn.setSelected(loggedInUser.getGender().equals("M"));
