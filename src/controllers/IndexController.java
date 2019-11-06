@@ -101,7 +101,7 @@ public class IndexController {
             albumBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumBox.getStyleClass().add("albumcard");
 
-            ImageView albumCover = new ImageView(album.getCover_medium().toString());
+            ImageView albumCover = new ImageView(new Image(album.getCover_medium().toString(), true));
             albumCover.fitWidthProperty().bind(albumBox.prefWidthProperty());
             albumCover.fitHeightProperty().bind(albumCover.fitWidthProperty());
             Button albumRedirectButton = new Button(null, albumCover);
@@ -140,7 +140,7 @@ public class IndexController {
             artistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             artistBox.getStyleClass().add("artistcard");
 
-            ImageView artistPicture = new ImageView(artist.getPicture_medium().toString());
+            ImageView artistPicture = new ImageView(new Image(artist.getPicture_medium().toString(), true));
             artistPicture.fitWidthProperty().bind(artistBox.prefWidthProperty());
             artistPicture.fitHeightProperty().bind(artistPicture.fitWidthProperty());
 
@@ -183,7 +183,7 @@ public class IndexController {
             playlistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             playlistBox.getStyleClass().add("playlistcard");
 
-            ImageView playlistPicture = new ImageView(playlist.getPicture_medium().toString());
+            ImageView playlistPicture = new ImageView(new Image(playlist.getPicture_medium().toString(), true));
             playlistPicture.fitWidthProperty().bind(playlistBox.prefWidthProperty());
             playlistPicture.fitHeightProperty().bind(playlistPicture.fitWidthProperty());
 
@@ -222,7 +222,7 @@ public class IndexController {
             radioBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             radioBox.getStyleClass().add("radiocard");
 
-            ImageView radioPicture = new ImageView(radio.getPicture_medium().toString());
+            ImageView radioPicture = new ImageView(new Image(radio.getPicture_medium().toString(), true));
             radioPicture.fitWidthProperty().bind(radioBox.prefWidthProperty());
             radioPicture.fitHeightProperty().bind(radioPicture.fitWidthProperty());
 
@@ -247,7 +247,7 @@ public class IndexController {
             userBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             userBox.getStyleClass().add("usercard");
 
-            ImageView userPicture = new ImageView(user.getPicture_medium().toString());
+            ImageView userPicture = new ImageView(new Image(user.getPicture_medium().toString(), true));
             userPicture.fitWidthProperty().bind(userBox.prefWidthProperty());
             userPicture.fitHeightProperty().bind(userPicture.fitWidthProperty());
 
@@ -280,7 +280,7 @@ public class IndexController {
             commentBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
             commentBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
 
-            ImageView commentorImg = new ImageView(comment.getAuthor().getPicture_small().toString());
+            ImageView commentorImg = new ImageView(new Image(comment.getAuthor().getPicture_small().toString(), true));
             commentorImg.setFitHeight(30);
             commentorImg.setFitWidth(30);
             Button commentorBtn = new Button(null, commentorImg);
@@ -317,7 +317,7 @@ public class IndexController {
             artistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             artistBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
 
-            ImageView artistPicture = new ImageView(artist.getPicture_small().toString());
+            ImageView artistPicture = new ImageView(new Image(artist.getPicture_small().toString(), true));
             artistPicture.setFitWidth(56);
             artistPicture.setFitHeight(56);
             Button artistBtn = new Button(null, artistPicture);
@@ -353,7 +353,7 @@ public class IndexController {
             playlistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             playlistBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
 
-            ImageView playlistPicture = new ImageView(playlist.getPicture_small().toString());
+            ImageView playlistPicture = new ImageView(new Image(playlist.getPicture_small().toString(), true));
             playlistPicture.setFitWidth(56);
             playlistPicture.setFitHeight(56);
             Button playlistBtn = new Button(null, playlistPicture);
@@ -389,7 +389,7 @@ public class IndexController {
 
         Platform.runLater(() -> {
             User currentUser = deezerClient.getLoggedInUser();
-            Image avatar = new Image(currentUser.getPicture_small().toString());
+            Image avatar = new Image(currentUser.getPicture_small().toString(), true);
             userAvatar.setImage(avatar);
             userAccounttem.setText(currentUser.getName());
             userMenuAvatar.setImage(avatar);
@@ -564,11 +564,7 @@ public class IndexController {
     }
 
     private void search(String query) {
-        CompletableFuture<FullSearchSet> searchSet = new CompletableFuture<>();
-        searchSet.thenAccept(searchResults -> {
-            Platform.runLater(() -> showSearchResults(searchResults));
-        });
-        searchSet.completeAsync(() -> deezerClient.search(query, null));
+        showSearchResults( deezerClient.search(query, null));
     }
 
     private String secondsToNormalTime(int seconds) {

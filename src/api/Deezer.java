@@ -141,17 +141,17 @@ public class Deezer {
 
     public PartialSearchResponse<Comment> getAlbumComments(Album album) {
         return abstractSearch(COMMENT_RESPONSE_TYPE,  null, null, null,
-                String.format("%s/%d/%s", ALBUM_SECTION, album.getId(), COMMENTS_SECTION), -1);
+                String.format("%s/%d/%s", ALBUM_SECTION, album.getId(), COMMENTS_SECTION), 25, false);
     }
 
     public PartialSearchResponse<User> getAlbumFans(Album album) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", ALBUM_SECTION, album.getId(), FANS_SECTION), -1);
+                String.format("%s/%d/%s", ALBUM_SECTION, album.getId(), FANS_SECTION), 25, false);
     }
 
     public PartialSearchResponse<Track> getAlbumTracks(Album album) {
         PartialSearchResponse<Track> response = abstractSearch(TRACK_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", ALBUM_SECTION, album.getId(), TRACKS_SECTION), -1);
+                String.format("%s/%d/%s", ALBUM_SECTION, album.getId(), TRACKS_SECTION), 25, false);
         response.getData().forEach(track -> track.setAlbum(album));
         return response;
     }
@@ -203,13 +203,13 @@ public class Deezer {
     public PartialSearchResponse<Comment> getArtistComments(Artist artist) {
         return abstractSearch(COMMENT_RESPONSE_TYPE,
                 null, null, null,
-                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), COMMENTS_SECTION), -1);
+                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), COMMENTS_SECTION), 25, false);
     }
 
     public PartialSearchResponse<Album> getArtistDiscography(Artist artist) {
         PartialSearchResponse<Album> response = abstractSearch(ALBUM_RESPONSE_TYPE,
                 null, null, null,
-                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), ALBUMS_SECTION), -1);
+                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), ALBUMS_SECTION), 25, false);
         response.getData().forEach(album -> album.setArtist(artist));
         return response;
     }
@@ -217,13 +217,13 @@ public class Deezer {
     public PartialSearchResponse<User> getArtistFans(Artist artist) {
         return abstractSearch(USER_RESPONSE_TYPE,
                 null, null, null,
-                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), FANS_SECTION), -1);
+                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), FANS_SECTION), 25, false);
     }
 
     public PartialSearchResponse<Playlist> getArtistPlaylists(Artist artist, int limit) {
         PartialSearchResponse<Playlist> artistPlaylists = abstractSearch(PLAYLIST_RESPONSE_TYPE,
                 null, null, null,
-                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), PLAYLISTS_SECTION), limit);
+                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), PLAYLISTS_SECTION), limit, true);
         for (int i = 0; i < artistPlaylists.getData().size(); i++)
             artistPlaylists.getData().set(i, getPlaylist(artistPlaylists.getData().get(i).getId()));
         return artistPlaylists;
@@ -232,19 +232,19 @@ public class Deezer {
     public PartialSearchResponse<Artist> getArtistRelated(Artist artist, int limit) {
         return abstractSearch(ARTIST_RESPONSE_TYPE,
                 null, null, null,
-                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), "related"), limit);
+                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), "related"), limit, true);
     }
 
     public PartialSearchResponse<Radio> getArtistRadio(Artist artist, int limit) {
         return abstractSearch(RADIO_RESPONSE_TYPE,
                 null, null, null,
-                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), RADIO_SECTION), limit);
+                String.format("%s/%d/%s", ARTIST_SECTION, artist.getId(), RADIO_SECTION), limit, true);
     }
 
     public PartialSearchResponse<TrackSearch> getArtistTop(Artist artist, int limit) {
         return abstractSearch(TRACKSEARCH_RESPONSE_TYPE,
                 null, null, null,
-                String.format("%s/%d/top", ARTIST_SECTION, artist.getId()), limit);
+                String.format("%s/%d/top", ARTIST_SECTION, artist.getId()), limit, true);
     }
 
     public void removeArtistFromFavorites(Artist artist) {
@@ -263,22 +263,22 @@ public class Deezer {
 
     public PartialSearchResponse<Album> getChartAlbums(Chart chart) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), ALBUMS_SECTION), -1);
+                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), ALBUMS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Artist> getChartArtists(Chart chart) {
         return abstractSearch(ARTIST_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), ARTISTS_SECTION), -1);
+                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), ARTISTS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Playlist> getChartPlaylists(Chart chart) {
         return abstractSearch(PLAYLIST_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), PLAYLISTS_SECTION), -1);
+                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), PLAYLISTS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Track> getChartTracks(Chart chart) {
         return abstractSearch(TRACK_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), TRACKS_SECTION), -1);
+                String.format("%s/%d/%s", CHART_SECTION, chart.getId(), TRACKS_SECTION), -1, false);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Comment management">
@@ -351,17 +351,17 @@ public class Deezer {
     }
 
     public PartialSearchResponse<Editorial> getEditorials() {
-        return abstractSearch(EDITORIAL_RESPONSE_TYPE, null, null, null, EDITORIAL_SECTION, -1);
+        return abstractSearch(EDITORIAL_RESPONSE_TYPE, null, null, null, EDITORIAL_SECTION, -1, false);
     }
 
     public PartialSearchResponse<Album> getEditorialReleases(Editorial editorial) {
         return abstractSearch(CHART_TYPE, null, null, null,
-                String.format("%s/%d/releases", EDITORIAL_SECTION, editorial.getId()), -1);
+                String.format("%s/%d/releases", EDITORIAL_SECTION, editorial.getId()), -1, false);
     }
 
     public PartialSearchResponse<Album> getEditorialSelection(Editorial editorial) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/selection", EDITORIAL_SECTION, editorial.getId()), -1);
+                String.format("%s/%d/selection", EDITORIAL_SECTION, editorial.getId()), -1, false);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Event handling">
@@ -377,16 +377,16 @@ public class Deezer {
 
     public PartialSearchResponse<Artist> getGenreArtists(Genre genre) {
        return abstractSearch(ARTIST_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", GENRE_SECTION, genre.getId(), ARTISTS_SECTION), -1);
+                String.format("%s/%d/%s", GENRE_SECTION, genre.getId(), ARTISTS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Radio> getGenreRadios(Genre genre) {
         return abstractSearch(RADIO_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", GENRE_SECTION, genre.getId(), RADIOS_SECTION), -1);
+                String.format("%s/%d/%s", GENRE_SECTION, genre.getId(), RADIOS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Genre> getGenres() {
-        return abstractSearch(GENRE_RESPONSE_TYPE, null, null, null, GENRE_SECTION, -1);
+        return abstractSearch(GENRE_RESPONSE_TYPE, null, null, null, GENRE_SECTION, -1, false);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Infos management">
@@ -502,12 +502,12 @@ public class Deezer {
 
     public PartialSearchResponse<Comment> getPlaylistComments(Playlist playlist) {
         return abstractSearch(COMMENT_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), COMMENTS_SECTION), -1);
+                String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), COMMENTS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<User> getPlaylistFans(Playlist playlist) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), FANS_SECTION), -1);
+                String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), FANS_SECTION), -1, false);
     }
 
     public Boolean getPlaylistRadio(Playlist playlist) {
@@ -517,7 +517,7 @@ public class Deezer {
 
     public PartialSearchResponse<Track> getPlaylistTracks(Playlist playlist) {
         return abstractSearch(TRACK_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), TRACKS_SECTION), -1);
+                String.format("%s/%d/%s", PLAYLIST_SECTION, playlist.getId(), TRACKS_SECTION), -1, false);
     }
 
     public boolean markPlaylistAsSeen(Playlist playlist) {
@@ -634,12 +634,12 @@ public class Deezer {
 
     public SearchResponse<Radio> getRadios() {
         return abstractSearch(RADIO_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%s", RADIO_SECTION, "lists"), -1);
+                String.format("%s/%s", RADIO_SECTION, "lists"), -1, false);
     }
 
     public SearchResponse<Radio> getTopRadios(int top) {
         return abstractSearch(COMMENT_RESPONSE_TYPE, null, null, null,
-                String.format("%s/%s", RADIO_SECTION, "top"), top);
+                String.format("%s/%s", RADIO_SECTION, "top"), top, true);
     }
 
     public boolean removeRadioFromFavourites(Radio radio) {
@@ -656,31 +656,31 @@ public class Deezer {
     //<editor-fold defaultstate="collapsed" desc="Recommendations management">
     public PartialSearchResponse<Album> getRecommendedAlbums(int count) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, null, null, null,
-                String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, ALBUMS_SECTION), count);
+                String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, ALBUMS_SECTION), count, true);
     }
 
     public PartialSearchResponse<Artist> getRecommendedArtists(int count) {
         return abstractSearch(ARTIST_RESPONSE_TYPE, null, null, null,
                 String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, ARTISTS_SECTION),
-                count);
+                count, true);
     }
 
     public PartialSearchResponse<Playlist> getRecommendedPlaylists(int count) {
         return abstractSearch(PLAYLIST_RESPONSE_TYPE, null, null, null,
                 String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, PLAYLISTS_SECTION),
-                count);
+                count, true);
     }
 
     public PartialSearchResponse<Radio> getRecommendedRadios(int count) {
         return abstractSearch(RADIO_RESPONSE_TYPE, null, null, null,
                 String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, RADIOS_SECTION),
-                count);
+                count, true);
     }
 
     public PartialSearchResponse<TrackSearch> getRecommendedTracks(int count) {
         return abstractSearch(TRACKSEARCH_RESPONSE_TYPE, null, null, null,
                 String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, TRACKS_SECTION),
-                count);
+                count, true);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Search">
@@ -704,7 +704,7 @@ public class Deezer {
     }
 
     private <T> PartialSearchResponse<T> abstractSearch(
-            Type responseType, String query, Boolean strict, SearchOrder order, String searchPlace, int top) {
+            Type responseType, String query, Boolean strict, SearchOrder order, String searchPlace, int top, boolean getTop) {
         OAuthRequest request = new OAuthRequest(Verb.GET,
                 String.format("%s/%s", API_URL_PREFIX, searchPlace));
         if (query != null)
@@ -713,7 +713,7 @@ public class Deezer {
             request.addParameter("strict", String.valueOf(strict));
         if (order != null)
             request.addParameter("order", order.name());
-        if (top != -1)
+        if (getTop && top != -1)
             request.addParameter("top", String.valueOf(top));
         PartialSearchResponse<T> searchResult = new PartialSearchResponse<>();
         do
@@ -746,32 +746,32 @@ public class Deezer {
 
     public PartialSearchResponse<Album> searchForAlbums(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, ALBUM_SECTION), -1);
+                String.format("%s/%s", SEARCH_SECTION, ALBUM_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Artist> searchForArtists(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(ARTIST_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, ARTIST_SECTION), -1);
+                String.format("%s/%s", SEARCH_SECTION, ARTIST_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Playlist> searchForPlaylists(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(PLAYLIST_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, PLAYLIST_SECTION), -1);
+                String.format("%s/%s", SEARCH_SECTION, PLAYLIST_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Radio> searchForRadios(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(RADIO_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, RADIO_SECTION), -1);
+                String.format("%s/%s", SEARCH_SECTION, RADIO_SECTION), -1, false);
     }
 
     public PartialSearchResponse<TrackSearch> searchForTracks(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(TRACKSEARCH_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, TRACK_SECTION), -1);
+                String.format("%s/%s", SEARCH_SECTION, TRACK_SECTION), -1, false);
     }
 
     public PartialSearchResponse<User> searchForUsers(String query, Boolean strict, SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, query, strict, order,
-                String.format("%s/%s", SEARCH_SECTION, USER_SECTION), -1);
+                String.format("%s/%s", SEARCH_SECTION, USER_SECTION), -1, false);
     }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Track management">
@@ -812,12 +812,12 @@ public class Deezer {
     //<editor-fold defaultstate="collapsed" desc="User management">
     public PartialSearchResponse<Album> getFavoredAlbums(User user, SearchOrder order) {
         return abstractSearch(ALBUM_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, user.getId(), ALBUMS_SECTION), -1);
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), ALBUMS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Artist> getFavoredArtists(User user, SearchOrder order) {
         return abstractSearch(ARTIST_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, user.getId(), ARTISTS_SECTION), -1);
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), ARTISTS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Playlist> getFavouredPlaylists(User user, SearchOrder order) {
@@ -827,12 +827,12 @@ public class Deezer {
 
     public PartialSearchResponse<Radio> getFavouredRadios(User user, SearchOrder order) {
         return abstractSearch(RADIO_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, user.getId(), RADIOS_SECTION), -1);
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), RADIOS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Track> getFavouredTracks(User user, SearchOrder order) {
         return abstractSearch(TRACK_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, user.getId(), TRACKS_SECTION), -1);
+                String.format("%s/%d/%s", USER_SECTION, user.getId(), TRACKS_SECTION), -1, false);
     }
 
     public PartialSearchResponse<Track> getFlow() {
@@ -842,12 +842,12 @@ public class Deezer {
 
     public PartialSearchResponse<User> getFollowers(SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followers"), -1);
+                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followers"), -1, false);
     }
 
     public PartialSearchResponse<User> getFollowings(SearchOrder order) {
         return abstractSearch(USER_RESPONSE_TYPE, null, null, order,
-                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followings"), -1);
+                String.format("%s/%d/%s", USER_SECTION, currentUserId, "followings"), -1, false);
     }
 
     public Options getOptions() {
