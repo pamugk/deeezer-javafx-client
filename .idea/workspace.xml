@@ -2,111 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_10_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_10_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_10_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_scribejava_scribejava_apis_6_9_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_scribejava_scribejava_core_6_9_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_12_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_win_12_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_12_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_win_12_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_12_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_win_12_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app-icon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/MainLauncher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/img/deezer-icon.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/cssdialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cssdialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_io_1_3_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/javafx_swt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deeezerclient.iml" beforeDir="false" afterPath="$PROJECT_DIR$/deezerclient.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/css/deezer-styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/css/deezer-styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/fxml/index.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/index.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/fxml/playlistdialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/playlistdialog.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/deezer-icon.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/deezer_logo_dark.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/deezer_logo_dark.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/deezer_logo_light.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/deezer_logo_light.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-add.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-add.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-cancel.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-cancel.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-dislike.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-dislike.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-like.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-like.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-next.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-next.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-pause.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-pause.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-play.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-play.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-previous.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-previous.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-repeat.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-repeat.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-search.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-search.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-settings.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-settings.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-shuffle.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-shuffle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-sound-100.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-sound-100.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-sound-33.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-sound-33.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-sound-66.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-sound-66.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-sound-mute.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-sound-mute.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/img/icon-text.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/img/icon-text.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/localisation/localisation.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/localisation/localisation.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/localisation/localisation_en.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/localisation/localisation_en.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/localisation/localisation_ru.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/localisation/localisation_ru.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/localisation/playlistdialoglocalisation.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/localisation/playlistdialoglocalisation.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/localisation/playlistdialoglocalisation_en.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/localisation/playlistdialoglocalisation_en.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/localisation/playlistdialoglocalisation_ru.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/localisation/playlistdialoglocalisation_ru.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Deezer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/LoginStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/PartialSearchResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/events/authentication/AuthenticationEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/events/base/DeezerEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/events/base/DeezerEventHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/events/base/DeezerListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/exceptions/DeezerException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerApi.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerCallbackHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerCallbackServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerRequestExecutor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/DeezerTokenClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/Permissions.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/SessionStorage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/DataException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/InvalidQueryException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/InvalidTokenException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/ItemsLimitExceededException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/MissingParameterException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/OAuthException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/ParameterException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/PermissionException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/QuotaException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/net/exceptions/ServiceBusyException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/DeezerEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/comments/Comment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/comments/Object.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Album.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Artist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Playable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Playlist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Radio.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/Track.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/playables/TrackSearch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/Contributor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/Genre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/compilations/Chart.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/compilations/Editorial.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/search/AdvancedSearch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/search/FullSearchSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/search/SearchOrder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/search/SearchResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/service/Ad.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/service/Infos.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/service/Offer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/objects/utils/service/Options.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/IndexController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/PlaylistDialog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/IndexController.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -249,6 +146,7 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean compile package" />
+      <command value="mvn site:run" />
     </option>
   </component>
   <component name="RunDashboard">
@@ -314,53 +212,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
-      <module name="deezerclient" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="WORKING_DIRECTORY" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
-      <module name="deezerclient" />
-      <option name="filePath" />
-      <option name="vmParameters" />
-      <option name="alternativeJrePath" />
-      <option name="programParameters" />
-      <option name="passParentEnvs" value="true" />
-      <option name="workingDirectory" />
-      <option name="isAlternativeJrePathEnabled" value="false" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="filePath" />
-      <option name="vmParameters" />
-      <option name="alternativeJrePath" />
-      <option name="programParameters" />
-      <option name="passParentEnvs" value="true" />
-      <option name="workingDirectory" />
-      <option name="isAlternativeJrePathEnabled" value="false" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="WORKING_DIRECTORY" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -415,6 +266,7 @@
       <workItem from="1571915739880" duration="20686000" />
       <workItem from="1571939357602" duration="32524000" />
       <workItem from="1573046809381" duration="19645000" />
+      <workItem from="1573150552517" duration="311000" />
     </task>
     <servers />
   </component>

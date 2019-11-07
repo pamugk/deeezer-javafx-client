@@ -620,6 +620,7 @@ public class IndexController {
                 new PartialSearchResponse<>(favArtists.getData().stream().limit(4).collect(Collectors.toList())),
                 null, true, false);
 
+        favTracksTV.getItems().clear();
         fillTableWithTracks(favTracksTV, favTracks, favTracksLbl);
         fillFlowPaneWithPlaylists(favPlaylistsFP, playlists, playlistsCntLbl, true, true);
         fillFlowPaneWithAlbums(favAlbumsFP, favAlbums, favAlbumsLbl, true, true);
