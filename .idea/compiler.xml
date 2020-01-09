@@ -16,10 +16,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="deezerclient" />
+        <module name="deezer-sdk" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="deezer-sdk" target="11" />
       <module name="deezer-unofficial-sdk" target="1.5" />
       <module name="deezerclient" target="11" />
     </bytecodeTargetLevel>

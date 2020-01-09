@@ -1,13 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_win_12_0_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_linux_12_0_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_win_12_0_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_linux_12_0_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_win_12_0_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_linux_12_0_2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Cleaned up used libraries">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_10_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_10_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_10_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_scribejava_scribejava_apis_6_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_scribejava_scribejava_core_6_9_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_12_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_linux_12_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_12_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_linux_12_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_12_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_linux_12_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deezer-client/deezer-client.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deezer-client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deezer-sdk/deezer-sdk.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deezer-sdk/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/cssdialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cssdialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deezerclient.iml" beforeDir="false" afterPath="$PROJECT_DIR$/deezerclient.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keystorage" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/java/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MainLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/java/MainLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/Deezer.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/Deezer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/LoginStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/LoginStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/PartialSearchResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/PartialSearchResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/events/authentication/AuthenticationEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/events/authentication/AuthenticationEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/events/base/DeezerEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/events/base/DeezerEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/events/base/DeezerEventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/events/base/DeezerEventHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/events/base/DeezerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/events/base/DeezerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/exceptions/DeezerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/exceptions/DeezerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/DeezerApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/DeezerApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/DeezerCallbackHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/DeezerCallbackHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/DeezerCallbackServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/DeezerCallbackServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/DeezerRequestExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/DeezerRequestExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/DeezerTokenClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/DeezerTokenClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/Permissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/Permissions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/SessionStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/SessionStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/DataException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/DataException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/InvalidQueryException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/InvalidQueryException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/InvalidTokenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/InvalidTokenException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/ItemsLimitExceededException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/ItemsLimitExceededException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/MissingParameterException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/MissingParameterException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/OAuthException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/OAuthException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/ParameterException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/ParameterException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/PermissionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/PermissionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/QuotaException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/QuotaException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/net/exceptions/ServiceBusyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/net/exceptions/ServiceBusyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/DeezerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/DeezerEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/comments/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/comments/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/comments/Object.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/comments/Object.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/playables/Album.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/playables/Album.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/playables/Artist.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/playables/Artist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/playables/Playable.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/playables/Playable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/playables/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/playables/Playlist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/playables/Radio.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/playables/Radio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/playables/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/playables/Track.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/playables/TrackSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/playables/TrackSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/Contributor.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/Contributor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/Genre.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/Genre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/compilations/Chart.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/compilations/Chart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/compilations/Editorial.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/compilations/Editorial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/search/AdvancedSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/search/AdvancedSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/search/FullSearchSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/search/FullSearchSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/search/SearchOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/search/SearchOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/search/SearchResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/search/SearchResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/service/Ad.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/service/Ad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/service/Infos.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/service/Infos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/service/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/service/Offer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/objects/utils/service/Options.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-sdk/src/main/java/api/objects/utils/service/Options.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/java/controllers/IndexController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlaylistDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/java/controllers/PlaylistDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/css/deezer-styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/css/deezer-styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/index.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/fxml/index.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/playlistdialog.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/fxml/playlistdialog.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/deezer-icon.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/deezer-icon.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/deezer_logo_dark.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/deezer_logo_dark.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/deezer_logo_light.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/deezer_logo_light.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-add.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-add.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-cancel.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-cancel.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-dislike.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-dislike.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-like.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-like.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-next.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-next.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-pause.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-pause.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-play.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-play.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-previous.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-previous.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-repeat.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-repeat.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-search.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-search.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-settings.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-settings.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-shuffle.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-shuffle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-sound-100.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-sound-100.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-sound-33.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-sound-33.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-sound-66.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-sound-66.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-sound-mute.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-sound-mute.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img/icon-text.png" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/img/icon-text.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/localisation/localisation.properties" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/localisation/localisation.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/localisation/localisation_en.properties" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/localisation/localisation_en.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/localisation/localisation_ru.properties" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/localisation/localisation_ru.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/localisation/playlistdialoglocalisation.properties" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/localisation/playlistdialoglocalisation.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/localisation/playlistdialoglocalisation_en.properties" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/localisation/playlistdialoglocalisation_en.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/localisation/playlistdialoglocalisation_ru.properties" beforeDir="false" afterPath="$PROJECT_DIR$/deezer-client/src/main/resources/localisation/playlistdialoglocalisation_ru.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,6 +247,8 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/deezer-client/src/main/java" />
+      <recent name="$PROJECT_DIR$/deezer-client/src/main/resources" />
       <recent name="D:\Projects\Java\deeezerclient\src\main\resources" />
       <recent name="D:\Projects\Java\deeezerclient\res\fxml" />
     </key>
@@ -276,8 +377,18 @@
       <workItem from="1571939357602" duration="32524000" />
       <workItem from="1573046809381" duration="19645000" />
       <workItem from="1573150552517" duration="311000" />
-      <workItem from="1578471589683" duration="372000" />
+      <workItem from="1578471589683" duration="689000" />
+      <workItem from="1578500170236" duration="32000" />
+      <workItem from="1578580163236" duration="910000" />
     </task>
+    <task id="LOCAL-00001" summary="Cleaned up used libraries">
+      <created>1578472095887</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1578472095887</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -300,12 +411,27 @@
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <MESSAGE value="Cleaned up used libraries" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up used libraries" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="645" y="298" width="623" height="416" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1578580368248">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="645" y="298" width="623" height="416" key="#com.intellij.fileTypes.FileTypeChooser/0.34.1920.1046@0.34.1920.1046" timestamp="1578580368248" />
+    <state x="415" y="102" width="1059" height="812" key="CommitChangelistDialog2" timestamp="1578472095645">
+      <screen x="0" y="34" width="1920" height="1046" />
+    </state>
+    <state x="415" y="102" width="1059" height="812" key="CommitChangelistDialog2/0.34.1920.1046@0.34.1920.1046" timestamp="1578472095645" />
     <state x="152" y="134" width="1315" height="846" key="SettingsEditor" timestamp="1578471960750">
       <screen x="0" y="34" width="1920" height="1046" />
     </state>
     <state x="152" y="134" width="1315" height="846" key="SettingsEditor/0.34.1920.1046@0.34.1920.1046" timestamp="1578471960750" />
+    <state x="219" y="84" width="1450" height="844" key="new project wizard" timestamp="1578472355251">
+      <screen x="0" y="26" width="1920" height="1054" />
+    </state>
+    <state x="219" y="84" key="new project wizard/0.26.1920.1054@0.26.1920.1054" timestamp="1578472355251" />
+    <state x="219" y="86" width="1450" height="844" key="new project wizard/0.28.1920.1052@0.28.1920.1052" timestamp="1578472277154" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

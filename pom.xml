@@ -6,7 +6,12 @@
 
     <groupId>ru.psu</groupId>
     <artifactId>deeezer</artifactId>
+    <packaging>pom</packaging>
     <version>1.0</version>
+    <modules>
+        <module>deezer-sdk</module>
+        <module>deezer-client</module>
+    </modules>
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>

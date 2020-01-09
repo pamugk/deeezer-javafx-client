@@ -49,12 +49,12 @@ public class IndexController {
     private Playlist currentPlaylist;
 
     public static void show(Stage primaryStage) throws IOException {
-        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader loader = new FXMLLoader(IndexController.class.getResource("/fxml/index.fxml"), bundle);
+        ResourceBundle bundle = ResourceBundle.getBundle("src/main/resources/localisation/localisation");
+        FXMLLoader loader = new FXMLLoader(IndexController.class.getResource("/src/main/resources/fxml/index.fxml"), bundle);
         Parent root = loader.load();
         primaryStage.setTitle(bundle.getString("title"));
         primaryStage.getIcons().add(
-                new Image(IndexController.class.getResourceAsStream("/img/deezer-icon.jpg")));
+                new Image(IndexController.class.getResourceAsStream("/src/main/resources/img/deezer-icon.jpg")));
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinHeight(100);
         primaryStage.setWidth(1024);
@@ -497,7 +497,7 @@ public class IndexController {
         else {
             addAlbumToLibrary.setVisible(true);
             addAlbumToLibrary.setText(resources.getString("addToMyMusic"));
-            albumAddToLibImg.setImage(new Image("img/icon-like.png"));
+            albumAddToLibImg.setImage(new Image("src/main/resources/img/icon-like.png"));
         }
         mainTabPane.getSelectionModel().select(albumTab);
     }
@@ -510,7 +510,7 @@ public class IndexController {
             artistAddToFavBtn.setVisible(false);
         else {
             artistAddToFavBtn.setVisible(true);
-            artistFollowedImg.setImage(new Image("img/icon-like.png"));
+            artistFollowedImg.setImage(new Image("src/main/resources/img/icon-like.png"));
         }
         PartialSearchResponse<TrackSearch> popularTracks = deezerClient.getArtistTop(artist, 50);
         artistTopTracksTV.getItems().clear();
@@ -569,7 +569,7 @@ public class IndexController {
             playlistAddToLibBtn.setVisible(false);
         else {
             playlistAddToLibBtn.setVisible(true);
-            playlistFollowingImg.setImage(new Image("img/icon-like.png"));
+            playlistFollowingImg.setImage(new Image("src/main/resources/img/icon-like.png"));
         }
         editPlaylistBtn.setOnAction(event -> {
             try {
