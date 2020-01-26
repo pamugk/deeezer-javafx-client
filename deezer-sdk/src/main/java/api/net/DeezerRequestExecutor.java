@@ -1,7 +1,7 @@
 package api.net;
 
 import api.events.authentication.AuthenticationEvent;
-import api.events.base.DeezerEventHandler;
+import api.events.handlers.DeezerEventHandler;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth20Service;

@@ -1,6 +1,6 @@
 package api.events.authentication;
 
-import api.events.base.DeezerEvent;
+import api.events.DeezerEvent;
 
 public class AuthenticationEvent extends DeezerEvent {
     private final boolean authenticationSuccessful;

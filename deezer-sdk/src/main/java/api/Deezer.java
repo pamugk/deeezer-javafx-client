@@ -1,7 +1,7 @@
 package api;
 
 import api.events.authentication.AuthenticationEvent;
-import api.events.base.DeezerEventHandler;
+import api.events.handlers.DeezerEventHandler;
 import api.net.Permissions;
 import api.net.DeezerRequestExecutor;
 import api.objects.comments.Comment;

@@ -1,4 +1,6 @@
-package api.events.base;
+package api.events.handlers;
+
+import api.events.DeezerEvent;
 
 import java.util.ArrayList;
 import java.util.List;

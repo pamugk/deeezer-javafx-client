@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import api.Deezer;
 import api.PartialSearchResponse;
 import api.events.authentication.AuthenticationEvent;
-import api.events.base.DeezerListener;
+import api.events.handlers.DeezerListener;
 import api.objects.comments.Comment;
 import api.objects.playables.*;
 import api.objects.utils.User;
@@ -49,12 +49,12 @@ public class IndexController {
     private Playlist currentPlaylist;
 
     public static void show(Stage primaryStage) throws IOException {
-        ResourceBundle bundle = ResourceBundle.getBundle("src/main/resources/localisation/localisation");
-        FXMLLoader loader = new FXMLLoader(IndexController.class.getResource("/src/main/resources/fxml/index.fxml"), bundle);
+        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
+        FXMLLoader loader = new FXMLLoader(IndexController.class.getResource("/fxml/index.fxml"), bundle);
         Parent root = loader.load();
         primaryStage.setTitle(bundle.getString("title"));
         primaryStage.getIcons().add(
-                new Image(IndexController.class.getResourceAsStream("/src/main/resources/img/deezer-icon.jpg")));
+                new Image(IndexController.class.getResourceAsStream("/img/deezer-icon.jpg")));
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinHeight(100);
         primaryStage.setWidth(1024);
@@ -201,7 +201,7 @@ public class IndexController {
             if (clear)
                 flow.getChildren().clear();
             for (Playlist playlist : playlists.getData()) {
-                if (playlist.isIs_loved_track())
+                if (playlist.is_loved_track())
                     continue;
                 VBox playlistBox = new VBox();
                 playlistBox.prefWidthProperty().bind(Bindings.add(-35, flow.widthProperty().divide(4.2)));

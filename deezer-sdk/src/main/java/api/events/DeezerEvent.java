@@ -1,4 +1,4 @@
-package api.events.base;
+package api.events;
 
 public abstract class DeezerEvent {
 }
