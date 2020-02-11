@@ -49,7 +49,7 @@ public class DeezerRequestExecutor {
             CertificateException, KeyStoreException {
         storage = new SessionStorage("storage", "keystorage");
         tokenClient = new DeezerTokenClient(apiKey, apiSecret, DeezerApi.getTokenEndpoint());
-        callbackServer = new DeezerCallbackServer(callbackContext);
+        callbackServer = new DeezerCallbackServer(callbackContext, 8080);
         service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback(callbackServer.getAuthUrl())
