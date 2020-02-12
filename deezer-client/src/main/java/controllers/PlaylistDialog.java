@@ -43,7 +43,7 @@ public class PlaylistDialog {
 
     static Playlist showAndWait(Playlist playlist) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("src/main/resources/localisation/playlistdialoglocalisation");
-        FXMLLoader loader = new FXMLLoader(PlaylistDialog.class.getResource("/src/main/resources/fxml/playlistdialog.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(PlaylistDialog.class.getResource("/src/main/resources/fxml/playlistDialog.fxml"), bundle);
         Parent dialogRoot = loader.load();
         PlaylistDialog dialog = loader.getController();
         Stage dialogStage = new Stage();
@@ -106,14 +106,14 @@ public class PlaylistDialog {
 
     @FXML
     void initialize() {
-        assert playlistActionLbl != null : "fx:id=\"playlistActionLbl\" was not injected: check your FXML file 'playlistdialog.fxml'.";
-        assert playlistPicture != null : "fx:id=\"playlistPicture\" was not injected: check your FXML file 'playlistdialog.fxml'.";
-        assert playlistNameTextField != null : "fx:id=\"playlistNameTextField\" was not injected: check your FXML file 'playlistdialog.fxml'.";
-        assert privatePlaylistChckBox != null : "fx:id=\"privatePlaylistRadioBtn\" was not injected: check your FXML file 'playlistdialog.fxml'.";
-        assert publicPlaylistChckBox != null : "fx:id=\"publicPlaylistRadioBtn\" was not injected: check your FXML file 'playlistdialog.fxml'.";
-        assert playlistDescriptionTextField != null : "fx:id=\"playlistDescriptionTextField\" was not injected: check your FXML file 'playlistdialog.fxml'.";
-        assert removeBtn != null : "fx:id=\"removeBtn\" was not injected: check your FXML file 'playlistdialog.fxml'.";
-        assert saveBtn != null : "fx:id=\"saveBtn\" was not injected: check your FXML file 'playlistdialog.fxml'.";
+        assert playlistActionLbl != null : "fx:id=\"playlistActionLbl\" was not injected: check your FXML file 'playlistDialog.fxml'.";
+        assert playlistPicture != null : "fx:id=\"playlistPicture\" was not injected: check your FXML file 'playlistDialog.fxml'.";
+        assert playlistNameTextField != null : "fx:id=\"playlistNameTextField\" was not injected: check your FXML file 'playlistDialog.fxml'.";
+        assert privatePlaylistChckBox != null : "fx:id=\"privatePlaylistRadioBtn\" was not injected: check your FXML file 'playlistDialog.fxml'.";
+        assert publicPlaylistChckBox != null : "fx:id=\"publicPlaylistRadioBtn\" was not injected: check your FXML file 'playlistDialog.fxml'.";
+        assert playlistDescriptionTextField != null : "fx:id=\"playlistDescriptionTextField\" was not injected: check your FXML file 'playlistDialog.fxml'.";
+        assert removeBtn != null : "fx:id=\"removeBtn\" was not injected: check your FXML file 'playlistDialog.fxml'.";
+        assert saveBtn != null : "fx:id=\"saveBtn\" was not injected: check your FXML file 'playlistDialog.fxml'.";
 
         privatePlaylistChckBox.selectedProperty().addListener((observableValue, oldVal, newVal) -> {
             if (newVal && publicPlaylistChckBox.isSelected())

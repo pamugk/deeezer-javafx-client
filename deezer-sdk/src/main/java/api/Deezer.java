@@ -416,6 +416,7 @@ public class Deezer {
     public void logout() {
         currentUserId = null;
         requestExecutor.tearStorageDown();
+        authenticationEventHandler.invoke(new AuthenticationEvent(false));
     }
 
     public User getLoggedInUser(){

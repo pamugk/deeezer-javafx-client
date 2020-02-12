@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Label?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" fx:controller="components.views.HomeView">
+    <Label fx:id="alert" alignment="CENTER" maxWidth="1.7976931348623157E308" text="%notLoggedInAlert" textAlignment="CENTER" wrapText="true">
+        <styleClass>
+            <String fx:value="deezer-title" />
+            <String fx:value="deezer-alert" />
+        </styleClass>
+    </Label>
+    <VBox fx:id="recommendationsBox" visible="false">
+        <VBox.margin>
+            <Insets bottom="80.0" left="80.0" right="80.0" top="57.0" />
+        </VBox.margin>
+        <Label styleClass="deezer-subtitle" text="%recommendedPlaylists" />
+        <FlowPane fx:id="recommendedPlaylistsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
+            <VBox.margin>
+                <Insets top="30.0" />
+            </VBox.margin>
+        </FlowPane>
+        <Label styleClass="deezer-subtitle" text="%recommendedArtists">
+            <VBox.margin>
+                <Insets top="60.0" />
+            </VBox.margin>
+        </Label>
+        <FlowPane fx:id="recommendedArtistsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
+            <VBox.margin>
+                <Insets top="30.0" />
+            </VBox.margin>
+        </FlowPane>
+        <Label styleClass="deezer-subtitle" text="%recommendedAlbums">
+            <VBox.margin>
+                <Insets top="60.0" />
+            </VBox.margin>
+        </Label>
+        <FlowPane fx:id="recommendedAlbumsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
+            <VBox.margin>
+                <Insets top="30.0" />
+            </VBox.margin>
+        </FlowPane>
+    </VBox>
+</fx:root>

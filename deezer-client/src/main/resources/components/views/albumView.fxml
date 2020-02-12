@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox"
+         fx:controller="components.views.AlbumView">
+    <VBox.margin>
+        <Insets top="25.0" />
+    </VBox.margin>
+    <HBox spacing="15.0">
+        <ImageView fx:id="albumCover" fitHeight="200.0" fitWidth="200.0" HBox.hgrow="ALWAYS" />
+        <VBox>
+            <Label fx:id="albumName" styleClass="deezer-title" text="Title" VBox.vgrow="NEVER" />
+            <Button fx:id="albumArtist" styleClass="deezer-button" VBox.vgrow="NEVER">
+                <graphic>
+                    <ImageView fx:id="albumArtistImg" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                </graphic>
+            </Button>
+            <VBox VBox.vgrow="SOMETIMES" />
+            <HBox spacing="20.0" VBox.vgrow="NEVER">
+                <Label fx:id="albumTracksLbl" styleClass="deezer-secondary" text="Tracks" />
+                <Label fx:id="albumDurationLbl" styleClass="deezer-secondary" text="Duration" />
+                <Label fx:id="albumOutLbl" styleClass="deezer-secondary" text="Release" />
+                <Label fx:id="albumFollowersLbl" styleClass="deezer-secondary" text="Followers" />
+            </HBox>
+        </VBox>
+    </HBox>
+    <HBox spacing="15.0">
+        <Button fx:id="listenAlbumBtn" style="-fx-background-color: #007FEB; -fx-text-fill: white; -fx-font-weight: bold;" styleClass="deezer-button" text="%listen" />
+        <Button fx:id="addAlbumToLibrary" style="-fx-text-fill: #007FEB; -fx-font-weight: bold" styleClass="deezer-button" text="%add">
+            <graphic>
+                <ImageView fx:id="albumAddToLibImg" fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" />
+            </graphic>
+        </Button>
+        <VBox.margin>
+            <Insets top="10.0" />
+        </VBox.margin>
+    </HBox>
+    <TableView fx:id="albumTracksTV" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="albumTrackIdxCol" minWidth="40.0" prefWidth="-1.0" text="%number" />
+            <TableColumn fx:id="albumTrackName" minWidth="100.0" prefWidth="75.0" text="%track" />
+            <TableColumn fx:id="albumTrackDurCol" minWidth="100.0" prefWidth="-1.0" text="%length" />
+            <TableColumn fx:id="albumTrackPopCol" minWidth="100.0" prefWidth="-1.0" text="%popularity" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+        <VBox.margin>
+            <Insets top="15.0" />
+        </VBox.margin>
+    </TableView>
+    <Label styleClass="deezer-subtitle" text="%discography" />
+    <FlowPane fx:id="albumArtistDiscographyFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+    <Label styleClass="deezer-subtitle" text="%artistRelated" />
+    <FlowPane fx:id="albumArtistRelatedFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+    <padding>
+        <Insets bottom="20.0" top="20.0" />
+    </padding>
+</fx:root>

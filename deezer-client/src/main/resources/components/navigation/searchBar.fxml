@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.HBox"
+         fx:controller="components.navigation.SearchBar"
+         alignment="CENTER_LEFT">
+    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../img/icon-search.png" />
+    </ImageView>
+    <TextField fx:id="searchTextField" onKeyPressed="#searchTextField_OnKeyPressed" promptText="%search" styleClass="searchbar" HBox.hgrow="ALWAYS" />
+    <Button fx:id="cancelSearchBtn" mnemonicParsing="false" onAction="#cancelSearchBtn_OnAction" prefHeight="32.0" prefWidth="32.0" styleClass="searchbar-cancel-btn" text="x" visible="false"/>
+</fx:root>
