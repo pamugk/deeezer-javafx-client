@@ -721,7 +721,7 @@ public class Deezer {
                 Response response = requestExecutor.execute(
                         searchResult.getNext() ==  null ? request :
                                 new OAuthRequest(Verb.GET, searchResult.getNext().toString()));
-                String body = response.getBody();
+                String body = response.getBody().replace("\"\"", "null");
                 PartialSearchResponse<T> nextPart = new Gson().fromJson(body, responseType);
                 searchResult.setTotal(nextPart.getTotal());
                 searchResult.setNext(nextPart.getNext());

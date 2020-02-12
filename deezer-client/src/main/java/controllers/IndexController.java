@@ -101,7 +101,7 @@ public class IndexController {
                 albumBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
                 albumBox.getStyleClass().add("albumcard");
 
-                ImageView albumCover = new ImageView(new Image(album.getCover_medium().toString(), true));
+                ImageView albumCover = new ImageView(album.getCover_medium() == null ? null : new Image(album.getCover_medium().toString(), true));
                 albumCover.fitWidthProperty().bind(albumBox.prefWidthProperty());
                 albumCover.fitHeightProperty().bind(albumCover.fitWidthProperty());
                 Button albumRedirectButton = new Button(null, albumCover);
