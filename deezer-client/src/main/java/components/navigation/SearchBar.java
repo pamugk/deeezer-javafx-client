@@ -12,13 +12,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class SearchBar extends HBox {
     public SearchBar() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("searchBar.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("searchBar.fxml"), bundle);
         fxmlLoader.setRoot(this);
-
+        fxmlLoader.setController(this);
         try {
             fxmlLoader.load();
         } catch (IOException exception) {

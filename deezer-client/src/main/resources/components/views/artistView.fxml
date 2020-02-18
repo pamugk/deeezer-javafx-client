@@ -5,8 +5,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER"
-         fx:controller="components.views.ArtistView">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER">
     <HBox spacing="10.0">
         <ImageView fx:id="artistPicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         <VBox alignment="CENTER" spacing="15.0">

@@ -9,6 +9,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import utils.TimeUtils;
 import utils.UiUtils;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -24,6 +26,19 @@ import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class PlaylistView extends VBox {
     private Playlist playlist;
+
+    public PlaylistView() {
+        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("playlistView.fxml"), bundle);
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML
     private ResourceBundle resources;

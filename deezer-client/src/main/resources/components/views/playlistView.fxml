@@ -5,8 +5,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER" spacing="25.0"
-         fx:controller="components.views.PlaylistView">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER" spacing="25.0">
     <HBox spacing="20.0">
         <VBox.margin>
             <Insets />

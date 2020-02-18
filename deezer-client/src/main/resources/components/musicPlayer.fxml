@@ -7,9 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
-<fx:root type="javafx.scene.layout.HBox"
-         fx:controller="components.MusicPlayer"
-         alignment="CENTER_LEFT" xmlns:fx="http://javafx.com/fxml">
+<fx:root type="javafx.scene.layout.HBox" alignment="CENTER_LEFT" xmlns:fx="http://javafx.com/fxml">
     <styleClass>
         <String fx:value="card" />
         <String fx:value="player" />

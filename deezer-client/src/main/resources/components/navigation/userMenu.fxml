@@ -10,9 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.HBox"
-         fx:controller="components.navigation.UserMenu"
-         alignment="CENTER_LEFT">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.HBox" alignment="CENTER_LEFT">
     <Button fx:id="loginBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#loginBtn_OnAction" styleClass="login-btn" text="%login" HBox.hgrow="NEVER" />
     <MenuBar fx:id="userMenuBar" minWidth="-Infinity" styleClass="navbar-usermenu" visible="false" HBox.hgrow="NEVER">
         <HBox.margin>

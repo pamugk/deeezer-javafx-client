@@ -5,8 +5,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox"
-         fx:controller="components.views.AlbumView">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <VBox.margin>
         <Insets top="25.0" />
     </VBox.margin>

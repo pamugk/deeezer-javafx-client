@@ -12,7 +12,7 @@
 <?import javafx.scene.control.TableView?>
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" fx:controller="components.views.SearchView">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <TabPane fx:id="searchTabPane" tabClosingPolicy="UNAVAILABLE">
         <padding>
             <Insets top="25.0" />

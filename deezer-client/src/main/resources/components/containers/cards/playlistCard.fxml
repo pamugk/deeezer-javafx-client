@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<fx:root styleClass="playlistcard" type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
+    <Button fx:id="playlistRedirectButton" styleClass="playlistcard-playlist" onAction="#onPlaylistRedirection">
+        <graphic>
+            <ImageView fx:id="picture"/>
+        </graphic>
+    </Button>
+    <Label fx:id="title" styleClass="playlistcard-title" wrapText="true"/>
+    <Label fx:id="trackCount" styleClass="playlistcard-tracks" wrapText="true"/>
+</fx:root>

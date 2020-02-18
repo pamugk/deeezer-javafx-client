@@ -10,6 +10,7 @@ import api.objects.utils.User;
 import api.objects.utils.search.SearchOrder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import utils.UiUtils;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static utils.UiUtils.*;
@@ -33,6 +36,18 @@ public class UserView extends VBox {
     }
 
     private User user;
+
+    public UserView() {
+        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userView.fxml"), bundle);
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML

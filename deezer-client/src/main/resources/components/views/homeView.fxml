@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" fx:controller="components.views.HomeView">
+<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <Label fx:id="alert" alignment="CENTER" maxWidth="1.7976931348623157E308" text="%notLoggedInAlert" textAlignment="CENTER" wrapText="true">
         <styleClass>
             <String fx:value="deezer-title" />

@@ -3,15 +3,30 @@ package components.views;
 import api.objects.utils.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
 public class SettingsView extends GridPane {
+    public SettingsView() {
+        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("settingsView.fxml"), bundle);
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     @FXML
     private ImageView userImg;
     @FXML

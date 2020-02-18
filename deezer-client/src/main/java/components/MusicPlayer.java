@@ -9,14 +9,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class MusicPlayer extends HBox {
     private TrackSearch selectedTrack;
 
     public MusicPlayer() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("musicPlayer.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("musicPlayer.fxml"), bundle);
         fxmlLoader.setRoot(this);
-
+        fxmlLoader.setController(this);
         try {
             fxmlLoader.load();
         } catch (IOException exception) {
@@ -55,7 +57,7 @@ public class MusicPlayer extends HBox {
     private ImageView playingImg;
     //</editor-fold>
     @FXML
-    void addToPlaylistBtn_OnAction(ActionEvent event) {
+    private void addToPlaylistBtn_OnAction(ActionEvent event) {
         /*ChoiceDialog<Playlist> playlistChoicer = new ChoiceDialog<>(null,
                 deezerClient.getFavouredPlaylists(deezerClient.getLoggedInUser(), null).getData());
         playlistChoicer.showAndWait().ifPresent(playlist -> {
@@ -65,17 +67,22 @@ public class MusicPlayer extends HBox {
     }
 
     @FXML
-    void shuffleBtn_OnAction(ActionEvent event) {
+    private void likeBtn_OnAction(ActionEvent event){
 
     }
 
     @FXML
-    void repeatBtn_OnAction(ActionEvent event) {
+    private void shuffleBtn_OnAction(ActionEvent event) {
 
     }
 
     @FXML
-    void textBtn_OnAction(ActionEvent event) {
+    private void repeatBtn_OnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void textBtn_OnAction(ActionEvent event) {
 
     }
 

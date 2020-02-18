@@ -6,6 +6,7 @@ import api.objects.playables.TrackSearch;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import utils.TimeUtils;
 import utils.UiUtils;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -26,6 +28,18 @@ import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class AlbumView extends VBox {
     private Album album;
+
+    public AlbumView() {
+        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("albumView.fxml"), bundle);
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML

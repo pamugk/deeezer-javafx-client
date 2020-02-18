@@ -14,6 +14,7 @@ import api.objects.utils.search.FullSearchSet;
 import components.MusicPlayer;
 import components.navigation.Drawer;
 import components.navigation.Pages;
+import components.navigation.SearchBar;
 import components.navigation.UserMenu;
 import components.views.*;
 import javafx.application.Platform;
@@ -66,6 +67,8 @@ public class IndexController {
         userView.navigateTo(destination);
     }
 
+    @FXML
+    private SearchBar searchBar;
     @FXML
     private UserMenu userMenu;
     @FXML
@@ -140,6 +143,12 @@ public class IndexController {
 
     @FXML
     void initialize() {
+        searchBar.setSearchEngine(this::search);
+        userMenu.setNavigator(this::navigate);
+        drawer.setNavigator(this::navigate);
+        albumView.setArtistRedirectioner(this::redirectToArtist);
+        playlistView.setUserRedirectioner(this::redirectToUser);
+        playlistView.setPlaylistEditor(this::editPlaylist);
         try {
             deezerClient = new Deezer();
         } catch (IOException e) {
