@@ -54,7 +54,7 @@ public class IndexController {
         drawer.onLogout(logout);
         musicPlayer.setDisable(logout);
         if (logout)
-            navigate(Pages.HOME);
+            navigateProperty(Pages.HOME);
     }
 
     private void onLoginResponse (AuthenticationEvent event) {
@@ -118,7 +118,7 @@ public class IndexController {
             Playlist playlist = PlaylistDialog.showAndWait(null);
             if (playlist != null) {
                 deezerClient.createPlaylist(playlist);
-                navigate(Pages.PLAYLISTS);
+                navigateProperty(Pages.PLAYLISTS);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,12 +126,12 @@ public class IndexController {
     }
 
     @FXML
-    private void editPlaylist(Playlist playlist) {
+    private void editPlaylistProperty(Playlist playlist) {
         try {
             Playlist updatedPlaylist = PlaylistDialog.showAndWait(playlist);
             if (updatedPlaylist == null) {
                 if (deezerClient.removePlaylist(playlist))
-                    navigate(Pages.HOME);
+                    navigateProperty(Pages.HOME);
             }
             else
                 if (deezerClient.updatePlaylist(updatedPlaylist))
@@ -143,12 +143,6 @@ public class IndexController {
 
     @FXML
     void initialize() {
-        searchBar.setSearchEngine(this::search);
-        userMenu.setNavigator(this::navigate);
-        drawer.setNavigator(this::navigate);
-        albumView.setArtistRedirectioner(this::redirectToArtist);
-        playlistView.setUserRedirectioner(this::redirectToUser);
-        playlistView.setPlaylistEditor(this::editPlaylist);
         try {
             deezerClient = new Deezer();
         } catch (IOException e) {
@@ -161,7 +155,7 @@ public class IndexController {
     }
 
     @FXML
-    private void navigate(Pages page){
+    private void navigateProperty(Pages page){
         switch (page){
             case HOME:
                 mainTabPane.getSelectionModel().select(homeTab);
@@ -192,7 +186,7 @@ public class IndexController {
     }
 
     @FXML
-    private void redirectToArtist(Long artistId) {
+    private void redirectToArtistProperty(Long artistId) {
         Artist artist = deezerClient.getArtist(artistId);
         artistView.setArtist(artist, deezerClient);
         mainTabPane.getSelectionModel().select(artistTab);
@@ -213,7 +207,7 @@ public class IndexController {
     }
 
     @FXML
-    private void redirectToUser(Long userId) {
+    private void redirectToUserProperty(Long userId) {
         showUser(deezerClient.getUser(userId), userId == deezerClient.getLoggedInUser().getId(),
                 UserView.Destinations.HIGHLIGHTS);
     }
@@ -222,7 +216,7 @@ public class IndexController {
     private void removeTrackFromFavourite() {
         if (deezerClient.removeTrackFromFavourites(musicPlayer.getSelectedTrack())){
             new Alert(Alert.AlertType.INFORMATION, "Удаление успешно");
-            navigate(Pages.PLAYLISTS);
+            navigateProperty(Pages.PLAYLISTS);
         }
         else new Alert(Alert.AlertType.INFORMATION, "Удаление отклонено сервером");
     }
@@ -236,7 +230,7 @@ public class IndexController {
     }
 
     @FXML
-    private void search(String query) {
+    private void searchProperty(String query) {
         FullSearchSet searchSet = deezerClient.search(query, null);
         searchView.setSearchResults(searchSet);
         mainTabPane.getSelectionModel().select(searchTab);
