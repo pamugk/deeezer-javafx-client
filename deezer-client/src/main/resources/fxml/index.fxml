@@ -1,70 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import components.*?>
+<?import components.navigation.*?>
+<?import components.views.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import components.navigation.Drawer?>
-<?import components.navigation.UserMenu?>
-<?import components.navigation.SearchBar?>
-<?import components.views.HomeView?>
-<?import components.views.SearchView?>
-<?import components.views.ExploreView?>
-<?import components.views.UserView?>
-<?import components.views.AlbumView?>
-<?import components.views.ArtistView?>
-<?import components.views.PlaylistView?>
-<?import components.views.SettingsView?>
-<?import components.MusicPlayer?>
 <BorderPane styleClass="root" stylesheets="@../css/deezer-styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexController">
-   <top>
-      <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
-         <SearchBar fx:id="searchBar" searchEngine="${controller.search}"/>
-         <UserMenu fx:id="userMenu" navigator="${controller.navigate}"/>
-      </HBox>
-   </top>
    <left>
-      <Drawer fx:id="drawer"/>
+      <Drawer fx:id="drawer" />
    </left>
    <center>
-      <TabPane fx:id="mainTabPane" styleClass="main-tab-pane" tabClosingPolicy="UNAVAILABLE">
-         <Tab fx:id="homeTab">
-            <ScrollPane>
-               <HomeView fx:id="homeView"/>
-            </ScrollPane>
-         </Tab>
-         <Tab fx:id="searchTab">
-            <SearchView fx:id="searchView"/>
-         </Tab>
-         <Tab fx:id="exploreTab">
-            <ExploreView fx:id="exploreView"/>
-         </Tab>
-         <Tab fx:id="userTab">
-            <UserView fx:id="userView"/>
-         </Tab>
-         <Tab fx:id="albumTab">
-            <AlbumView fx:id="albumView" artistRedirectioner="${controller.redirectToArtist}"/>
-         </Tab>
-         <Tab fx:id="artistTab">
-            <ArtistView fx:id="artistView"/>
-         </Tab>
-         <Tab fx:id="playlistTab">
-            <PlaylistView fx:id="playlistView"
-                          userRedirectioner="${controller.redirectToUser}"
-                          playlistEditor="${controller.editPlaylist}"/>
-         </Tab>
-         <Tab fx:id="radioTab">
+      <BorderPane>
+         <top>
+            <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+               <SearchBar fx:id="searchBar" minWidth="-Infinity" HBox.hgrow="ALWAYS" />
+               <UserMenu fx:id="userMenu" minWidth="-Infinity" HBox.hgrow="SOMETIMES" />
+            </HBox>
+         </top>
+         <center>
+            <TabPane fx:id="mainTabPane" styleClass="main-tab-pane" tabClosingPolicy="UNAVAILABLE">
+               <Tab fx:id="homeTab">
+                  <ScrollPane>
+                     <HomeView fx:id="homeView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
+                  </ScrollPane>
+               </Tab>
+               <Tab fx:id="searchTab">
+                  <SearchView fx:id="searchView" />
+               </Tab>
+               <Tab fx:id="exploreTab">
+                  <ExploreView fx:id="exploreView" />
+               </Tab>
+               <Tab fx:id="userTab">
+                  <UserView fx:id="userView" />
+               </Tab>
+               <Tab fx:id="albumTab">
+                  <AlbumView fx:id="albumView" artistRedirectioner="${controller.redirectToArtist}" />
+               </Tab>
+               <Tab fx:id="artistTab">
+                  <ArtistView fx:id="artistView" />
+               </Tab>
+               <Tab fx:id="playlistTab">
+                  <PlaylistView fx:id="playlistView" playlistEditor="${controller.editPlaylist}" userRedirectioner="${controller.redirectToUser}" />
+               </Tab>
+               <Tab fx:id="radioTab">
 
-         </Tab>
-         <Tab fx:id="settingsTab">
-            <SettingsView fx:id="settingsView"/>
-         </Tab>
-         <padding>
-            <Insets top="-10.0" />
-         </padding>
-      </TabPane>
+               </Tab>
+               <Tab fx:id="settingsTab">
+                  <SettingsView fx:id="settingsView" />
+               </Tab>
+               <padding>
+                  <Insets top="-10.0" />
+               </padding>
+            </TabPane>
+         </center>
+      </BorderPane>
    </center>
    <bottom>
-      <MusicPlayer fx:id="musicPlayer"/>
+      <MusicPlayer fx:id="musicPlayer" />
    </bottom>
 </BorderPane>

@@ -8,6 +8,10 @@ import api.objects.playables.Playlist;
 import api.objects.playables.Track;
 import api.objects.utils.User;
 import api.objects.utils.search.SearchOrder;
+import components.containers.flows.AlbumFlowPane;
+import components.containers.flows.ArtistFlowPane;
+import components.containers.flows.PlaylistFlowPane;
+import components.containers.tables.TrackTable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,14 +21,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import utils.UiUtils;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
-import static utils.UiUtils.*;
-import static utils.UiUtils.fillFlowPaneWithArtists;
 
 public class UserView extends VBox {
     public enum Destinations{
@@ -73,15 +73,15 @@ public class UserView extends VBox {
     @FXML
     private FlowPane highlightsHistoryFP;
     @FXML
-    private FlowPane highlightsPlaylistFP;
+    private PlaylistFlowPane highlightsPlaylistFP;
     @FXML
     private Button favPlaylistsBtn;
     @FXML
-    private FlowPane highlightsAlbumFP;
+    private AlbumFlowPane highlightsAlbumFP;
     @FXML
     private Button favAlbumsBtn;
     @FXML
-    private FlowPane highlightsArtistFP;
+    private ArtistFlowPane highlightsArtistFP;
     @FXML
     private Button favArtistsBtn;
     @FXML
@@ -89,19 +89,7 @@ public class UserView extends VBox {
     @FXML
     private Label favTracksLbl;
     @FXML
-    private TableView<Track> favTracksTV;
-    @FXML
-    private TableColumn<Track, Track> favTrackIdxCol;
-    @FXML
-    private TableColumn<Track, String> favTrackTitleCol;
-    @FXML
-    private TableColumn<Track, Artist> favTrackArtistCol;
-    @FXML
-    private TableColumn<Track, Album> favTrackAlbumCol;
-    @FXML
-    private TableColumn<Track, Integer> favTrackLengthCol;
-    @FXML
-    private TableColumn<Track, Integer> favTrackPopCol;
+    private TrackTable<Track> favTracksTV;
     @FXML
     private Tab myPlaylistsTab;
     @FXML
@@ -109,19 +97,19 @@ public class UserView extends VBox {
     @FXML
     private Button addPlaylistBtn;
     @FXML
-    private FlowPane favPlaylistsFP;
+    private PlaylistFlowPane favPlaylistsFP;
     @FXML
     private Tab favAlbumsTab;
     @FXML
     private Label favAlbumsLbl;
     @FXML
-    private FlowPane favAlbumsFP;
+    private AlbumFlowPane favAlbumsFP;
     @FXML
     private Tab favArtistsTab;
     @FXML
     private Label favArtistsLbl;
     @FXML
-    private FlowPane favArtistsFP;
+    private ArtistFlowPane favArtistsFP;
     //</editor-fold>
 
     @FXML
@@ -166,21 +154,17 @@ public class UserView extends VBox {
         PartialSearchResponse<Album> favAlbums = deezerClient.getFavoredAlbums(user, SearchOrder.ALBUM_ASC);
         PartialSearchResponse<Artist> favArtists = deezerClient.getFavoredArtists(user, SearchOrder.ARTIST_ASC);
 
-        fillFlowPaneWithPlaylists(highlightsPlaylistFP,
-                new PartialSearchResponse<>(playlists.getData().stream().limit(4).collect(Collectors.toList())),
+        highlightsPlaylistFP.fill(new PartialSearchResponse<>(playlists.getData().stream().limit(4).collect(Collectors.toList())),
                 null, true, false);
-        fillFlowPaneWithAlbums(highlightsAlbumFP,
-                new PartialSearchResponse<>(favAlbums.getData().stream().limit(4).collect(Collectors.toList())),
+        highlightsAlbumFP.fill(new PartialSearchResponse<>(favAlbums.getData().stream().limit(4).collect(Collectors.toList())),
                 null, true, false);
-        fillFlowPaneWithArtists(highlightsArtistFP,
-                new PartialSearchResponse<>(favArtists.getData().stream().limit(4).collect(Collectors.toList())),
+        highlightsArtistFP.fill(new PartialSearchResponse<>(favArtists.getData().stream().limit(4).collect(Collectors.toList())),
                 null, true, false);
 
-        favTracksTV.getItems().clear();
-        UiUtils.fillTableWithTracks(favTracksTV, favTracks, favTracksLbl);
-        fillFlowPaneWithPlaylists(favPlaylistsFP, playlists, playlistsCntLbl, true, true);
-        fillFlowPaneWithAlbums(favAlbumsFP, favAlbums, favAlbumsLbl, true, true);
-        fillFlowPaneWithArtists(favArtistsFP, favArtists, favArtistsLbl, true, true);
+        favTracksTV.fill(favTracks, favTracksLbl, true);
+        favPlaylistsFP.fill(playlists, playlistsCntLbl, true, true);
+        favAlbumsFP.fill(favAlbums, favAlbumsLbl, true, true);
+        favArtistsFP.fill(favArtists, favArtistsLbl, true, true);
 
         myMusicBox.setVisible(loggedInUser);
         viewedUserBox.setVisible(!loggedInUser);

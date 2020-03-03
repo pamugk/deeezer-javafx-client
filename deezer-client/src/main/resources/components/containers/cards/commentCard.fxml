@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<fx:root type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <padding>
+      <Insets left="24.0" right="24.0" />
+   </padding>
+    <Button fx:id="userRedirectButton" onAction="#onUserRedirection" styleClass="deezer-button">
+        <graphic>
+            <ImageView fx:id="commentorImg" fitHeight="30.0" fitWidth="30.0" />
+        </graphic>
+    </Button>
+    <VBox spacing="10.0" styleClass="comment-card">
+      <padding>
+         <Insets bottom="12.0" top="12.0" />
+      </padding>
+        <Label fx:id="commentCreationInfo" styleClass="deezer-secondary" wrapText="true"/>
+        <Label fx:id="commentText" styleClass="deezer-secondary" wrapText="true"/>
+    </VBox>
+</fx:root>

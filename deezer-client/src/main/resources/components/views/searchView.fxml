@@ -12,6 +12,12 @@
 <?import javafx.scene.control.TableView?>
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import components.containers.tables.TrackTable?>
+<?import components.containers.flows.AlbumFlowPane?>
+<?import components.containers.flows.ArtistFlowPane?>
+<?import components.containers.flows.PlaylistFlowPane?>
+<?import components.containers.flows.UserFlowPane?>
+<?import components.containers.flows.RadioFlowPane?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <TabPane fx:id="searchTabPane" tabClosingPolicy="UNAVAILABLE">
         <padding>
@@ -29,19 +35,7 @@
                             <String fx:value="deezer-subtitle" />
                         </styleClass>
                     </Button>
-                    <TableView fx:id="tracksResultTV" VBox.vgrow="NEVER">
-                        <columns>
-                            <TableColumn fx:id="trackResultImgCol" editable="false" prefWidth="75.0" />
-                            <TableColumn fx:id="trackResultTitleCol" editable="false" prefWidth="75.0" />
-                            <TableColumn fx:id="trackResultArtistCol" editable="false" prefWidth="75.0" />
-                            <TableColumn fx:id="trackResultAlbumCol" editable="false" prefWidth="75.0" />
-                            <TableColumn fx:id="trackResultLengthCol" editable="false" prefWidth="75.0" />
-                            <TableColumn fx:id="trackResultPopCol" editable="false" prefWidth="75.0" />
-                        </columns>
-                        <columnResizePolicy>
-                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                        </columnResizePolicy>
-                    </TableView>
+                    <TrackTable fx:id="tracksResultTV" VBox.vgrow="NEVER"/>
                     <Button fx:id="albumsResultBtn" mnemonicParsing="false" onAction="#albumsResultBtn_OnAction" text="%albums">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -51,7 +45,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <FlowPane fx:id="albumsResultsFP" hgap="35.0" />
+                    <AlbumFlowPane fx:id="albumsResultsFP" hgap="35.0" />
                     <Button fx:id="artistsResultBtn" mnemonicParsing="false" onAction="#artistsResultBtn_OnAction" text="%artists">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -61,7 +55,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <FlowPane fx:id="artistsResultsFP" hgap="35.0" />
+                    <ArtistFlowPane fx:id="artistsResultsFP" hgap="35.0" />
                     <Button fx:id="playlistsResultsBtn" mnemonicParsing="false" onAction="#playlistsResultsBtn_OnAction" text="%playlists">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -71,7 +65,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <FlowPane fx:id="playlistsResultsFP" hgap="35.0" />
+                    <PlaylistFlowPane fx:id="playlistsResultsFP" hgap="35.0" />
                     <Button fx:id="profilesResultsBtn" mnemonicParsing="false" onAction="#profilesResultsBtn_OnAction" text="%profiles">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -81,7 +75,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <FlowPane fx:id="profilesResultsFP" hgap="35.0" />
+                    <UserFlowPane fx:id="profilesResultsFP" hgap="35.0" />
                     <padding>
                         <Insets bottom="80.0" />
                     </padding>
@@ -98,19 +92,7 @@
                         <Label styleClass="card-header" text="%found" />
                         <Label fx:id="foundTracksLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <TableView fx:id="foundTracksTV" VBox.vgrow="NEVER">
-                        <columns>
-                            <TableColumn fx:id="foundTrAlbImgCol" maxWidth="43.0" minWidth="28.0" prefWidth="-1.0" resizable="false" />
-                            <TableColumn fx:id="foundTrNameCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%track" />
-                            <TableColumn fx:id="foundTrArtistCol" maxWidth="173.0" minWidth="100.0" prefWidth="-1.0" text="%artist" />
-                            <TableColumn fx:id="foundTrAlbumCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%album" />
-                            <TableColumn fx:id="foundTrLengthCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%length" />
-                            <TableColumn fx:id="foundTrPopCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%popularity" />
-                        </columns>
-                        <columnResizePolicy>
-                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                        </columnResizePolicy>
-                    </TableView>
+                    <TrackTable fx:id="foundTracksTV" VBox.vgrow="NEVER"/>
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -131,7 +113,7 @@
                         </Label>
                         <Label fx:id="foundAlbumsLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <FlowPane fx:id="foundAlbumsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <AlbumFlowPane fx:id="foundAlbumsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -155,7 +137,7 @@
                         </Label>
                         <Label fx:id="foundArtistsLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <FlowPane fx:id="foundArtistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <ArtistFlowPane fx:id="foundArtistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -176,7 +158,7 @@
                         </Label>
                         <Label fx:id="foundPlaylistsLabel" styleClass="card-header" text="0" />
                     </HBox>
-                    <FlowPane fx:id="foundPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <PlaylistFlowPane fx:id="foundPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -197,7 +179,7 @@
                         </Label>
                         <Label fx:id="foundMixesLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <FlowPane fx:id="foundMixesFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <RadioFlowPane fx:id="foundMixesFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -218,7 +200,7 @@
                         </Label>
                         <Label fx:id="foundProfilesLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <FlowPane fx:id="foundProfilesFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <UserFlowPane fx:id="foundProfilesFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>

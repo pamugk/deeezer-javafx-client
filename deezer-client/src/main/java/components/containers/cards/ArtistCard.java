@@ -56,11 +56,7 @@ public class ArtistCard extends VBox {
         artistRedirectButton.prefWidthProperty().bind(picture.fitWidthProperty());
         artistRedirectButton.prefHeightProperty().bind(picture.fitHeightProperty());
         name.setText(artist.getName());
-        name.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        name.setPrefHeight(Region.USE_COMPUTED_SIZE);
         followers.setText(String.format("%s: %s", resources.getString("followers"), artist.getNb_fan()));
-        followers.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        followers.setPrefHeight(Region.USE_COMPUTED_SIZE);
         followers.setVisible(artist.getNb_fan() > 0);
     }
 

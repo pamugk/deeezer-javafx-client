@@ -6,15 +6,19 @@ import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Playlist;
 import api.objects.playables.TrackSearch;
+import components.containers.boxes.ArtistBox;
+import components.containers.boxes.CommentBox;
+import components.containers.boxes.PlaylistBox;
+import components.containers.flows.AlbumFlowPane;
+import components.containers.flows.ArtistFlowPane;
+import components.containers.flows.PlaylistFlowPane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import utils.UiUtils;
 
 import java.io.IOException;
 import java.time.ZoneId;
@@ -68,7 +72,7 @@ public class ArtistView extends VBox {
     @FXML
     private Button artistSimiliarBtn;
     @FXML
-    private VBox artistPlaylistsVBox;
+    private PlaylistBox artistPlaylistsBox;
     @FXML
     private TableView<TrackSearch> artistTopTracksTV;
     @FXML
@@ -76,7 +80,7 @@ public class ArtistView extends VBox {
     @FXML
     private TableColumn<TrackSearch, String> artistTMPTTitleCol;
     @FXML
-    private VBox artistRelatedVBox;
+    private ArtistBox artistRelatedBox;
     @FXML
     private ImageView artistTopAlbumImg;
     @FXML
@@ -90,7 +94,7 @@ public class ArtistView extends VBox {
     @FXML
     private TableColumn<TrackSearch, String> artistTATTitleCol;
     @FXML
-    private FlowPane artistDiscographyFP;
+    private AlbumFlowPane artistDiscographyFP;
     @FXML
     private Tab artistPopularTracksTab;
     @FXML
@@ -114,13 +118,13 @@ public class ArtistView extends VBox {
     @FXML
     private Tab artistRelatedTab;
     @FXML
-    private FlowPane artistRelatedFP;
+    private ArtistFlowPane artistRelatedFP;
     @FXML
     private Tab artistPlaylistsTab;
     @FXML
-    private FlowPane artistPlaylistsFP;
+    private PlaylistFlowPane artistPlaylistsFP;
     @FXML
-    private VBox artistCommentsVBox;
+    private CommentBox artistCommentsBox;
     //</editor-fold>
 
     @FXML
@@ -156,15 +160,15 @@ public class ArtistView extends VBox {
         artistPopTracksTV.getItems().addAll(popularTracks.getData());
 
         PartialSearchResponse<Playlist> playlists = deezerClient.getArtistPlaylists(artist, 25);
-        UiUtils.fillVBoxWithPlaylists(artistPlaylistsVBox, playlists.getData().stream().limit(3).collect(Collectors.toList()));
-        UiUtils.fillFlowPaneWithPlaylists(artistPlaylistsFP, playlists, null, true, true);
+        artistPlaylistsBox.fill(playlists.getData().stream().limit(3).collect(Collectors.toList()));
+        artistPlaylistsFP.fill(playlists, null, true, true);
 
         PartialSearchResponse<Artist> similiarArtists = deezerClient.getArtistRelated(artist, 25);
-        UiUtils.fillVBoxWithArtists(artistRelatedVBox, similiarArtists.getData().stream().limit(3).collect(Collectors.toList()));
-        UiUtils.fillFlowPaneWithArtists(artistRelatedFP, similiarArtists, null, true, true);
+        artistRelatedBox.fill(similiarArtists.getData().stream().limit(3).collect(Collectors.toList()));
+        artistRelatedFP.fill(similiarArtists, null, true, true);
 
         PartialSearchResponse<Album> discography = deezerClient.getArtistDiscography(artist);
-        UiUtils.fillFlowPaneWithAlbums(artistDiscographyFP, discography, null, true, true);
+        artistDiscographyFP.fill(discography, null, true, true);
         artistTopAlbumTracksTV.getItems().clear();
         var ref = new Object() {
             boolean albumShowed = false;
@@ -183,7 +187,7 @@ public class ArtistView extends VBox {
         artistTopAlbumName.setVisible(ref.albumShowed);
         artistTopAlbumRelease.setVisible(ref.albumShowed);
         artistTopAlbumTracksTV.setVisible(ref.albumShowed);
-        UiUtils.fillVBoxWithComments(artistCommentsVBox, deezerClient.getArtistComments(artist));
+        artistCommentsBox.fill(deezerClient.getArtistComments(artist));
         artistTabPane.getSelectionModel().select(artistDiscographyTab);
     }
 }

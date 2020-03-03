@@ -5,6 +5,7 @@ import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Playlist;
 import api.objects.playables.TrackSearch;
+import components.containers.boxes.CommentBox;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.event.ActionEvent;
@@ -16,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import utils.TimeUtils;
-import utils.UiUtils;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -83,7 +83,7 @@ public class PlaylistView extends VBox {
     @FXML
     private TableColumn<TrackSearch, Integer> playlistTrackPopularityCol;
     @FXML
-    private VBox playlistCommentariesBox;
+    private CommentBox playlistCommentariesBox;
     //</editor-fold>
 
     @FXML
@@ -120,7 +120,7 @@ public class PlaylistView extends VBox {
         }
         playlistTracksTV.getItems().clear();
         playlistTracksTV.getItems().addAll(playlist.getTracks().getData());
-        UiUtils.fillVBoxWithComments(playlistCommentariesBox, deezerClient.getPlaylistComments(playlist));
+        playlistCommentariesBox.fill(deezerClient.getPlaylistComments(playlist));
     }
 
     public final ObjectProperty<Consumer<Long>> userRedirectionerProperty() { return userRedirectioner; }

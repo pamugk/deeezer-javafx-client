@@ -55,12 +55,8 @@ public class PlaylistCard extends VBox {
         playlistRedirectButton.prefWidthProperty().bind(picture.fitWidthProperty());
         playlistRedirectButton.prefHeightProperty().bind(picture.fitHeightProperty());
         title.setText(playlist.getTitle());
-        title.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        title.setPrefHeight(Region.USE_COMPUTED_SIZE);
         trackCount.setText(String.format("%s: %d", resources.getString("tracksCnt"),
                 playlist.getNb_tracks()));
-        trackCount.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        trackCount.setPrefHeight(Region.USE_COMPUTED_SIZE);
     }
 
     public final ObjectProperty<Consumer<Long>> playlistRedirectionerProperty() { return playlistRedirectioner; }

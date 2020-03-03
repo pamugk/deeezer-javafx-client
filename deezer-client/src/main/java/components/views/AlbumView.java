@@ -3,6 +3,8 @@ package components.views;
 import api.Deezer;
 import api.objects.playables.Album;
 import api.objects.playables.TrackSearch;
+import components.containers.flows.AlbumFlowPane;
+import components.containers.flows.ArtistFlowPane;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.fxml.FXML;
@@ -16,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import utils.TimeUtils;
-import utils.UiUtils;
 
 import java.io.IOException;
 import java.time.ZoneId;
@@ -77,9 +78,9 @@ public class AlbumView extends VBox {
     @FXML
     private TableColumn<TrackSearch, Integer> albumTrackPopCol;
     @FXML
-    private FlowPane albumArtistDiscographyFP;
+    private AlbumFlowPane albumArtistDiscographyFP;
     @FXML
-    private FlowPane albumArtistRelatedFP;
+    private ArtistFlowPane albumArtistRelatedFP;
     //</editor-fold>
 
     public void setAlbum(Album album, Deezer deezerClient) {
@@ -100,10 +101,8 @@ public class AlbumView extends VBox {
         albumTracksTV.getItems().clear();
         albumTracksTV.getItems().addAll(album.getTracks().getData());
 
-        UiUtils.fillFlowPaneWithAlbums(albumArtistDiscographyFP,
-                deezerClient.getArtistDiscography(album.getArtist()), null, true, true);
-        UiUtils.fillFlowPaneWithArtists(albumArtistRelatedFP,
-                deezerClient.getArtistRelated(album.getArtist(), 25), null, true, false);
+        albumArtistDiscographyFP.fill(deezerClient.getArtistDiscography(album.getArtist()), null, true, true);
+        albumArtistRelatedFP.fill(deezerClient.getArtistRelated(album.getArtist(), 25), null, true, false);
         if (deezerClient.getLoginStatus() == NOT_AUTHORIZED)
             addAlbumToLibrary.setVisible(false);
         else {

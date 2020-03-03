@@ -5,6 +5,9 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
+<?import components.views.AlbumView?>
+<?import components.containers.flows.AlbumFlowPane?>
+<?import components.containers.flows.ArtistFlowPane?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <VBox.margin>
         <Insets top="25.0" />
@@ -53,9 +56,9 @@
         </VBox.margin>
     </TableView>
     <Label styleClass="deezer-subtitle" text="%discography" />
-    <FlowPane fx:id="albumArtistDiscographyFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+    <AlbumFlowPane fx:id="albumArtistDiscographyFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
     <Label styleClass="deezer-subtitle" text="%artistRelated" />
-    <FlowPane fx:id="albumArtistRelatedFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+    <ArtistFlowPane fx:id="albumArtistRelatedFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
     <padding>
         <Insets bottom="20.0" top="20.0" />
     </padding>

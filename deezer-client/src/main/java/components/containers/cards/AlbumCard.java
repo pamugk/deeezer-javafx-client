@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -58,11 +57,7 @@ public class AlbumCard extends VBox {
         albumRedirectButton.prefWidthProperty().bind(cover.fitWidthProperty());
         albumRedirectButton.prefHeightProperty().bind(cover.fitHeightProperty());
         title.setText(album.getTitle());
-        title.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        title.setPrefHeight(Region.USE_COMPUTED_SIZE);
         artistRedirectButton.setText(String.format("%s %s", resources.getString("by"), album.getArtist().getName()));
-        artistRedirectButton.setPrefWidth(Region.USE_COMPUTED_SIZE);
-        artistRedirectButton.setPrefHeight(Region.USE_COMPUTED_SIZE);
     }
 
     public final ObjectProperty<Consumer<Long>> albumRedirectionerProperty() { return albumRedirectioner; }

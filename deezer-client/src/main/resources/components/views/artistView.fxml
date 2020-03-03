@@ -5,6 +5,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
+<?import components.containers.boxes.PlaylistBox?>
+<?import components.containers.flows.ArtistFlowPane?>
+<?import components.containers.flows.PlaylistFlowPane?>
+<?import components.containers.boxes.CommentBox?>
+<?import components.containers.flows.AlbumFlowPane?>
+<?import components.containers.boxes.ArtistBox?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER">
     <HBox spacing="10.0">
         <ImageView fx:id="artistPicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
@@ -44,7 +50,7 @@
                         <Button fx:id="artistPlaylistsBtn" mnemonicParsing="false" onAction="#artistPlaylistsBtn_OnAction" styleClass="deezer-button" text="%playlists" GridPane.columnIndex="1" />
                         <Button fx:id="artistMtPReleaseBtn" mnemonicParsing="false" styleClass="deezer-button" text="%mostPopularRelease" GridPane.rowIndex="2" />
                         <Button fx:id="artistSimiliarBtn" mnemonicParsing="false" onAction="#artistSimiliarBtn_OnAction" styleClass="deezer-button" text="%artistRelated" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <VBox fx:id="artistPlaylistsVBox" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                        <PlaylistBox fx:id="artistPlaylistsVBox" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
                         <TableView fx:id="artistTopTracksTV" maxHeight="100.0" GridPane.rowIndex="1">
                             <columns>
                                 <TableColumn fx:id="artistTMPTIdxCol" prefWidth="75.0" text="%number" />
@@ -57,7 +63,7 @@
                                 <Insets left="40.0" right="40.0" />
                             </GridPane.margin>
                         </TableView>
-                        <VBox fx:id="artistRelatedVBox" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                        <ArtistBox fx:id="artistRelatedVBox" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
                         <HBox spacing="20.0" GridPane.rowIndex="3">
                             <VBox HBox.hgrow="NEVER">
                                 <ImageView fx:id="artistTopAlbumImg" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
@@ -83,7 +89,7 @@
                     <HBox>
                         <Label styleClass="deezer-subtitle" text="%discography" />
                     </HBox>
-                    <FlowPane fx:id="artistDiscographyFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+                    <AlbumFlowPane fx:id="artistDiscographyFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />
@@ -136,7 +142,7 @@
                             <Insets top="45.0" />
                         </VBox.margin>
                     </Label>
-                    <FlowPane fx:id="artistRelatedFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+                    <ArtistFlowPane fx:id="artistRelatedFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />
@@ -151,11 +157,11 @@
                             <Insets top="45.0" />
                         </VBox.margin>
                     </Label>
-                    <FlowPane fx:id="artistPlaylistsFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS">
+                    <PlaylistFlowPane fx:id="artistPlaylistsFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS">
                         <VBox.margin>
                             <Insets />
                         </VBox.margin>
-                    </FlowPane>
+                    </PlaylistFlowPane>
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />
@@ -170,7 +176,7 @@
                             <Insets top="45.0" />
                         </VBox.margin>
                     </Label>
-                    <VBox fx:id="artistCommentsVBox" VBox.vgrow="ALWAYS" />
+                    <CommentBox fx:id="artistCommentsVBox" VBox.vgrow="ALWAYS" />
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />

@@ -74,8 +74,8 @@ public class UserMenu extends HBox {
         this.deezerClient = deezerClient;
         deezerClient.getAuthenticationEventHandler().addListener(new DeezerListener<>(event -> {
             loginBtn.setDisable(false);
-            loginBtn.setVisible(!event.isLoggedIn());
-            userMenuBar.setVisible(event.isLoggedIn());
+            loginBtn.setPrefWidth(event.isLoggedIn() ? 0 : USE_COMPUTED_SIZE);
+            userMenuBar.setPrefWidth(event.isLoggedIn() ? USE_COMPUTED_SIZE : 0);
             if (!event.isLoggedIn())
                 return;
             User currentUser = deezerClient.getLoggedInUser();

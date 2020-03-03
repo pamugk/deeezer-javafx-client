@@ -2,16 +2,16 @@ package components.views;
 
 import api.Deezer;
 import api.events.handlers.DeezerListener;
+import components.containers.flows.AlbumFlowPane;
+import components.containers.flows.ArtistFlowPane;
+import components.containers.flows.PlaylistFlowPane;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-
-import static utils.UiUtils.*;
 
 public class HomeView extends VBox {
     public HomeView() {
@@ -31,20 +31,20 @@ public class HomeView extends VBox {
     @FXML
     private VBox recommendationsBox;
     @FXML
-    private FlowPane recommendedPlaylistsFP;
+    private PlaylistFlowPane recommendedPlaylistsFP;
     @FXML
-    private FlowPane recommendedArtistsFP;
+    private ArtistFlowPane recommendedArtistsFP;
     @FXML
-    private FlowPane recommendedAlbumsFP;
+    private AlbumFlowPane recommendedAlbumsFP;
 
     public void setupDeezer(Deezer deezerClient) {
         deezerClient.getAuthenticationEventHandler().addListener(new DeezerListener<>(event -> {
             alert.setVisible(!event.isLoggedIn());
             recommendationsBox.setVisible(event.isLoggedIn());
             if (event.isLoggedIn()){
-                fillFlowPaneWithPlaylists(recommendedPlaylistsFP, deezerClient.getRecommendedPlaylists(12), null, true, false);
-                fillFlowPaneWithArtists(recommendedArtistsFP, deezerClient.getRecommendedArtists(12), null, true, false);
-                fillFlowPaneWithAlbums(recommendedAlbumsFP, deezerClient.getRecommendedAlbums(12), null, true, false);
+                recommendedPlaylistsFP.fill(deezerClient.getRecommendedPlaylists(12), null, true, false);
+                recommendedArtistsFP.fill(deezerClient.getRecommendedArtists(12), null, true, false);
+                recommendedAlbumsFP.fill(deezerClient.getRecommendedAlbums(12), null, true, false);
             }
             else {
                 recommendedPlaylistsFP.getChildren().clear();

@@ -54,7 +54,7 @@ public class IndexController {
         drawer.onLogout(logout);
         musicPlayer.setDisable(logout);
         if (logout)
-            navigateProperty(Pages.HOME);
+            navigate(Pages.HOME);
     }
 
     private void onLoginResponse (AuthenticationEvent event) {
@@ -118,7 +118,7 @@ public class IndexController {
             Playlist playlist = PlaylistDialog.showAndWait(null);
             if (playlist != null) {
                 deezerClient.createPlaylist(playlist);
-                navigateProperty(Pages.PLAYLISTS);
+                navigate(Pages.PLAYLISTS);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,7 +131,7 @@ public class IndexController {
             Playlist updatedPlaylist = PlaylistDialog.showAndWait(playlist);
             if (updatedPlaylist == null) {
                 if (deezerClient.removePlaylist(playlist))
-                    navigateProperty(Pages.HOME);
+                    navigate(Pages.HOME);
             }
             else
                 if (deezerClient.updatePlaylist(updatedPlaylist))
@@ -143,6 +143,9 @@ public class IndexController {
 
     @FXML
     void initialize() {
+        drawer.setNavigator(this::navigate);
+        userMenu.setNavigator(this::navigate);
+        searchBar.setSearchEngine(this::search);
         try {
             deezerClient = new Deezer();
         } catch (IOException e) {
@@ -155,7 +158,7 @@ public class IndexController {
     }
 
     @FXML
-    private void navigateProperty(Pages page){
+    private void navigate(Pages page){
         switch (page){
             case HOME:
                 mainTabPane.getSelectionModel().select(homeTab);
@@ -216,7 +219,7 @@ public class IndexController {
     private void removeTrackFromFavourite() {
         if (deezerClient.removeTrackFromFavourites(musicPlayer.getSelectedTrack())){
             new Alert(Alert.AlertType.INFORMATION, "Удаление успешно");
-            navigateProperty(Pages.PLAYLISTS);
+            navigate(Pages.PLAYLISTS);
         }
         else new Alert(Alert.AlertType.INFORMATION, "Удаление отклонено сервером");
     }
@@ -230,7 +233,7 @@ public class IndexController {
     }
 
     @FXML
-    private void searchProperty(String query) {
+    private void search(String query) {
         FullSearchSet searchSet = deezerClient.search(query, null);
         searchView.setSearchResults(searchSet);
         mainTabPane.getSelectionModel().select(searchTab);

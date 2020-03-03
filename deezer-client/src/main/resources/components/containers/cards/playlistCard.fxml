@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
-<fx:root styleClass="playlistcard" type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
-    <Button fx:id="playlistRedirectButton" styleClass="playlistcard-playlist" onAction="#onPlaylistRedirection">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="playlistcard" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <Button fx:id="playlistRedirectButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onPlaylistRedirection" styleClass="playlistcard-playlist">
         <graphic>
-            <ImageView fx:id="picture"/>
+            <ImageView fx:id="picture" />
         </graphic>
     </Button>
-    <Label fx:id="title" styleClass="playlistcard-title" wrapText="true"/>
-    <Label fx:id="trackCount" styleClass="playlistcard-tracks" wrapText="true"/>
+    <Label fx:id="title" styleClass="playlistcard-title" wrapText="true" />
+    <Label fx:id="trackCount" styleClass="playlistcard-tracks" wrapText="true" />
 </fx:root>
