@@ -8,18 +8,25 @@
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    
+    <properties>
+        <client.maven.plugin.version>0.1.39</client.maven.plugin.version>
+        <javafx.version>16</javafx.version>
+        <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
+        <main.class>App</main.class>
+    </properties>
 
     <artifactId>deezer-client</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>12.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>12.0.2</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>ru.psu</groupId>
@@ -32,72 +39,95 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.6</version>
+                <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <mainClass>App</mainClass>
+                    <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>shaded</shadedClassifierName>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>MainLauncher</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>2.1.1</version>
-                <executions>
-                    <execution>
-                        <id>l4j-clui</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <headerType>gui</headerType>
-                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
-                            <outfile>${project.build.directory}/${project.artifactId}.exe</outfile>
-                            <classPath>
-                                <mainClass>MainLauncher</mainClass>
-                                <preCp>anything</preCp>
-                            </classPath>
-                            <icon>app-icon.ico</icon>
-                            <jre>
-                                <path>${java.home}</path>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>1.0.0.0</fileVersion>
-                                <txtFileVersion>${project.version}</txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
-                                <copyright>2019 PSU, PAM</copyright>
-                                <productVersion>1.0.0.0</productVersion>
-                                <txtProductVersion>1.0.0.0</txtProductVersion>
-                                <productName>${project.name}</productName>
-                                <companyName>PSU</companyName>
-                                <internalName>${project.artifactId}</internalName>
-                                <originalFilename>${project.artifactId}.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>com.gluonhq</groupId>
+                <artifactId>client-maven-plugin</artifactId>
+                <version>${client.maven.plugin.version}</version>
+                <configuration>
+                    <target>${client.target}</target>
+                    <mainClass>${main.class}</mainClass>
+                    <bundlesList>
+                        <list>localisation/localisation</list>
+                        <list>localisation/playlistdialoglocalisation</list>
+                    </bundlesList>
+                    <reflectionList>
+                        <list>controllers.IndexController</list>
+                        <list>controllers.PlaylistDialog</list>
+
+                        <list>components.containers.boxes.ArtistBox</list>
+                        <list>components.containers.boxes.CommentBox</list>
+                        <list>components.containers.boxes.PlaylistBox</list>
+
+                        <list>components.containers.cards.AlbumCard</list>
+                        <list>components.containers.cards.ArtistCard</list>
+                        <list>components.containers.cards.CommentCard</list>
+                        <list>components.containers.cards.PlaylistCard</list>
+                        <list>components.containers.cards.RadioCard</list>
+                        <list>components.containers.cards.UserCard</list>
+
+                        <list>components.containers.flows.AlbumFlowPane</list>
+                        <list>components.containers.flows.ArtistFlowPane</list>
+                        <list>components.containers.flows.PlaylistFlowPane</list>
+                        <list>components.containers.flows.RadioFlowPane</list>
+                        <list>components.containers.flows.UserFlowPane</list>
+
+                        <list>components.containers.tables.TrackTable</list>
+
+                        <list>components.navigation.Drawer</list>
+                        <list>components.navigation.SearchBar</list>
+                        <list>components.navigation.UserMenu</list>
+
+                        <list>components.views.AlbumView</list>
+                        <list>components.views.ArtistView</list>
+                        <list>components.views.ExploreView</list>
+                        <list>components.views.HomeView</list>
+                        <list>components.views.PlaylistView</list>
+                        <list>components.views.SearchView</list>
+                        <list>components.views.SettingsView</list>
+                        <list>components.views.UserView</list>
+
+                        <list>javafx.scene.control.Menu</list>
+                        <list>javafx.scene.control.MenuBar</list>
+                        <list>javafx.scene.control.MenuItem</list>
+                        <list>javafx.scene.control.SeparatorMenuItem</list>
+
+                        <list>javafx.scene.control.Tab</list>
+
+                        <list>javafx.scene.control.TableColumn</list>
+                        <list>javafx.scene.control.TableView</list>
+                    </reflectionList>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>desktop</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <client.target>host</client.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>ios</id>
+            <properties>
+                <client.target>ios</client.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>android</id>
+            <properties>
+                <client.target>android</client.target>
+            </properties>
+        </profile>
+    </profiles>
 </project>
