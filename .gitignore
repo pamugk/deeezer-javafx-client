@@ -24,7 +24,10 @@ hs_err_pid*
 
 src/main/resources/clientConfig.properties
 out/*
-/target/
+*/target/
 /.idea/*
-/keystorage
-/storage
+/deezer-client/storage
+/deezer-client/keystorage
+/deeezer.iml
+/deezer-client/deezer-client.iml
+/deezer-sdk/deezer-sdk.iml

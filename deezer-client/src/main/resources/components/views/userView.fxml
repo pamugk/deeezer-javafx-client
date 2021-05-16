@@ -16,6 +16,10 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.ImageView?>
+<?import components.containers.flows.PlaylistFlowPane?>
+<?import components.containers.flows.AlbumFlowPane?>
+<?import components.containers.flows.ArtistFlowPane?>
+<?import components.containers.tables.TrackTable?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER" spacing="25.0">
     <HBox fx:id="viewedUserBox" spacing="15.0">
         <VBox.margin>
@@ -64,11 +68,11 @@
                             <String fx:value="deezer-subtitle" />
                         </styleClass>
                     </Button>
-                    <FlowPane fx:id="highlightsPlaylistFP">
+                    <PlaylistFlowPane fx:id="highlightsPlaylistFP">
                         <VBox.margin>
                             <Insets top="28.0" />
                         </VBox.margin>
-                    </FlowPane>
+                    </PlaylistFlowPane>
                     <Button fx:id="favAlbumsBtn" mnemonicParsing="false" onAction="#favAlbumsBtn_OnAction" text="%albums">
                         <VBox.margin>
                             <Insets top="80.0" />
@@ -78,11 +82,11 @@
                             <String fx:value="deezer-subtitle" />
                         </styleClass>
                     </Button>
-                    <FlowPane fx:id="highlightsAlbumFP">
+                    <AlbumFlowPane fx:id="highlightsAlbumFP">
                         <VBox.margin>
                             <Insets top="28.0" />
                         </VBox.margin>
-                    </FlowPane>
+                    </AlbumFlowPane>
                     <Button fx:id="favArtistsBtn" mnemonicParsing="false" onAction="#favArtistsBtn_OnAction" text="%artists">
                         <VBox.margin>
                             <Insets top="80.0" />
@@ -92,11 +96,11 @@
                             <String fx:value="deezer-subtitle" />
                         </styleClass>
                     </Button>
-                    <FlowPane fx:id="highlightsArtistFP">
+                    <ArtistFlowPane fx:id="highlightsArtistFP">
                         <VBox.margin>
                             <Insets top="28.0" />
                         </VBox.margin>
-                    </FlowPane>
+                    </ArtistFlowPane>
                     <padding>
                         <Insets bottom="80.0" />
                     </padding>
@@ -116,7 +120,7 @@
                         <Label styleClass="card-header" text="%found" />
                         <Label fx:id="favTracksLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <TableView fx:id="favTracksTV" VBox.vgrow="ALWAYS">
+                    <TrackTable fx:id="favTracksTV" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="favTrackIdxCol" prefWidth="75.0" text="%number" />
                             <TableColumn fx:id="favTrackTitleCol" prefWidth="75.0" text="%track" />
@@ -138,7 +142,7 @@
                                 </items>
                             </ContextMenu>
                         </contextMenu>
-                    </TableView>
+                    </TrackTable>
                     <padding>
                         <Insets bottom="80.0" />
                     </padding>
@@ -172,11 +176,11 @@
                             </HBox.margin>
                         </Button>
                     </HBox>
-                    <FlowPane fx:id="favPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
+                    <PlaylistFlowPane fx:id="favPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
                         <VBox.margin>
                             <Insets top="25.0" />
                         </VBox.margin>
-                    </FlowPane>
+                    </PlaylistFlowPane>
                     <padding>
                         <Insets bottom="80.0" />
                     </padding>
@@ -200,11 +204,11 @@
                         </Label>
                         <Label fx:id="favAlbumsLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <FlowPane fx:id="favAlbumsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
+                    <AlbumFlowPane fx:id="favAlbumsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
                         <VBox.margin>
                             <Insets top="25.0" />
                         </VBox.margin>
-                    </FlowPane>
+                    </AlbumFlowPane>
                     <padding>
                         <Insets bottom="80.0" />
                     </padding>
@@ -228,11 +232,11 @@
                         </Label>
                         <Label fx:id="favArtistsLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <FlowPane fx:id="favArtistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
+                    <ArtistFlowPane fx:id="favArtistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
                         <VBox.margin>
                             <Insets top="25.0" />
                         </VBox.margin>
-                    </FlowPane>
+                    </ArtistFlowPane>
                     <padding>
                         <Insets bottom="80.0" />
                     </padding>
