@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.util.*;
 
+import api.Configuration;
 import api.Deezer;
 import api.events.authentication.AuthenticationEvent;
 import api.events.handlers.DeezerListener;
@@ -147,7 +148,9 @@ public class IndexController {
         userMenu.setNavigator(this::navigate);
         searchBar.setSearchEngine(this::search);
         try {
-            deezerClient = new Deezer();
+            deezerClient = new Deezer(
+                    new Configuration("/callback", "API_KEY", "API_SECRET")
+            );
         } catch (IOException e) {
             e.printStackTrace();
             return;

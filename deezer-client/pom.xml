@@ -60,6 +60,8 @@
                         <list>controllers.IndexController</list>
                         <list>controllers.PlaylistDialog</list>
 
+                        <list>components.MusicPlayer</list>
+                        
                         <list>components.containers.boxes.ArtistBox</list>
                         <list>components.containers.boxes.CommentBox</list>
                         <list>components.containers.boxes.PlaylistBox</list>
@@ -92,14 +94,21 @@
                         <list>components.views.SettingsView</list>
                         <list>components.views.UserView</list>
 
+                        <list>javafx.scene.control.ContextMenu</list>
+                        
                         <list>javafx.scene.control.Menu</list>
                         <list>javafx.scene.control.MenuBar</list>
                         <list>javafx.scene.control.MenuItem</list>
+                        
+                        <list>javafx.scene.control.Separator</list>
                         <list>javafx.scene.control.SeparatorMenuItem</list>
+                        
+                        <list>javafx.scene.control.Slider</list>
 
                         <list>javafx.scene.control.Tab</list>
 
                         <list>javafx.scene.control.TableColumn</list>
+                        <list>javafx.scene.control.TableColumnBase</list>
                         <list>javafx.scene.control.TableView</list>
                     </reflectionList>
                 </configuration>

@@ -89,18 +89,12 @@ public class Deezer {
     private static final String USER_SECTION = "user";
     private static final String USERS_SECTION = "users";
 
-    public Deezer() throws IOException {
-        Properties apiClientProps = new Properties();
-        try (InputStream inputStream = getClass().getResourceAsStream("/clientConfig.properties")){
-            apiClientProps.load(inputStream);
-        }
-
+    public Deezer(Configuration configuration) throws IOException {
         authenticationEventHandler = new DeezerEventHandler<>();
 
         try {
-            requestExecutor = new DeezerRequestExecutor(
-                    apiClientProps.getProperty("callbackContext"), apiClientProps.getProperty("apiKey"),
-                    apiClientProps.getProperty("apiSecret"), Arrays.asList(Permissions.values()));
+            requestExecutor = new DeezerRequestExecutor(configuration.getCallbackContext(), configuration.getApiKey(),
+                    configuration.getApiSecret(), Arrays.asList(Permissions.values()));
             requestExecutor.setAuthenticationEventHandler(authenticationEventHandler);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | CertificateException | KeyStoreException e) {
             e.printStackTrace();
