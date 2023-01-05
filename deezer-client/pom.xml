@@ -10,9 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
     
     <properties>
-        <client.maven.plugin.version>0.1.39</client.maven.plugin.version>
-        <javafx.version>16</javafx.version>
-        <javafx.maven.plugin.version>0.0.6</javafx.maven.plugin.version>
+        <client.maven.plugin.version>0.1.42</client.maven.plugin.version>
+        <javafx.version>17.0.2</javafx.version>
+        <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <main.class>App</main.class>
     </properties>
 
