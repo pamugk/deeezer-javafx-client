@@ -31,10 +31,19 @@ public class ArtistFlowPane extends FlowPane {
         });
     }
 
-    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() { return artistRedirectioner; }
-    public final void setArtistRedirectioner(Consumer<Long> value) { artistRedirectionerProperty().set(value); }
-    public final Consumer<Long> getArtistRedirectioner() { return artistRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() {
+        return artistRedirectioner;
+    }
+
+    public final void setArtistRedirectioner(Consumer<Long> value) {
+        artistRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getArtistRedirectioner() {
+        return artistRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return ArtistFlowPane.this;

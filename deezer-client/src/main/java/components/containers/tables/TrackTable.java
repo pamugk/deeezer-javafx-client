@@ -106,10 +106,19 @@ public class TrackTable<T extends TrackSearch> extends TableView<T> {
         popularityCol.setCellValueFactory(new PropertyValueFactory<>("rank"));
     }
 
-    public final ObjectProperty<Consumer<T>> trackSelectionerProperty() { return trackSelectioner; }
-    public final void setTrackSelectioner(Consumer<T> value) { trackSelectionerProperty().set(value); }
-    public final Consumer<T> getTrackSelectioner() { return trackSelectionerProperty().get(); }
-    private ObjectProperty<Consumer<T>> trackSelectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<T>> trackSelectionerProperty() {
+        return trackSelectioner;
+    }
+
+    public final void setTrackSelectioner(Consumer<T> value) {
+        trackSelectionerProperty().set(value);
+    }
+
+    public final Consumer<T> getTrackSelectioner() {
+        return trackSelectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<T>> trackSelectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return TrackTable.this;

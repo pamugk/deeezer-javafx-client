@@ -10,8 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
     
     <properties>
-        <client.maven.plugin.version>0.1.42</client.maven.plugin.version>
-        <javafx.version>17.0.2</javafx.version>
+        <client.maven.plugin.version>1.0.26</client.maven.plugin.version>
+        <javafx.version>21.0.6</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <main.class>App</main.class>
     </properties>
@@ -47,7 +47,7 @@
 
             <plugin>
                 <groupId>com.gluonhq</groupId>
-                <artifactId>client-maven-plugin</artifactId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
                 <version>${client.maven.plugin.version}</version>
                 <configuration>
                     <target>${client.target}</target>

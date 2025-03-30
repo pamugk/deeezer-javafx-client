@@ -41,7 +41,7 @@ public class SearchBar extends HBox {
     @FXML
     void searchTextField_OnKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER && searchTextField.getText() != null) {
-            if (searchTextField.getText().trim().length() == 0)
+            if (searchTextField.getText().trim().isEmpty())
                 searchTextField.setText(null);
             else getSearchEngine().accept(searchTextField.getText());
         }
@@ -50,13 +50,13 @@ public class SearchBar extends HBox {
     @FXML
     void initialize(){
         searchTextField.textProperty().addListener((observable, oldValue, newValue) ->
-                cancelSearchBtn.setVisible(newValue != null && newValue.length() > 0));
+                cancelSearchBtn.setVisible(newValue != null && !newValue.isEmpty()));
     }
 
     public final ObjectProperty<Consumer<String>> searchEngineProperty() { return searchEngine; }
     public final void setSearchEngine(Consumer<String> value) { searchEngineProperty().set(value); }
     public final Consumer<String> getSearchEngine() { return searchEngineProperty().get(); }
-    private ObjectProperty<Consumer<String>> searchEngine = new ObjectPropertyBase<>() {
+    private final ObjectProperty<Consumer<String>> searchEngine = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return SearchBar.this;

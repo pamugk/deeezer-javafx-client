@@ -9,10 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -60,10 +58,19 @@ public class ArtistCard extends VBox {
         followers.setVisible(artist.getNb_fan() > 0);
     }
 
-    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() { return artistRedirectioner; }
-    public final void setArtistRedirectioner(Consumer<Long> value) { artistRedirectionerProperty().set(value); }
-    public final Consumer<Long> getArtistRedirectioner() { return artistRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() {
+        return artistRedirectioner;
+    }
+
+    public final void setArtistRedirectioner(Consumer<Long> value) {
+        artistRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getArtistRedirectioner() {
+        return artistRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return ArtistCard.this;

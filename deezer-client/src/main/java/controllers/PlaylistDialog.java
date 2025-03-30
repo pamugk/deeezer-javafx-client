@@ -126,6 +126,6 @@ public class PlaylistDialog {
         });
 
         playlistNameTextField.textProperty().addListener((observableValue, oldVal, newVal)
-                -> saveBtn.setDisable(newVal == null || newVal.trim().equals("")));
+                -> saveBtn.setDisable(newVal == null || newVal.trim().isEmpty()));
     }
 }

@@ -29,10 +29,19 @@ public class AlbumFlowPane extends FlowPane {
             countLabel.setText(String.valueOf(albums.getTotal()));
     }
 
-    public final ObjectProperty<Consumer<Long>> albumRedirectionerProperty() { return albumRedirectioner; }
-    public final void setAlbumRedirectioner(Consumer<Long> value) { albumRedirectionerProperty().set(value); }
-    public final Consumer<Long> getAlbumRedirectioner() { return albumRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> albumRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> albumRedirectionerProperty() {
+        return albumRedirectioner;
+    }
+
+    public final void setAlbumRedirectioner(Consumer<Long> value) {
+        albumRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getAlbumRedirectioner() {
+        return albumRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> albumRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return AlbumFlowPane.this;
@@ -44,10 +53,19 @@ public class AlbumFlowPane extends FlowPane {
         }
     };
 
-    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() { return artistRedirectioner; }
-    public final void setArtistRedirectioner(Consumer<Long> value) { artistRedirectionerProperty().set(value); }
-    public final Consumer<Long> getArtistRedirectioner() { return artistRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() {
+        return artistRedirectioner;
+    }
+
+    public final void setArtistRedirectioner(Consumer<Long> value) {
+        artistRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getArtistRedirectioner() {
+        return artistRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return AlbumFlowPane.this;

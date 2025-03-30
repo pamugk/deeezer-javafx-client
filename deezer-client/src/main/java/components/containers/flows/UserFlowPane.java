@@ -31,10 +31,19 @@ public class UserFlowPane extends FlowPane {
         });
     }
 
-    public final ObjectProperty<Consumer<Long>> userRedirectionerProperty() { return userRedirectioner; }
-    public final void setUserRedirectioner(Consumer<Long> value) { userRedirectionerProperty().set(value); }
-    public final Consumer<Long> getUserRedirectioner() { return userRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> userRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> userRedirectionerProperty() {
+        return userRedirectioner;
+    }
+
+    public final void setUserRedirectioner(Consumer<Long> value) {
+        userRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getUserRedirectioner() {
+        return userRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> userRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return UserFlowPane.this;

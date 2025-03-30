@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -59,10 +58,19 @@ public class PlaylistCard extends VBox {
                 playlist.getNb_tracks()));
     }
 
-    public final ObjectProperty<Consumer<Long>> playlistRedirectionerProperty() { return playlistRedirectioner; }
-    public final void setPlaylistRedirectioner(Consumer<Long> value) { playlistRedirectionerProperty().set(value); }
-    public final Consumer<Long> getPlaylistRedirectioner() { return playlistRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> playlistRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> playlistRedirectionerProperty() {
+        return playlistRedirectioner;
+    }
+
+    public final void setPlaylistRedirectioner(Consumer<Long> value) {
+        playlistRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getPlaylistRedirectioner() {
+        return playlistRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> playlistRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return PlaylistCard.this;

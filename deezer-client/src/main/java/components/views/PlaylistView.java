@@ -126,7 +126,7 @@ public class PlaylistView extends VBox {
     public final ObjectProperty<Consumer<Long>> userRedirectionerProperty() { return userRedirectioner; }
     public final void setUserRedirectioner(Consumer<Long> value) { userRedirectionerProperty().set(value); }
     public final Consumer<Long> getUserRedirectioner() { return userRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> userRedirectioner = new ObjectPropertyBase<>() {
+    private final ObjectProperty<Consumer<Long>> userRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return PlaylistView.this;
@@ -141,7 +141,7 @@ public class PlaylistView extends VBox {
     public final ObjectProperty<Consumer<Playlist>> playlistEditorProperty() { return playlistEditor; }
     public final void setPlaylistEditor(Consumer<Playlist> value) { playlistEditorProperty().set(value); }
     public final Consumer<Playlist> getPlaylistEditor() { return playlistEditorProperty().get(); }
-    private ObjectProperty<Consumer<Playlist>> playlistEditor = new ObjectPropertyBase<>() {
+    private final ObjectProperty<Consumer<Playlist>> playlistEditor = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return PlaylistView.this;

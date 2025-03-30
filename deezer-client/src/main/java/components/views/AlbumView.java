@@ -15,7 +15,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import utils.TimeUtils;
 
@@ -112,10 +111,19 @@ public class AlbumView extends VBox {
         }
     }
 
-    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() { return artistRedirectioner; }
-    public final void setArtistRedirectioner(Consumer<Long> value) { artistRedirectionerProperty().set(value); }
-    public final Consumer<Long> getArtistRedirectioner() { return artistRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() {
+        return artistRedirectioner;
+    }
+
+    public final void setArtistRedirectioner(Consumer<Long> value) {
+        artistRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getArtistRedirectioner() {
+        return artistRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return AlbumView.this;

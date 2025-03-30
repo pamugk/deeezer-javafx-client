@@ -32,10 +32,19 @@ public class PlaylistFlowPane extends FlowPane {
             countLabel.setText(String.valueOf(playlists.getTotal() - 1));
     }
 
-    public final ObjectProperty<Consumer<Long>> playlistRedirectionerProperty() { return playlistRedirectioner; }
-    public final void setPlaylistRedirectioner(Consumer<Long> value) { playlistRedirectionerProperty().set(value); }
-    public final Consumer<Long> getPlaylistRedirectioner() { return playlistRedirectionerProperty().get(); }
-    private ObjectProperty<Consumer<Long>> playlistRedirectioner = new ObjectPropertyBase<>() {
+    public final ObjectProperty<Consumer<Long>> playlistRedirectionerProperty() {
+        return playlistRedirectioner;
+    }
+
+    public final void setPlaylistRedirectioner(Consumer<Long> value) {
+        playlistRedirectionerProperty().set(value);
+    }
+
+    public final Consumer<Long> getPlaylistRedirectioner() {
+        return playlistRedirectionerProperty().get();
+    }
+
+    private final ObjectProperty<Consumer<Long>> playlistRedirectioner = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return PlaylistFlowPane.this;

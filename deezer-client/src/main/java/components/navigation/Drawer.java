@@ -85,7 +85,7 @@ public class Drawer extends VBox {
     public final ObjectProperty<Consumer<Pages>> navigatorProperty() { return navigator; }
     public final void setNavigator(Consumer<Pages> value) { navigatorProperty().set(value); }
     public final Consumer<Pages> getNavigator() { return navigatorProperty().get(); }
-    private ObjectProperty<Consumer<Pages>> navigator = new ObjectPropertyBase<>() {
+    private final ObjectProperty<Consumer<Pages>> navigator = new ObjectPropertyBase<>() {
         @Override
         public Object getBean() {
             return Drawer.this;
