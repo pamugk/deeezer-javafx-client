@@ -16,7 +16,7 @@ import java.util.List;
 public class ArtistBox extends VBox {
     public void fill(List<Artist> artists) {
         getChildren().clear();
-        for (Artist artist : artists) {
+        for (final Artist artist : artists) {
             HBox artistBox = new HBox();
             artistBox.setPadding(new Insets(0, 10, 0, 0));
             artistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -27,7 +27,6 @@ public class ArtistBox extends VBox {
             artistPicture.setFitHeight(56);
             Button artistBtn = new Button(null, artistPicture);
             artistBtn.getStyleClass().add("deezer-button");
-            //artistBtn.setOnAction(event -> redirectToArtist(deezerClient.getArtist(artist.getId())));
             artistBox.getChildren().addAll(artistBtn);
 
             VBox artistInfoBox = new VBox();

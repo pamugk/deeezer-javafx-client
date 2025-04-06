@@ -1,10 +1,13 @@
 package components.views;
 
 import api.Deezer;
+import api.PartialSearchResponse;
 import api.objects.playables.Album;
+import api.objects.playables.Artist;
 import api.objects.playables.TrackSearch;
-import components.containers.flows.AlbumFlowPane;
-import components.containers.flows.ArtistFlowPane;
+import components.containers.cards.AlbumCard;
+import components.containers.cards.ArtistCard;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -13,6 +16,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import utils.TimeUtils;
 
@@ -73,9 +78,9 @@ public class AlbumView extends VBox {
     @FXML
     private TableColumn<TrackSearch, Integer> albumTrackPopCol;
     @FXML
-    private AlbumFlowPane albumArtistDiscographyFP;
+    private FlowPane albumArtistDiscographyFP;
     @FXML
-    private ArtistFlowPane albumArtistRelatedFP;
+    private FlowPane albumArtistRelatedFP;
     //</editor-fold>
 
     public void setAlbum(Album album, Deezer deezerClient) {
@@ -94,11 +99,29 @@ public class AlbumView extends VBox {
         albumTracksTV.getItems().clear();
         albumTracksTV.getItems().addAll(album.getTracks().getData());
 
-        albumArtistDiscographyFP.fill(deezerClient.getArtistDiscography(album.getArtist()), null, true, true);
-        albumArtistRelatedFP.fill(deezerClient.getArtistRelated(album.getArtist(), 25), null, true, false);
-        if (deezerClient.getLoginStatus() == NOT_AUTHORIZED)
+        final PartialSearchResponse<Album> albumArtistDiscography = deezerClient.getArtistDiscography(album.getArtist());
+        albumArtistDiscographyFP.getChildren().clear();
+        for (final Album discographyAlbum: albumArtistDiscography.getData()) {
+            final var albumCard = new AlbumCard();
+            albumCard.prefWidthProperty().bind(Bindings.add(-35, albumArtistDiscographyFP.widthProperty().divide(4.2)));
+            albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            albumCard.setAlbum(discographyAlbum);
+            albumArtistDiscographyFP.getChildren().add(albumCard);
+        }
+
+        final PartialSearchResponse<Artist> albumArtistRelated = deezerClient.getArtistRelated(album.getArtist(), 25);
+        albumArtistRelatedFP.getChildren().clear();
+        for (final Artist artist: albumArtistRelated.getData()) {
+            final var artistCard = new ArtistCard();
+            artistCard.setArtist(artist);
+            artistCard.prefWidthProperty().bind(Bindings.add(-35, albumArtistRelatedFP.widthProperty().divide(4.2)));
+            artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            albumArtistRelatedFP.getChildren().add(artistCard);
+        }
+
+        if (deezerClient.getLoginStatus() == NOT_AUTHORIZED) {
             addAlbumToLibrary.setVisible(false);
-        else {
+        } else {
             addAlbumToLibrary.setVisible(true);
             addAlbumToLibrary.setText(resources.getString("addToMyMusic"));
             albumAddToLibImg.setImage(new Image("src/main/resources/img/icon-like.png"));

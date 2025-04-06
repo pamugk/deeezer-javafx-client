@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.text.Font?>
-<?import java.lang.String?>
-<?import javafx.scene.control.Button?>
 <?import components.containers.tables.TrackTable?>
-<?import components.containers.flows.AlbumFlowPane?>
-<?import components.containers.flows.ArtistFlowPane?>
-<?import components.containers.flows.PlaylistFlowPane?>
-<?import components.containers.flows.UserFlowPane?>
-<?import components.containers.flows.RadioFlowPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <TabPane fx:id="searchTabPane" tabClosingPolicy="UNAVAILABLE">
         <padding>
@@ -43,7 +33,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <AlbumFlowPane fx:id="albumsResultsFP" hgap="35.0" />
+                    <FlowPane fx:id="albumsResultsFP" hgap="35.0" />
                     <Button fx:id="artistsResultBtn" mnemonicParsing="false" onAction="#artistsResultBtn_OnAction" text="%artists">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -53,7 +43,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <ArtistFlowPane fx:id="artistsResultsFP" hgap="35.0" />
+                    <FlowPane fx:id="artistsResultsFP" hgap="35.0" />
                     <Button fx:id="playlistsResultsBtn" mnemonicParsing="false" onAction="#playlistsResultsBtn_OnAction" text="%playlists">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -63,7 +53,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <PlaylistFlowPane fx:id="playlistsResultsFP" hgap="35.0" />
+                    <FlowPane fx:id="playlistsResultsFP" hgap="35.0" />
                     <Button fx:id="profilesResultsBtn" mnemonicParsing="false" onAction="#profilesResultsBtn_OnAction" text="%profiles">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -73,7 +63,7 @@
                             <Insets top="65.0" />
                         </VBox.margin>
                     </Button>
-                    <UserFlowPane fx:id="profilesResultsFP" hgap="35.0" />
+                    <FlowPane fx:id="profilesResultsFP" hgap="35.0" />
                     <padding>
                         <Insets bottom="80.0" />
                     </padding>
@@ -111,7 +101,7 @@
                         </Label>
                         <Label fx:id="foundAlbumsLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <AlbumFlowPane fx:id="foundAlbumsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <FlowPane fx:id="foundAlbumsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -135,7 +125,7 @@
                         </Label>
                         <Label fx:id="foundArtistsLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <ArtistFlowPane fx:id="foundArtistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <FlowPane fx:id="foundArtistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -156,7 +146,7 @@
                         </Label>
                         <Label fx:id="foundPlaylistsLabel" styleClass="card-header" text="0" />
                     </HBox>
-                    <PlaylistFlowPane fx:id="foundPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <FlowPane fx:id="foundPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -177,7 +167,6 @@
                         </Label>
                         <Label fx:id="foundMixesLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <RadioFlowPane fx:id="foundMixesFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -198,7 +187,7 @@
                         </Label>
                         <Label fx:id="foundProfilesLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <UserFlowPane fx:id="foundProfilesFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
+                    <FlowPane fx:id="foundProfilesFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>

@@ -1,14 +1,24 @@
 package components.views;
 
 import api.PartialSearchResponse;
+import api.objects.playables.Album;
+import api.objects.playables.Artist;
+import api.objects.playables.Playlist;
 import api.objects.playables.TrackSearch;
+import api.objects.utils.User;
 import api.objects.utils.search.FullSearchSet;
-import components.containers.flows.*;
+import components.containers.cards.AlbumCard;
+import components.containers.cards.ArtistCard;
+import components.containers.cards.PlaylistCard;
+import components.containers.cards.UserCard;
 import components.containers.tables.TrackTable;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -16,6 +26,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class SearchView extends VBox {
+    private static final int HIGHLIGHTS_LIMIT = 4;
+
     public SearchView() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("searchView.fxml"), bundle);
@@ -41,19 +53,19 @@ public class SearchView extends VBox {
     @FXML
     private Button albumsResultBtn;
     @FXML
-    private ArtistFlowPane artistsResultsFP;
+    private FlowPane artistsResultsFP;
     @FXML
-    private AlbumFlowPane albumsResultsFP;
+    private FlowPane albumsResultsFP;
     @FXML
     private Button artistsResultBtn;
     @FXML
     private Button playlistsResultsBtn;
     @FXML
-    private PlaylistFlowPane playlistsResultsFP;
+    private FlowPane playlistsResultsFP;
     @FXML
     private Button profilesResultsBtn;
     @FXML
-    private UserFlowPane profilesResultsFP;
+    private FlowPane profilesResultsFP;
     @FXML
     private Tab trackResultsTab;
     @FXML
@@ -65,31 +77,29 @@ public class SearchView extends VBox {
     @FXML
     private Label foundAlbumsLbl;
     @FXML
-    private AlbumFlowPane foundAlbumsFP;
+    private FlowPane foundAlbumsFP;
     @FXML
     private Tab artistResultsTab;
     @FXML
     private Label foundArtistsLbl;
     @FXML
-    private ArtistFlowPane foundArtistsFP;
+    private FlowPane foundArtistsFP;
     @FXML
     private Tab playlistResultsTab;
     @FXML
     private Label foundPlaylistsLabel;
     @FXML
-    private PlaylistFlowPane foundPlaylistsFP;
+    private FlowPane foundPlaylistsFP;
     @FXML
     private Tab mixResultsTab;
     @FXML
     private Label foundMixesLbl;
     @FXML
-    private RadioFlowPane foundMixesFP;
-    @FXML
     private Tab profileResultsTab;
     @FXML
     private Label foundProfilesLbl;
     @FXML
-    private UserFlowPane foundProfilesFP;
+    private FlowPane foundProfilesFP;
 
     @FXML
     void albumsResultBtn_OnAction(ActionEvent actionEvent) {
@@ -132,43 +142,109 @@ public class SearchView extends VBox {
         tracksResultTV.setVisible(found);
 
         found = !searchSet.getAlbumResponse().getData().isEmpty();
-        if (found)
+        if (found) {
             searchTabPane.getTabs().add(albumResultsTab);
+        }
         albumsResultBtn.setVisible(found);
         albumsResultsFP.setVisible(found);
-        albumsResultsFP.fill(new PartialSearchResponse<>(searchSet.getAlbumResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
-        foundAlbumsFP.fill(searchSet.getAlbumResponse(), foundAlbumsLbl, true, true);
+        albumsResultsFP.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getAlbumResponse().getData().size(); i++) {
+            final Album album = searchSet.getAlbumResponse().getData().get(i);
+            final var albumCard = new AlbumCard();
+            albumCard.prefWidthProperty().bind(Bindings.add(-35, albumsResultsFP.widthProperty().divide(4.2)));
+            albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            albumCard.setAlbum(album);
+            albumsResultsFP.getChildren().add(albumCard);
+        }
+        foundAlbumsFP.getChildren().clear();
+        foundAlbumsLbl.setText(String.valueOf(searchSet.getAlbumResponse().getTotal()));
+        for (final Album album: searchSet.getAlbumResponse().getData()) {
+            final var albumCard = new AlbumCard();
+            albumCard.prefWidthProperty().bind(Bindings.add(-35, foundAlbumsFP.widthProperty().divide(4.2)));
+            albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            albumCard.setAlbum(album);
+            foundAlbumsFP.getChildren().add(albumCard);
+        }
 
-        found= !searchSet.getArtistResponse().getData().isEmpty();
-        if (found)
+        found = !searchSet.getArtistResponse().getData().isEmpty();
+        if (found) {
             searchTabPane.getTabs().add(artistResultsTab);
+        }
         artistsResultBtn.setVisible(found);
         artistsResultsFP.setVisible(found);
-        artistsResultsFP.fill(new PartialSearchResponse<>(searchSet.getArtistResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
-        foundArtistsFP.fill(searchSet.getArtistResponse(), foundArtistsLbl, true, true);
+        artistsResultsFP.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getArtistResponse().getData().size(); i++) {
+            final Artist artist = searchSet.getArtistResponse().getData().get(i);
+            final var artistCard = new ArtistCard();
+            artistCard.prefWidthProperty().bind(Bindings.add(-35, artistsResultsFP.widthProperty().divide(4.2)));
+            artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistCard.setArtist(artist);
+            artistsResultsFP.getChildren().add(artistCard);
+        }
+        foundArtistsFP.getChildren().clear();
+        foundArtistsLbl.setText(String.valueOf(searchSet.getArtistResponse().getTotal()));
+        for (final Artist artist: searchSet.getArtistResponse().getData()) {
+            final var artistCard = new ArtistCard();
+            artistCard.prefWidthProperty().bind(Bindings.add(-35, foundArtistsFP.widthProperty().divide(4.2)));
+            artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistCard.setArtist(artist);
+            foundArtistsFP.getChildren().add(artistCard);
+        }
 
         found = !searchSet.getPlaylistResponse().getData().isEmpty();
-        if (found)
+        if (found) {
             searchTabPane.getTabs().add(playlistResultsTab);
+        }
         playlistsResultsBtn.setVisible(found);
         playlistsResultsFP.setVisible(found);
-        playlistsResultsFP.fill(new PartialSearchResponse<>(searchSet.getPlaylistResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
-        foundPlaylistsFP.fill(searchSet.getPlaylistResponse(), foundPlaylistsLabel, true, true);
-
-        //if (searchSet.getRadioResponse().getData().size() > 0)
-        //   searchTabPane.getTabs().add(mixResultsTab);
-        //fillFlowPaneWithRadios(foundMixesFP, searchSet.getRadioResponse(), foundMixesLbl);
+        playlistsResultsFP.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getPlaylistResponse().getData().size(); i++) {
+            final Playlist playlist = searchSet.getPlaylistResponse().getData().get(i);
+            if (playlist.is_loved_track()) {
+                continue;
+            }
+            final var playlistCard = new PlaylistCard();
+            playlistCard.setPlaylist(playlist);
+            playlistCard.prefWidthProperty().bind(Bindings.add(-35, playlistsResultsFP.widthProperty().divide(4.2)));
+            playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistsResultsFP.getChildren().add(playlistCard);
+        }
+        foundPlaylistsFP.getChildren().clear();
+        foundPlaylistsLabel.setText(String.valueOf(searchSet.getPlaylistResponse().getTotal() - 1));
+        for (final Playlist playlist: searchSet.getPlaylistResponse().getData()) {
+            if (playlist.is_loved_track()) {
+                continue;
+            }
+            final var playlistCard = new PlaylistCard();
+            playlistCard.setPlaylist(playlist);
+            playlistCard.prefWidthProperty().bind(Bindings.add(-35, foundPlaylistsFP.widthProperty().divide(4.2)));
+            playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            foundPlaylistsFP.getChildren().add(playlistCard);
+        }
 
         found = !searchSet.getUserResponse().getData().isEmpty();
-        if (found)
+        if (found) {
             searchTabPane.getTabs().add(profileResultsTab);
+        }
         profilesResultsBtn.setVisible(found);
         profilesResultsFP.setVisible(found);
-        profilesResultsFP.fill(new PartialSearchResponse<>(searchSet.getUserResponse()
-                .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
-        foundProfilesFP.fill(searchSet.getUserResponse(), foundProfilesLbl, true, true);
+        profilesResultsFP.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getUserResponse().getData().size(); i++) {
+            final User user = searchSet.getUserResponse().getData().get(i);
+            final var userCard = new UserCard();
+            userCard.prefWidthProperty().bind(Bindings.add(-35, profilesResultsFP.widthProperty().divide(4.2)));
+            userCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            userCard.setUser(user);
+            profilesResultsFP.getChildren().add(userCard);
+        }
+        foundProfilesFP.getChildren().clear();
+        foundProfilesLbl.setText(String.valueOf(searchSet.getUserResponse().getTotal()));
+        for (final User user : searchSet.getUserResponse().getData()) {
+            final var userCard = new UserCard();
+            userCard.prefWidthProperty().bind(Bindings.add(-35, foundProfilesFP.widthProperty().divide(4.2)));
+            userCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            userCard.setUser(user);
+            foundProfilesFP.getChildren().add(userCard);
+        }
     }
 }

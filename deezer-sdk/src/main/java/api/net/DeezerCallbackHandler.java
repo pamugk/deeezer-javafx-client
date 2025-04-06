@@ -34,7 +34,7 @@ public class DeezerCallbackHandler implements HttpHandler {
 
     private Map<String, String> queryToMap(String query) {
         Map<String, String> result = new HashMap<>();
-        for (String param : query.split("&")) {
+        for (final String param : query.split("&")) {
             String[] pair = param.split("=");
             if (pair.length > 1) {
                 result.put(pair[0], pair[1]);

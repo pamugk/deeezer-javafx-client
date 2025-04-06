@@ -84,7 +84,6 @@ public class PlaylistView extends VBox {
 
     @FXML
     private void onPlaylistEdit(ActionEvent event) {
-        //getPlaylistEditor().accept(playlist);
     }
 
     @FXML

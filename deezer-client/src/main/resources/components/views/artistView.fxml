@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.ImageView?>
-<?import components.containers.boxes.PlaylistBox?>
-<?import components.containers.flows.ArtistFlowPane?>
-<?import components.containers.flows.PlaylistFlowPane?>
-<?import components.containers.boxes.CommentBox?>
-<?import components.containers.flows.AlbumFlowPane?>
 <?import components.containers.boxes.ArtistBox?>
+<?import components.containers.boxes.CommentBox?>
+<?import components.containers.boxes.PlaylistBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER">
     <HBox spacing="10.0">
         <ImageView fx:id="artistPicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
@@ -89,7 +85,7 @@
                     <HBox>
                         <Label styleClass="deezer-subtitle" text="%discography" />
                     </HBox>
-                    <AlbumFlowPane fx:id="artistDiscographyFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+                    <FlowPane fx:id="artistDiscographyFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />
@@ -142,7 +138,7 @@
                             <Insets top="45.0" />
                         </VBox.margin>
                     </Label>
-                    <ArtistFlowPane fx:id="artistRelatedFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
+                    <FlowPane fx:id="artistRelatedFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS" />
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />
@@ -157,11 +153,11 @@
                             <Insets top="45.0" />
                         </VBox.margin>
                     </Label>
-                    <PlaylistFlowPane fx:id="artistPlaylistsFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS">
+                    <FlowPane fx:id="artistPlaylistsFP" hgap="35.0" prefWrapLength="200.0" vgap="30.0" VBox.vgrow="ALWAYS">
                         <VBox.margin>
                             <Insets />
                         </VBox.margin>
-                    </PlaylistFlowPane>
+                    </FlowPane>
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />

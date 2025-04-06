@@ -16,7 +16,7 @@ import java.util.List;
 public class PlaylistBox extends VBox {
     public void fill(List<Playlist> playlists) {
         getChildren().clear();
-        for (Playlist playlist : playlists) {
+        for (final Playlist playlist : playlists) {
             HBox playlistBox = new HBox();
             playlistBox.setPadding(new Insets(0, 10, 0, 0));
             playlistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -26,7 +26,6 @@ public class PlaylistBox extends VBox {
             playlistPicture.setFitWidth(56);
             playlistPicture.setFitHeight(56);
             Button playlistBtn = new Button(null, playlistPicture);
-            //playlistBtn.setOnAction(event -> redirectToPlaylist(deezerClient.getPlaylist(playlist.getId())));
             playlistBtn.getStyleClass().add("deezer-button");
             playlistBox.getChildren().addAll(playlistBtn);
 

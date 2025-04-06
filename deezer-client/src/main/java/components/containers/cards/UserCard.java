@@ -35,7 +35,6 @@ public class UserCard extends VBox {
 
     @FXML
     private void onUserRedirection() {
-        //userRedirectioner.getValue().accept(user.getId());
     }
 
     public void setUser(User user) {

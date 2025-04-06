@@ -39,7 +39,6 @@ public class ArtistCard extends VBox {
 
     @FXML
     private void onArtistRedirection() {
-        //artistRedirectioner.getValue().accept(artist.getId());
     }
 
     public void setArtist(Artist artist) {

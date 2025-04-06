@@ -39,12 +39,10 @@ public class AlbumCard extends VBox {
 
     @FXML
     private void onAlbumRedirection() {
-        //artistRedirectioner.getValue().accept(album.getId());
     }
 
     @FXML
     private void onArtistRedirection() {
-        //artistRedirectioner.getValue().accept(album.getArtist().getId());
     }
 
     public void setAlbum(Album album) {

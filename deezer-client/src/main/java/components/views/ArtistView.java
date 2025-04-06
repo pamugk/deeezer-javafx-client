@@ -9,21 +9,25 @@ import api.objects.playables.TrackSearch;
 import components.containers.boxes.ArtistBox;
 import components.containers.boxes.CommentBox;
 import components.containers.boxes.PlaylistBox;
-import components.containers.flows.AlbumFlowPane;
-import components.containers.flows.ArtistFlowPane;
-import components.containers.flows.PlaylistFlowPane;
+import components.containers.cards.AlbumCard;
+import components.containers.cards.ArtistCard;
+import components.containers.cards.PlaylistCard;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -93,7 +97,7 @@ public class ArtistView extends VBox {
     @FXML
     private TableColumn<TrackSearch, String> artistTATTitleCol;
     @FXML
-    private AlbumFlowPane artistDiscographyFP;
+    private FlowPane artistDiscographyFP;
     @FXML
     private Tab artistPopularTracksTab;
     @FXML
@@ -117,11 +121,11 @@ public class ArtistView extends VBox {
     @FXML
     private Tab artistRelatedTab;
     @FXML
-    private ArtistFlowPane artistRelatedFP;
+    private FlowPane artistRelatedFP;
     @FXML
     private Tab artistPlaylistsTab;
     @FXML
-    private PlaylistFlowPane artistPlaylistsFP;
+    private FlowPane artistPlaylistsFP;
     @FXML
     private CommentBox artistCommentsBox;
     //</editor-fold>
@@ -153,38 +157,63 @@ public class ArtistView extends VBox {
         }
         PartialSearchResponse<TrackSearch> popularTracks = deezerClient.getArtistTop(artist, 50);
         artistTopTracksTV.getItems().clear();
-        artistTopTracksTV.getItems().addAll(popularTracks.getData().stream().limit(4).collect(Collectors.toList()));
+        artistTopTracksTV.getItems().addAll(popularTracks.getData().stream().limit(4).toList());
         artistPopTracksTV.getItems().clear();
         artistPopTracksTV.getItems().addAll(popularTracks.getData());
 
         PartialSearchResponse<Playlist> playlists = deezerClient.getArtistPlaylists(artist, 25);
         artistPlaylistsBox.fill(playlists.getData().stream().limit(3).collect(Collectors.toList()));
-        artistPlaylistsFP.fill(playlists, null, true, true);
+        artistPlaylistsFP.getChildren().clear();
+        for (final Playlist playlist: playlists.getData()) {
+            if (playlist.is_loved_track()) {
+                continue;
+            }
+            final var playlistCard = new PlaylistCard();
+            playlistCard.setPlaylist(playlist);
+            playlistCard.prefWidthProperty().bind(Bindings.add(-35, artistPlaylistsFP.widthProperty().divide(4.2)));
+            playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistPlaylistsFP.getChildren().add(playlistCard);
+        }
 
-        PartialSearchResponse<Artist> similiarArtists = deezerClient.getArtistRelated(artist, 25);
-        artistRelatedBox.fill(similiarArtists.getData().stream().limit(3).collect(Collectors.toList()));
-        artistRelatedFP.fill(similiarArtists, null, true, true);
+        PartialSearchResponse<Artist> similarArtists = deezerClient.getArtistRelated(artist, 25);
+        artistRelatedBox.fill(similarArtists.getData().stream().limit(3).collect(Collectors.toList()));
+        artistRelatedFP.getChildren().clear();
+        for (final Artist similarArtist: similarArtists.getData()) {
+            final var artistCard = new ArtistCard();
+            artistCard.setArtist(similarArtist);
+            artistCard.prefWidthProperty().bind(Bindings.add(-35, artistRelatedFP.widthProperty().divide(4.2)));
+            artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistRelatedFP.getChildren().add(artistCard);
+        }
 
         PartialSearchResponse<Album> discography = deezerClient.getArtistDiscography(artist);
-        artistDiscographyFP.fill(discography, null, true, true);
+        artistDiscographyFP.getChildren().clear();
+        for (final Album album: discography.getData()) {
+            final var albumCard = new AlbumCard();
+            albumCard.prefWidthProperty().bind(Bindings.add(-35, artistDiscographyFP.widthProperty().divide(4.2)));
+            albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            albumCard.setAlbum(album);
+            artistDiscographyFP.getChildren().add(albumCard);
+        }
         artistTopAlbumTracksTV.getItems().clear();
-        var ref = new Object() {
-            boolean albumShowed = false;
-        };
-        discography.getData().stream().max(Comparator.comparingInt(Album::getRating))
-                .ifPresent(album -> {
-                    ref.albumShowed = true;
-                    artistTopAlbumImg.setImage(new Image(album.getCover_medium().toString(), true));
-                    artistTopAlbumName.setText(album.getTitle());
-                    artistTopAlbumRelease.setText(album.getRelease_date().toInstant()
-                            .atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE));
-                    artistTopAlbumTracksTV.getItems().addAll(deezerClient.getAlbumTracks(album).getData()
-                            .stream().map(track -> (TrackSearch)track).collect(Collectors.toList()));
-                });
-        artistTopAlbumImg.setVisible(ref.albumShowed);
-        artistTopAlbumName.setVisible(ref.albumShowed);
-        artistTopAlbumRelease.setVisible(ref.albumShowed);
-        artistTopAlbumTracksTV.setVisible(ref.albumShowed);
+
+        boolean albumShowed = false;
+        final Optional<Album> topAlbum = discography.getData().stream().max(Comparator.comparingInt(Album::getRating));
+        if (topAlbum.isPresent()) {
+            albumShowed = true;
+
+            final Album topAlbumValue = topAlbum.get();
+            artistTopAlbumImg.setImage(new Image(topAlbumValue.getCover_medium().toString(), true));
+            artistTopAlbumName.setText(topAlbumValue.getTitle());
+            artistTopAlbumRelease.setText(topAlbumValue.getRelease_date().toInstant()
+                    .atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE));
+            artistTopAlbumTracksTV.getItems().addAll(deezerClient.getAlbumTracks(topAlbumValue).getData()
+                    .stream().map(track -> (TrackSearch)track).toList());
+        }
+        artistTopAlbumImg.setVisible(albumShowed);
+        artistTopAlbumName.setVisible(albumShowed);
+        artistTopAlbumRelease.setVisible(albumShowed);
+        artistTopAlbumTracksTV.setVisible(albumShowed);
         artistCommentsBox.fill(deezerClient.getArtistComments(artist));
         artistTabPane.getSelectionModel().select(artistDiscographyTab);
     }

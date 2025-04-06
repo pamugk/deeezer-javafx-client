@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeezerEventHandler<T extends DeezerEvent> {
-    private List<DeezerListener<T>> listeners;
+    private final List<DeezerListener<T>> listeners;
 
     public DeezerEventHandler() {
         listeners = new ArrayList<>();
@@ -21,7 +21,7 @@ public class DeezerEventHandler<T extends DeezerEvent> {
     }
 
     public void invoke(T event) {
-        for (DeezerListener<T> listener : listeners)
+        for (final DeezerListener<T> listener : listeners)
             listener.invoke(event);
     }
 

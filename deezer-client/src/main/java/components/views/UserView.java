@@ -8,10 +8,11 @@ import api.objects.playables.Playlist;
 import api.objects.playables.Track;
 import api.objects.utils.User;
 import api.objects.utils.search.SearchOrder;
-import components.containers.flows.AlbumFlowPane;
-import components.containers.flows.ArtistFlowPane;
-import components.containers.flows.PlaylistFlowPane;
+import components.containers.cards.AlbumCard;
+import components.containers.cards.ArtistCard;
+import components.containers.cards.PlaylistCard;
 import components.containers.tables.TrackTable;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,11 +21,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class UserView extends VBox {
     public enum Destinations{
@@ -34,6 +35,8 @@ public class UserView extends VBox {
         ALBUMS,
         ARTISTS,
     }
+
+    private static final int HIGHLIGHTS_LIMIT = 4;
 
     public UserView() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
@@ -71,15 +74,15 @@ public class UserView extends VBox {
     @FXML
     private FlowPane highlightsHistoryFP;
     @FXML
-    private PlaylistFlowPane highlightsPlaylistFP;
+    private FlowPane highlightsPlaylistFP;
     @FXML
     private Button favPlaylistsBtn;
     @FXML
-    private AlbumFlowPane highlightsAlbumFP;
+    private FlowPane highlightsAlbumFP;
     @FXML
     private Button favAlbumsBtn;
     @FXML
-    private ArtistFlowPane highlightsArtistFP;
+    private FlowPane highlightsArtistFP;
     @FXML
     private Button favArtistsBtn;
     @FXML
@@ -95,19 +98,19 @@ public class UserView extends VBox {
     @FXML
     private Button addPlaylistBtn;
     @FXML
-    private PlaylistFlowPane favPlaylistsFP;
+    private FlowPane favPlaylistsFP;
     @FXML
     private Tab favAlbumsTab;
     @FXML
     private Label favAlbumsLbl;
     @FXML
-    private AlbumFlowPane favAlbumsFP;
+    private FlowPane favAlbumsFP;
     @FXML
     private Tab favArtistsTab;
     @FXML
     private Label favArtistsLbl;
     @FXML
-    private ArtistFlowPane favArtistsFP;
+    private FlowPane favArtistsFP;
     //</editor-fold>
 
     @FXML
@@ -151,17 +154,72 @@ public class UserView extends VBox {
         PartialSearchResponse<Album> favAlbums = deezerClient.getFavoredAlbums(user, SearchOrder.ALBUM_ASC);
         PartialSearchResponse<Artist> favArtists = deezerClient.getFavoredArtists(user, SearchOrder.ARTIST_ASC);
 
-        highlightsPlaylistFP.fill(new PartialSearchResponse<>(playlists.getData().stream().limit(4).collect(Collectors.toList())),
-                null, true, false);
-        highlightsAlbumFP.fill(new PartialSearchResponse<>(favAlbums.getData().stream().limit(4).collect(Collectors.toList())),
-                null, true, false);
-        highlightsArtistFP.fill(new PartialSearchResponse<>(favArtists.getData().stream().limit(4).collect(Collectors.toList())),
-                null, true, false);
+        highlightsPlaylistFP.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < playlists.getData().size(); i++) {
+            final Playlist playlist = playlists.getData().get(i);
+            if (playlist.is_loved_track()) {
+                continue;
+            }
+            final var playlistCard = new PlaylistCard();
+            playlistCard.setPlaylist(playlist);
+            playlistCard.prefWidthProperty().bind(Bindings.add(-35, highlightsPlaylistFP.widthProperty().divide(4.2)));
+            playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            highlightsPlaylistFP.getChildren().add(playlistCard);
+        }
+
+        highlightsAlbumFP.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < favAlbums.getData().size(); i++) {
+            final Album album = favAlbums.getData().get(i);
+            final var albumCard = new AlbumCard();
+            albumCard.prefWidthProperty().bind(Bindings.add(-35, highlightsAlbumFP.widthProperty().divide(4.2)));
+            albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            albumCard.setAlbum(album);
+            highlightsAlbumFP.getChildren().add(albumCard);
+        }
+        highlightsArtistFP.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < favArtists.getData().size(); i++) {
+            final Artist artist = favArtists.getData().get(i);
+            final var artistCard = new ArtistCard();
+            artistCard.setArtist(artist);
+            artistCard.prefWidthProperty().bind(Bindings.add(-35, highlightsArtistFP.widthProperty().divide(4.2)));
+            artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            highlightsArtistFP.getChildren().add(artistCard);
+        }
 
         favTracksTV.fill(favTracks, favTracksLbl, true);
-        favPlaylistsFP.fill(playlists, playlistsCntLbl, true, true);
-        favAlbumsFP.fill(favAlbums, favAlbumsLbl, true, true);
-        favArtistsFP.fill(favArtists, favArtistsLbl, true, true);
+
+        favPlaylistsFP.getChildren().clear();
+        playlistsCntLbl.setText(String.valueOf(playlists.getTotal() - 1));
+        for (final Playlist playlist: playlists.getData()) {
+            if (playlist.is_loved_track()) {
+                continue;
+            }
+            final var playlistCard = new PlaylistCard();
+            playlistCard.setPlaylist(playlist);
+            playlistCard.prefWidthProperty().bind(Bindings.add(-35, favPlaylistsFP.widthProperty().divide(4.2)));
+            playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            favPlaylistsFP.getChildren().add(playlistCard);
+        }
+
+        favAlbumsFP.getChildren().clear();
+        favAlbumsLbl.setText(String.valueOf(favAlbums.getTotal()));
+        for (final Album album: favAlbums.getData()) {
+            final var albumCard = new AlbumCard();
+            albumCard.prefWidthProperty().bind(Bindings.add(-35, favAlbumsFP.widthProperty().divide(4.2)));
+            albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            albumCard.setAlbum(album);
+            favAlbumsFP.getChildren().add(albumCard);
+        }
+
+        favArtistsFP.getChildren().clear();
+        favArtistsLbl.setText(String.valueOf(favArtists.getTotal()));
+        for (final Artist artist: favArtists.getData()) {
+            final var artistCard = new ArtistCard();
+            artistCard.setArtist(artist);
+            artistCard.prefWidthProperty().bind(Bindings.add(-35, favArtistsFP.widthProperty().divide(4.2)));
+            artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            favArtistsFP.getChildren().add(artistCard);
+        }
 
         myMusicBox.setVisible(loggedInUser);
         viewedUserBox.setVisible(!loggedInUser);

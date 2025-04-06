@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import components.containers.flows.ArtistFlowPane?>
-<?import components.containers.flows.AlbumFlowPane?>
-<?import components.containers.flows.PlaylistFlowPane?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <Label fx:id="alert" alignment="CENTER" maxWidth="1.7976931348623157E308" text="%notLoggedInAlert" textAlignment="CENTER" wrapText="true">
         <styleClass>
@@ -20,30 +16,30 @@
             <Insets bottom="80.0" left="80.0" right="80.0" top="57.0" />
         </VBox.margin>
         <Label styleClass="deezer-subtitle" text="%recommendedPlaylists" />
-        <PlaylistFlowPane fx:id="recommendedPlaylistsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
+        <FlowPane fx:id="recommendedPlaylistsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
             <VBox.margin>
                 <Insets top="30.0" />
             </VBox.margin>
-        </PlaylistFlowPane>
+        </FlowPane>
         <Label styleClass="deezer-subtitle" text="%recommendedArtists">
             <VBox.margin>
                 <Insets top="60.0" />
             </VBox.margin>
         </Label>
-        <ArtistFlowPane fx:id="recommendedArtistsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
+        <FlowPane fx:id="recommendedArtistsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
             <VBox.margin>
                 <Insets top="30.0" />
             </VBox.margin>
-        </ArtistFlowPane>
+        </FlowPane>
         <Label styleClass="deezer-subtitle" text="%recommendedAlbums">
             <VBox.margin>
                 <Insets top="60.0" />
             </VBox.margin>
         </Label>
-        <AlbumFlowPane fx:id="recommendedAlbumsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
+        <FlowPane fx:id="recommendedAlbumsFP" columnHalignment="CENTER" hgap="35.0" rowValignment="TOP" vgap="30.0">
             <VBox.margin>
                 <Insets top="30.0" />
             </VBox.margin>
-        </AlbumFlowPane>
+        </FlowPane>
     </VBox>
 </fx:root>

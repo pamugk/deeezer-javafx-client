@@ -100,14 +100,7 @@
                         <list>components.containers.cards.ArtistCard</list>
                         <list>components.containers.cards.CommentCard</list>
                         <list>components.containers.cards.PlaylistCard</list>
-                        <list>components.containers.cards.RadioCard</list>
                         <list>components.containers.cards.UserCard</list>
-
-                        <list>components.containers.flows.AlbumFlowPane</list>
-                        <list>components.containers.flows.ArtistFlowPane</list>
-                        <list>components.containers.flows.PlaylistFlowPane</list>
-                        <list>components.containers.flows.RadioFlowPane</list>
-                        <list>components.containers.flows.UserFlowPane</list>
 
                         <list>components.containers.tables.TrackTable</list>
 

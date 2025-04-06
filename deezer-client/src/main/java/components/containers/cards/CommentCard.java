@@ -38,7 +38,6 @@ public class CommentCard extends HBox {
 
     @FXML
     private void onUserRedirection() {
-        //userRedirectioner.getValue().accept(comment.getAuthor().getId());
     }
 
     private void load(){
