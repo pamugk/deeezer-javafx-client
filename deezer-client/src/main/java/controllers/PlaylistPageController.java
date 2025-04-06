@@ -1,20 +1,24 @@
 package controllers;
 
 import api.Deezer;
+import api.objects.comments.Comment;
 import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Playlist;
 import api.objects.playables.TrackSearch;
-import components.containers.boxes.CommentBox;
+import api.objects.utils.User;
+import components.cards.CommentCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import utils.TimeUtils;
 
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
 
@@ -64,10 +68,12 @@ public class PlaylistPageController {
     @FXML
     private TableColumn<TrackSearch, Integer> playlistTrackPopularityCol;
     @FXML
-    private CommentBox playlistCommentariesBox;
+    private VBox playlistCommentariesBox;
     //</editor-fold>
 
-    public void setPlaylist(Playlist playlist, Deezer deezerClient) {
+    private Consumer<User> userRedirectioner = user -> {};
+
+    public void fillData(Playlist playlist, Deezer deezerClient) {
         playlistPicture.setImage(new Image(playlist.getPicture_medium().toString(), true));
         playlistTitleLbl.setText(playlist.getTitle());
         playlistCreatorImg.setImage(new Image(playlist.getCreator().getPicture_small().toString(), true));
@@ -85,7 +91,17 @@ public class PlaylistPageController {
         }
         playlistTracksTV.getItems().clear();
         playlistTracksTV.getItems().addAll(playlist.getTracks().getData());
-        playlistCommentariesBox.fill(deezerClient.getPlaylistComments(playlist));
+        playlistCommentariesBox.getChildren().clear();
+        for (final Comment comment : deezerClient.getPlaylistComments(playlist).getData()) {
+            CommentCard commentCard = new CommentCard();
+            commentCard.setComment(comment);
+            commentCard.setUserAction(() -> userRedirectioner.accept(comment.getAuthor()));
+            playlistCommentariesBox.getChildren().add(commentCard);
+        }
+    }
+
+    public void setUserRedirectioner(Consumer<User> userRedirectioner) {
+        this.userRedirectioner = userRedirectioner;
     }
 
     @FXML

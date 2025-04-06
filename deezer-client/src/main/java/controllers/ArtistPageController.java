@@ -2,24 +2,28 @@ package controllers;
 
 import api.Deezer;
 import api.PartialSearchResponse;
+import api.objects.comments.Comment;
 import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Playlist;
 import api.objects.playables.TrackSearch;
-import components.containers.boxes.ArtistBox;
-import components.containers.boxes.CommentBox;
-import components.containers.boxes.PlaylistBox;
-import components.containers.cards.AlbumCard;
-import components.containers.cards.ArtistCard;
-import components.containers.cards.PlaylistCard;
+import api.objects.utils.User;
+import components.cards.AlbumCard;
+import components.cards.ArtistCard;
+import components.cards.CommentCard;
+import components.cards.PlaylistCard;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -27,11 +31,13 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class ArtistPageController {
+
+    private static final int HIGHLIGHTS_LIMIT = 3;
+
     //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML
     private ResourceBundle resources;
@@ -60,7 +66,7 @@ public class ArtistPageController {
     @FXML
     private Button artistSimiliarBtn;
     @FXML
-    private PlaylistBox artistPlaylistsBox;
+    private VBox artistPlaylistsBox;
     @FXML
     private TableView<TrackSearch> artistTopTracksTV;
     @FXML
@@ -68,7 +74,7 @@ public class ArtistPageController {
     @FXML
     private TableColumn<TrackSearch, String> artistTMPTTitleCol;
     @FXML
-    private ArtistBox artistRelatedBox;
+    private VBox artistRelatedBox;
     @FXML
     private ImageView artistTopAlbumImg;
     @FXML
@@ -112,12 +118,13 @@ public class ArtistPageController {
     @FXML
     private FlowPane artistPlaylistsFP;
     @FXML
-    private CommentBox artistCommentsBox;
+    private VBox artistCommentsBox;
     //</editor-fold>
 
     private Consumer<Album> albumRedirectioner = album -> {};
     private Consumer<Artist> artistRedirectioner = artist -> {};
     private Consumer<Playlist> playlistRedirectioner = playlist -> {};
+    private Consumer<User> userRedirectioner = user -> {};
 
     public void fillData(Artist artist, Deezer deezerClient) {
         artistPicture.setImage(new Image(artist.getPicture_medium().toString(), true));
@@ -136,7 +143,40 @@ public class ArtistPageController {
         artistPopTracksTV.getItems().addAll(popularTracks.getData());
 
         PartialSearchResponse<Playlist> playlists = deezerClient.getArtistPlaylists(artist, 25);
-        artistPlaylistsBox.fill(playlists.getData().stream().limit(3).collect(Collectors.toList()));
+        artistPlaylistsBox.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < playlists.getData().size(); i++) {
+            final Playlist playlist = playlists.getData().get(i);
+            final var playlistBox = new HBox();
+            playlistBox.setPadding(new Insets(0, 10, 0, 0));
+            playlistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
+
+            ImageView playlistPicture = new ImageView(new Image(playlist.getPicture_small().toString(), true));
+            playlistPicture.setFitWidth(56);
+            playlistPicture.setFitHeight(56);
+            Button playlistBtn = new Button(null, playlistPicture);
+            playlistBtn.getStyleClass().add("deezer-button");
+            playlistBox.getChildren().addAll(playlistBtn);
+
+            VBox playlistInfoBox = new VBox();
+            playlistInfoBox.setPadding(new Insets(10, 0, 0, 0));
+            playlistInfoBox.setAlignment(Pos.CENTER);
+            playlistInfoBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistInfoBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            playlistBox.getChildren().add(playlistInfoBox);
+
+            Label playlistTitle = new Label(playlist.getTitle());
+            playlistTitle.getStyleClass().add("deezer-secondary");
+            playlistInfoBox.getChildren().add(playlistTitle);
+
+            /*Label playlistFollowers = new Label(String.format("%s: %d/%s: %d",
+                    resources.getString("tracks"), playlist.getNb_tracks(),
+                    resources.getString("followers"), playlist.getFans()));
+            playlistFollowers.getStyleClass().add("deezer-secondary");
+            playlistInfoBox.getChildren().add(playlistFollowers);*/
+
+            artistPlaylistsBox.getChildren().add(playlistBox);
+        }
         artistPlaylistsFP.getChildren().clear();
         for (final Playlist playlist: playlists.getData()) {
             if (playlist.is_loved_track()) {
@@ -151,7 +191,39 @@ public class ArtistPageController {
         }
 
         PartialSearchResponse<Artist> similarArtists = deezerClient.getArtistRelated(artist, 25);
-        artistRelatedBox.fill(similarArtists.getData().stream().limit(3).collect(Collectors.toList()));
+        artistRelatedBox.getChildren().clear();
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < similarArtists.getData().size(); i++) {
+            final Artist similarArtist = similarArtists.getData().get(i);
+            final var artistBox = new HBox();
+            artistBox.setPadding(new Insets(0, 10, 0, 0));
+            artistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
+
+            ImageView artistPicture = new ImageView(new Image(artist.getPicture_small().toString(), true));
+            artistPicture.setFitWidth(56);
+            artistPicture.setFitHeight(56);
+            Button artistBtn = new Button(null, artistPicture);
+            artistBtn.getStyleClass().add("deezer-button");
+            artistBox.getChildren().addAll(artistBtn);
+
+            VBox artistInfoBox = new VBox();
+            artistInfoBox.setPadding(new Insets(10, 0, 0, 0));
+            artistInfoBox.setAlignment(Pos.CENTER);
+            artistInfoBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistInfoBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            artistBox.getChildren().add(artistInfoBox);
+
+            Label artistName = new Label(artist.getName());
+            artistName.getStyleClass().add("deezer-secondary");
+            artistInfoBox.getChildren().add(artistName);
+
+            /*Label artistFollowers = new Label(String.format("%s: %d",
+                    resources.getString("followers"), artist.getNb_fan()));
+            artistFollowers.getStyleClass().add("deezer-secondary");
+            artistInfoBox.getChildren().add(artistFollowers);*/
+
+            artistRelatedBox.getChildren().add(artistBox);
+        }
         artistRelatedFP.getChildren().clear();
         for (final Artist similarArtist: similarArtists.getData()) {
             final var artistCard = new ArtistCard();
@@ -192,7 +264,13 @@ public class ArtistPageController {
         artistTopAlbumName.setVisible(albumShowed);
         artistTopAlbumRelease.setVisible(albumShowed);
         artistTopAlbumTracksTV.setVisible(albumShowed);
-        artistCommentsBox.fill(deezerClient.getArtistComments(artist));
+        artistCommentsBox.getChildren().clear();
+        for (final Comment comment : deezerClient.getArtistComments(artist).getData()) {
+            CommentCard commentCard = new CommentCard();
+            commentCard.setComment(comment);
+            commentCard.setUserAction(() -> userRedirectioner.accept(comment.getAuthor()));
+            artistCommentsBox.getChildren().add(commentCard);
+        }
         artistTabPane.getSelectionModel().select(artistDiscographyTab);
     }
 
@@ -206,6 +284,10 @@ public class ArtistPageController {
 
     public void setPlaylistRedirectioner(Consumer<Playlist> playlistRedirectioner) {
         this.playlistRedirectioner = playlistRedirectioner;
+    }
+
+    public void setUserRedirectioner(Consumer<User> userRedirectioner) {
+        this.userRedirectioner = userRedirectioner;
     }
 
     @FXML

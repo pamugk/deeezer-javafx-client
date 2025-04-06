@@ -87,6 +87,13 @@
                         <list>api.objects.utils.service.Offer</list>
                         <list>api.objects.utils.service.Options</list>
 
+                        <list>components.cards.AlbumCard</list>
+                        <list>components.cards.ArtistCard</list>
+                        <list>components.cards.CommentCard</list>
+                        <list>components.cards.PlaylistCard</list>
+                        <list>components.cards.UserCard</list>
+                        <list>components.tables.TrackTable</list>
+
                         <list>controllers.AlbumPageController</list>
                         <list>controllers.ArtistPageController</list>
                         <list>controllers.DrawerController</list>
@@ -101,18 +108,6 @@
                         <list>controllers.SettingsPageController</list>
                         <list>controllers.UserMenuController</list>
                         <list>controllers.UserPageController</list>
-                        
-                        <list>components.containers.boxes.ArtistBox</list>
-                        <list>components.containers.boxes.CommentBox</list>
-                        <list>components.containers.boxes.PlaylistBox</list>
-
-                        <list>components.containers.cards.AlbumCard</list>
-                        <list>components.containers.cards.ArtistCard</list>
-                        <list>components.containers.cards.CommentCard</list>
-                        <list>components.containers.cards.PlaylistCard</list>
-                        <list>components.containers.cards.UserCard</list>
-
-                        <list>components.containers.tables.TrackTable</list>
 
                         <list>javafx.scene.control.ContextMenu</list>
                         

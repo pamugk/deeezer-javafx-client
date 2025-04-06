@@ -1,4 +1,4 @@
-package components.containers.cards;
+package components.cards;
 
 import api.objects.comments.Comment;
 import javafx.fxml.FXML;
@@ -32,9 +32,17 @@ public class CommentCard extends HBox {
         load();
     }
 
-    public CommentCard(Comment comment) {
-        load();
-        setComment(comment);
+    public void setComment(Comment comment) {
+        commentorImg.setImage(comment.getAuthor().getPicture_medium() == null ? null :
+                new Image(comment.getAuthor().getPicture_medium().toString(), true));
+        commentorImg.fitWidthProperty().bind(this.prefWidthProperty());
+        commentorImg.fitHeightProperty().bind(commentorImg.fitWidthProperty());
+        userRedirectButton.prefWidthProperty().bind(commentorImg.fitWidthProperty());
+        userRedirectButton.prefHeightProperty().bind(commentorImg.fitHeightProperty());
+        commentCreationInfo.setText(String.format("%s - %s", comment.getAuthor().getName(),
+                Instant.ofEpochSecond(comment.getDate()).atZone(ZoneId.systemDefault())
+                        .format(DateTimeFormatter.ISO_LOCAL_DATE)));
+        commentText.setText(comment.getText());
     }
 
     public void setUserAction(Runnable userAction) {
@@ -56,18 +64,5 @@ public class CommentCard extends HBox {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-    }
-
-    private void setComment(Comment comment) {
-        commentorImg.setImage(comment.getAuthor().getPicture_medium() == null ? null :
-                new Image(comment.getAuthor().getPicture_medium().toString(), true));
-        commentorImg.fitWidthProperty().bind(this.prefWidthProperty());
-        commentorImg.fitHeightProperty().bind(commentorImg.fitWidthProperty());
-        userRedirectButton.prefWidthProperty().bind(commentorImg.fitWidthProperty());
-        userRedirectButton.prefHeightProperty().bind(commentorImg.fitHeightProperty());
-        commentCreationInfo.setText(String.format("%s - %s", comment.getAuthor().getName(),
-                Instant.ofEpochSecond(comment.getDate()).atZone(ZoneId.systemDefault())
-                        .format(DateTimeFormatter.ISO_LOCAL_DATE)));
-        commentText.setText(comment.getText());
     }
 }

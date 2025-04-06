@@ -5,11 +5,11 @@
 
 <?import javafx.scene.image.ImageView?>
 <fx:root styleClass="albumcard" type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
-    <Button fx:id="albumRedirectButton" styleClass="albumcard-album">
+    <Button fx:id="albumRedirectButton" styleClass="albumcard-album" onAction="#onAlbumRedirection">
         <graphic>
             <ImageView fx:id="cover"/>
         </graphic>
     </Button>
     <Label fx:id="title" styleClass="albumcard-name" wrapText="true"/>
-    <Button fx:id="artistRedirectButton" styleClass="albumcard-artist"/>
+    <Button fx:id="artistRedirectButton" styleClass="albumcard-artist" onAction="#onArtistRedirection" />
 </fx:root>

@@ -1,4 +1,4 @@
-package components.containers.cards;
+package components.cards;
 
 import api.objects.playables.Album;
 import javafx.fxml.FXML;

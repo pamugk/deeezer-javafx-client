@@ -1,4 +1,4 @@
-package components.containers.cards;
+package components.cards;
 
 import api.objects.utils.User;
 import javafx.fxml.FXML;

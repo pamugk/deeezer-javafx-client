@@ -1,4 +1,4 @@
-package components.containers.tables;
+package components.tables;
 
 import api.PartialSearchResponse;
 import api.objects.playables.Album;
@@ -18,22 +18,25 @@ import javafx.util.Callback;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Consumer;
 
 public class TrackTable<T extends TrackSearch> extends TableView<T> {
     @FXML
-    TableColumn<T, T> idxCol;
+    private TableColumn<T, T> idxCol;
     @FXML
-    TableColumn<T, Album> albumCoverCol;
+    private TableColumn<T, Album> albumCoverCol;
     @FXML
-    TableColumn<T, String> titleCol;
+    private TableColumn<T, String> titleCol;
     @FXML
-    TableColumn<T, Artist> artistCol;
+    private TableColumn<T, Artist> artistCol;
     @FXML
-    TableColumn<T, Album> albumCol;
+    private TableColumn<T, Album> albumCol;
     @FXML
-    TableColumn<T, Integer> durationCol;
+    private TableColumn<T, Integer> durationCol;
     @FXML
-    TableColumn<T, Integer> popularityCol;
+    private TableColumn<T, Integer> popularityCol;
+
+    private Consumer<T> rowAction = (row) -> {};
 
     public void fill(PartialSearchResponse<T> tracks, Label countLabel, boolean clear)
     {
@@ -44,10 +47,14 @@ public class TrackTable<T extends TrackSearch> extends TableView<T> {
             countLabel.setText(String.valueOf(tracks.getTotal()));
     }
 
+    public void setRowAction(Consumer<T> rowAction) {
+        this.rowAction = rowAction;
+    }
+
     @FXML
     private void initialize() {
         getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) ->
-                {}
+                rowAction.accept(newVal)
         );
         prefHeightProperty().bind(fixedCellSizeProperty().multiply(Bindings.size(getItems()).add(1.01)));
         minHeightProperty().bind(prefHeightProperty());

@@ -113,8 +113,12 @@ public class IndexController implements Initializable {
 
         albumPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
         albumPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
+        artistPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
         artistPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
+        artistPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.getId()));
+        artistPageController.setUserRedirectioner((user) -> redirectToUser(user.getId()));
         homePageController.setupDeezer(deezerClient);
+        playlistPageController.setUserRedirectioner((user) -> redirectToUser(user.getId()));
         searchPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
         searchPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
         searchPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.getId()));
@@ -122,7 +126,6 @@ public class IndexController implements Initializable {
         userPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
         userPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
         userPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.getId()));
-
     }
 
     private void changeInterfaceState(boolean logout) {
@@ -180,7 +183,7 @@ public class IndexController implements Initializable {
 
     private void redirectToPlaylist(long playlistId) {
         Playlist playlist = deezerClient.getPlaylist(playlistId);
-        playlistPageController.setPlaylist(playlist, deezerClient);
+        playlistPageController.fillData(playlist, deezerClient);
         mainTabPane.getSelectionModel().select(playlistTab);
     }
 

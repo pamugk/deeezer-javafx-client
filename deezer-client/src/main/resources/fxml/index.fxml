@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<BorderPane styleClass="root" stylesheets="@../css/deezer-styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexController">
+<BorderPane styleClass="root" stylesheets="@../css/deezer-styles.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexController">
    <left>
       <fx:include fx:id="drawer" source="drawer.fxml" />
    </left>
