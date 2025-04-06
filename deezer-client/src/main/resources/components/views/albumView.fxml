@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
-<?import javafx.geometry.Insets?>
-<?import components.views.AlbumView?>
 <?import components.containers.flows.AlbumFlowPane?>
 <?import components.containers.flows.ArtistFlowPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
     <VBox.margin>
         <Insets top="25.0" />

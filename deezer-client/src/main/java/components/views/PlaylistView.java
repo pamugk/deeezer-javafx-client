@@ -6,8 +6,6 @@ import api.objects.playables.Artist;
 import api.objects.playables.Playlist;
 import api.objects.playables.TrackSearch;
 import components.containers.boxes.CommentBox;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ObjectPropertyBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +18,10 @@ import utils.TimeUtils;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class PlaylistView extends VBox {
-    private Playlist playlist;
 
     public PlaylistView() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
@@ -88,7 +84,7 @@ public class PlaylistView extends VBox {
 
     @FXML
     private void onPlaylistEdit(ActionEvent event) {
-        getPlaylistEditor().accept(playlist);
+        //getPlaylistEditor().accept(playlist);
     }
 
     @FXML
@@ -101,12 +97,10 @@ public class PlaylistView extends VBox {
     }
 
     public void setPlaylist(Playlist playlist, Deezer deezerClient){
-        this.playlist = playlist;
         playlistPicture.setImage(new Image(playlist.getPicture_medium().toString(), true));
         playlistTitleLbl.setText(playlist.getTitle());
         playlistCreatorImg.setImage(new Image(playlist.getCreator().getPicture_small().toString(), true));
         playlistCreatorBtn.setText(playlist.getCreator().getName());
-        playlistCreatorBtn.setOnAction(event -> getUserRedirectioner().accept(playlist.getCreator().getId()));
         playlistDescriptionLbl.setText(playlist.getDescription());
         playlistTracksCountLbl.setText(String.format("%s: %d",
                 resources.getString("tracksCnt"), playlist.getNb_tracks()));
@@ -122,34 +116,4 @@ public class PlaylistView extends VBox {
         playlistTracksTV.getItems().addAll(playlist.getTracks().getData());
         playlistCommentariesBox.fill(deezerClient.getPlaylistComments(playlist));
     }
-
-    public final ObjectProperty<Consumer<Long>> userRedirectionerProperty() { return userRedirectioner; }
-    public final void setUserRedirectioner(Consumer<Long> value) { userRedirectionerProperty().set(value); }
-    public final Consumer<Long> getUserRedirectioner() { return userRedirectionerProperty().get(); }
-    private final ObjectProperty<Consumer<Long>> userRedirectioner = new ObjectPropertyBase<>() {
-        @Override
-        public Object getBean() {
-            return PlaylistView.this;
-        }
-
-        @Override
-        public String getName() {
-            return "userRedirectioner";
-        }
-    };
-
-    public final ObjectProperty<Consumer<Playlist>> playlistEditorProperty() { return playlistEditor; }
-    public final void setPlaylistEditor(Consumer<Playlist> value) { playlistEditorProperty().set(value); }
-    public final Consumer<Playlist> getPlaylistEditor() { return playlistEditorProperty().get(); }
-    private final ObjectProperty<Consumer<Playlist>> playlistEditor = new ObjectPropertyBase<>() {
-        @Override
-        public Object getBean() {
-            return PlaylistView.this;
-        }
-
-        @Override
-        public String getName() {
-            return "playlistEditor";
-        }
-    };
 }

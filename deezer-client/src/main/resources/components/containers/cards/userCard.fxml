@@ -5,7 +5,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <fx:root styleClass="usercard" type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
-    <Button fx:id="userRedirectButton" styleClass="usercard-user" onAction="#onUserRedirection">
+    <Button fx:id="userRedirectButton" styleClass="usercard-user">
         <graphic>
             <ImageView fx:id="image"/>
         </graphic>

@@ -5,8 +5,6 @@ import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.TrackSearch;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -20,7 +18,6 @@ import javafx.util.Callback;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.function.Consumer;
 
 public class TrackTable<T extends TrackSearch> extends TableView<T> {
     @FXML
@@ -50,7 +47,7 @@ public class TrackTable<T extends TrackSearch> extends TableView<T> {
     @FXML
     private void initialize() {
         getSelectionModel().selectedItemProperty().addListener((observableValue, oldVal, newVal) ->
-                getTrackSelectioner().accept(newVal)
+                {}
         );
         prefHeightProperty().bind(fixedCellSizeProperty().multiply(Bindings.size(getItems()).add(1.01)));
         minHeightProperty().bind(prefHeightProperty());
@@ -105,28 +102,4 @@ public class TrackTable<T extends TrackSearch> extends TableView<T> {
         });
         popularityCol.setCellValueFactory(new PropertyValueFactory<>("rank"));
     }
-
-    public final ObjectProperty<Consumer<T>> trackSelectionerProperty() {
-        return trackSelectioner;
-    }
-
-    public final void setTrackSelectioner(Consumer<T> value) {
-        trackSelectionerProperty().set(value);
-    }
-
-    public final Consumer<T> getTrackSelectioner() {
-        return trackSelectionerProperty().get();
-    }
-
-    private final ObjectProperty<Consumer<T>> trackSelectioner = new ObjectPropertyBase<>() {
-        @Override
-        public Object getBean() {
-            return TrackTable.this;
-        }
-
-        @Override
-        public String getName() {
-            return "userRedirectioner";
-        }
-    };
 }

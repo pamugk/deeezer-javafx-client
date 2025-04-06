@@ -1,8 +1,6 @@
 package components.containers.cards;
 
 import api.objects.comments.Comment;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ObjectPropertyBase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -16,7 +14,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class CommentCard extends HBox {
     private Comment comment;
@@ -41,7 +38,7 @@ public class CommentCard extends HBox {
 
     @FXML
     private void onUserRedirection() {
-        userRedirectioner.getValue().accept(comment.getAuthor().getId());
+        //userRedirectioner.getValue().accept(comment.getAuthor().getId());
     }
 
     private void load(){
@@ -68,28 +65,4 @@ public class CommentCard extends HBox {
                         .format(DateTimeFormatter.ISO_LOCAL_DATE)));
         commentText.setText(comment.getText());
     }
-
-    public final ObjectProperty<Consumer<Long>> userRedirectionerProperty() {
-        return userRedirectioner;
-    }
-
-    public final void setUserRedirectioner(Consumer<Long> value) {
-        userRedirectionerProperty().set(value);
-    }
-
-    public final Consumer<Long> getUserRedirectioner() {
-        return userRedirectionerProperty().get();
-    }
-
-    private final ObjectProperty<Consumer<Long>> userRedirectioner = new ObjectPropertyBase<>() {
-        @Override
-        public Object getBean() {
-            return CommentCard.this;
-        }
-
-        @Override
-        public String getName() {
-            return "userRedirectioner";
-        }
-    };
 }

@@ -5,8 +5,6 @@ import api.objects.playables.Album;
 import api.objects.playables.TrackSearch;
 import components.containers.flows.AlbumFlowPane;
 import components.containers.flows.ArtistFlowPane;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ObjectPropertyBase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -22,12 +20,10 @@ import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class AlbumView extends VBox {
-    private Album album;
 
     public AlbumView() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
@@ -83,12 +79,10 @@ public class AlbumView extends VBox {
     //</editor-fold>
 
     public void setAlbum(Album album, Deezer deezerClient) {
-        this.album = album;
         albumCover.setImage(new Image(album.getCover_medium().toString(), true));
         albumName.setText(album.getTitle());
         albumArtistImg.setImage(new Image(album.getArtist().getPicture_small().toString(), true));
         albumArtist.setText(album.getArtist().getName());
-        albumArtist.setOnAction(event -> getArtistRedirectioner().accept(album.getArtist().getId()));
         albumTracksLbl.setText(String.format("%s: %d",
                 resources.getString("tracksCnt"),album.getNb_tracks()));
         albumDurationLbl.setText(String.format("%s", TimeUtils.secondsToNormalTime(album.getDuration(), resources)));
@@ -109,33 +103,5 @@ public class AlbumView extends VBox {
             addAlbumToLibrary.setText(resources.getString("addToMyMusic"));
             albumAddToLibImg.setImage(new Image("src/main/resources/img/icon-like.png"));
         }
-    }
-
-    public final ObjectProperty<Consumer<Long>> artistRedirectionerProperty() {
-        return artistRedirectioner;
-    }
-
-    public final void setArtistRedirectioner(Consumer<Long> value) {
-        artistRedirectionerProperty().set(value);
-    }
-
-    public final Consumer<Long> getArtistRedirectioner() {
-        return artistRedirectionerProperty().get();
-    }
-
-    private final ObjectProperty<Consumer<Long>> artistRedirectioner = new ObjectPropertyBase<>() {
-        @Override
-        public Object getBean() {
-            return AlbumView.this;
-        }
-
-        @Override
-        public String getName() {
-            return "artistRedirectioner";
-        }
-    };
-
-    public  Album getAlbum() {
-        return album;
     }
 }

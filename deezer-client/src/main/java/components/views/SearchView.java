@@ -5,8 +5,6 @@ import api.objects.playables.TrackSearch;
 import api.objects.utils.search.FullSearchSet;
 import components.containers.flows.*;
 import components.containers.tables.TrackTable;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ObjectPropertyBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +13,6 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class SearchView extends VBox {
@@ -148,7 +145,6 @@ public class SearchView extends VBox {
             searchTabPane.getTabs().add(artistResultsTab);
         artistsResultBtn.setVisible(found);
         artistsResultsFP.setVisible(found);
-        artistsResultsFP.setArtistRedirectioner(getArtistRedirectioner());
         artistsResultsFP.fill(new PartialSearchResponse<>(searchSet.getArtistResponse()
                 .getData().stream().limit(4).collect(Collectors.toList())), null, true, false);
         foundArtistsFP.fill(searchSet.getArtistResponse(), foundArtistsLbl, true, true);

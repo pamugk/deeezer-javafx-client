@@ -35,8 +35,6 @@ public class UserView extends VBox {
         ARTISTS,
     }
 
-    private User user;
-
     public UserView() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userView.fxml"), bundle);
@@ -142,7 +140,6 @@ public class UserView extends VBox {
     }
 
     public void setUser(User user, boolean loggedInUser, Deezer deezerClient) {
-        this.user = user;
         if (!loggedInUser){
             viewedUserImg.setImage(new Image(user.getPicture_medium().toString(), true));
             viewedUserNameLbl.setText(user.getName());

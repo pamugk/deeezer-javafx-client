@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="playlistcard" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-    <Button fx:id="playlistRedirectButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#onPlaylistRedirection" styleClass="playlistcard-playlist">
+    <Button fx:id="playlistRedirectButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="playlistcard-playlist">
         <graphic>
             <ImageView fx:id="picture" />
         </graphic>

@@ -9,7 +9,7 @@
    <padding>
       <Insets left="24.0" right="24.0" />
    </padding>
-    <Button fx:id="userRedirectButton" onAction="#onUserRedirection" styleClass="deezer-button">
+    <Button fx:id="userRedirectButton" styleClass="deezer-button">
         <graphic>
             <ImageView fx:id="commentorImg" fitHeight="30.0" fitWidth="30.0" />
         </graphic>

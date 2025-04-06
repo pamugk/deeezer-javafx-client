@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class ArtistView extends VBox {
-    private Artist artist;
 
     public ArtistView() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
@@ -143,7 +142,6 @@ public class ArtistView extends VBox {
     }
 
     public void setArtist(Artist artist, Deezer deezerClient) {
-        this.artist = artist;
         artistPicture.setImage(new Image(artist.getPicture_medium().toString(), true));
         artistNameLbl.setText(artist.getName());
         artistFansLbl.setText(String.format("%s: %d", resources.getString("followers"), artist.getNb_fan()));
