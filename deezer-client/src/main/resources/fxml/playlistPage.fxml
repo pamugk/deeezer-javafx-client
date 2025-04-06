@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="25.0" fx:controller="controllers.PlaylistPageController">
+    <HBox spacing="20.0">
+        <VBox.margin>
+            <Insets />
+        </VBox.margin>
+        <ImageView fx:id="playlistPicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+        <VBox alignment="CENTER_LEFT">
+            <VBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                <Label fx:id="playlistTitleLbl" styleClass="deezer-title" text="Title" wrapText="true" />
+                <Button fx:id="playlistCreatorBtn" mnemonicParsing="false" styleClass="deezer-button" text="Artist">
+                    <graphic>
+                        <ImageView fx:id="playlistCreatorImg" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+                    </graphic>
+                </Button>
+                <Label fx:id="playlistDescriptionLbl" styleClass="deezer-secondary" text="Description" />
+            </VBox>
+            <HBox spacing="10.0">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+                <Label fx:id="playlistTracksCountLbl" styleClass="deezer-secondary" text="Tracks" />
+                <Label fx:id="playlistDurationLbl" styleClass="deezer-secondary" text="Duration" />
+                <Label fx:id="playlistFollowersLbl" styleClass="deezer-secondary" text="Followers" />
+            </HBox>
+        </VBox>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" spacing="12.0">
+        <Button fx:id="playlistListenBtn" mnemonicParsing="false" styleClass="deezer-play-btn" text="%listen">
+            <graphic>
+                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" />
+            </graphic>
+        </Button>
+        <Button fx:id="playlistAddToLibBtn" mnemonicParsing="false" styleClass="deezer-follow-btn" text="%add">
+            <graphic>
+                <ImageView fx:id="playlistFollowingImg" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" />
+            </graphic>
+        </Button>
+        <Button fx:id="editPlaylistBtn" mnemonicParsing="false" styleClass="deezer-follow-btn" text="%editPlaylist" onAction="#onPlaylistEdit"/>
+        <HBox HBox.hgrow="ALWAYS" />
+        <TextField fx:id="playlistSearchBox" onKeyPressed="#playlistSearchBox_OnKeyPressed" promptText="%searchInPlaylist" visible="false" />
+    </HBox>
+    <TableView fx:id="playlistTracksTV" maxHeight="1.7976931348623157E308">
+        <columns>
+            <TableColumn fx:id="playlistTrackIdxCol" maxWidth="-Infinity" minWidth="40.0" prefWidth="-1.0" text="%number" />
+            <TableColumn fx:id="playlistTrackTitleCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%track" />
+            <TableColumn fx:id="playlistTrackArtistCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%artist" />
+            <TableColumn fx:id="playlistTrackAlbumCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%album" />
+            <TableColumn fx:id="playlistTrackLengthCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%length" />
+            <TableColumn fx:id="playlistTrackPopularityCol" maxWidth="-Infinity" minWidth="100.0" prefWidth="-1.0" text="%popularity" />
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
+        <contextMenu>
+            <ContextMenu>
+                <items>
+                    <MenuItem mnemonicParsing="false" onAction="#removeTrackFromPlaylist" text="Удалить" />
+                </items>
+            </ContextMenu>
+        </contextMenu>
+    </TableView>
+    <Label styleClass="deezer-title" text="%comments" />
+    <VBox fx:id="playlistCommentariesBox" prefHeight="200.0" prefWidth="100.0" styleClass="card" />
+</VBox>

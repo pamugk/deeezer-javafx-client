@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import components.tables.TrackTable?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="25.0" fx:controller="controllers.UserPageController">
+    <HBox fx:id="viewedUserBox" spacing="15.0">
+        <VBox.margin>
+            <Insets left="85.0" top="90.0" />
+        </VBox.margin>
+        <ImageView fx:id="viewedUserImg" fitHeight="84.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true" />
+        <VBox>
+            <Label fx:id="viewedUserNameLbl" styleClass="deezer-title" text="Label" />
+            <VBox VBox.vgrow="ALWAYS" />
+            <HBox spacing="15.0" visible="false">
+                <Label fx:id="viewedUserFollowers" styleClass="deezer-secondary" text="Label" />
+                <Separator orientation="VERTICAL" />
+                <Label fx:id="viewedUserFollowings" styleClass="deezer-secondary" text="Label" />
+            </HBox>
+        </VBox>
+    </HBox>
+    <HBox fx:id="myMusicBox" alignment="CENTER_LEFT">
+        <VBox.margin>
+            <Insets />
+        </VBox.margin>
+        <Label styleClass="card-header" text="%myMusic">
+            <HBox.margin>
+                <Insets right="20.0" />
+            </HBox.margin>
+        </Label>
+        <Separator orientation="VERTICAL" />
+        <Button fx:id="shuffleMusicBtn" mnemonicParsing="false" onAction="#shuffleMusicBtn_OnAction" styleClass="deezer-play-btn" text="%shuffleMyMusic">
+            <HBox.margin>
+                <Insets left="20.0" />
+            </HBox.margin>
+        </Button>
+    </HBox>
+    <TabPane fx:id="myMusicTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+        <Tab fx:id="highlightsTab" text="%highlights">
+            <ScrollPane fitToWidth="true">
+                <padding>
+                    <Insets right="80.0" />
+                </padding>
+                <VBox fx:id="highlightsVBox" maxHeight="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+                    <Button fx:id="favPlaylistsBtn" mnemonicParsing="false" onAction="#favPlaylistsBtn_OnAction" text="%playlists">
+                        <VBox.margin>
+                            <Insets top="80.0" />
+                        </VBox.margin>
+                        <styleClass>
+                            <String fx:value="deezer-button" />
+                            <String fx:value="deezer-subtitle" />
+                        </styleClass>
+                    </Button>
+                    <FlowPane fx:id="highlightsPlaylistFP">
+                        <VBox.margin>
+                            <Insets top="28.0" />
+                        </VBox.margin>
+                    </FlowPane>
+                    <Button fx:id="favAlbumsBtn" mnemonicParsing="false" onAction="#favAlbumsBtn_OnAction" text="%albums">
+                        <VBox.margin>
+                            <Insets top="80.0" />
+                        </VBox.margin>
+                        <styleClass>
+                            <String fx:value="deezer-button" />
+                            <String fx:value="deezer-subtitle" />
+                        </styleClass>
+                    </Button>
+                    <FlowPane fx:id="highlightsAlbumFP">
+                        <VBox.margin>
+                            <Insets top="28.0" />
+                        </VBox.margin>
+                    </FlowPane>
+                    <Button fx:id="favArtistsBtn" mnemonicParsing="false" onAction="#favArtistsBtn_OnAction" text="%artists">
+                        <VBox.margin>
+                            <Insets top="80.0" />
+                        </VBox.margin>
+                        <styleClass>
+                            <String fx:value="deezer-button" />
+                            <String fx:value="deezer-subtitle" />
+                        </styleClass>
+                    </Button>
+                    <FlowPane fx:id="highlightsArtistFP">
+                        <VBox.margin>
+                            <Insets top="28.0" />
+                        </VBox.margin>
+                    </FlowPane>
+                    <padding>
+                        <Insets bottom="80.0" />
+                    </padding>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+        <Tab fx:id="favTracksTab" text="%favTracks">
+            <ScrollPane fitToWidth="true">
+                <padding>
+                    <Insets right="80.0" />
+                </padding>
+                <VBox>
+                    <HBox>
+                        <VBox.margin>
+                            <Insets top="30.0" />
+                        </VBox.margin>
+                        <Label styleClass="card-header" text="%found" />
+                        <Label fx:id="favTracksLbl" styleClass="card-header" text="0" />
+                    </HBox>
+                    <TrackTable fx:id="favTracksTV" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn prefWidth="75.0" text="%number" />
+                            <TableColumn prefWidth="75.0" text="%track" />
+                            <TableColumn prefWidth="75.0" text="%artist" />
+                            <TableColumn prefWidth="75.0" text="%album" />
+                            <TableColumn prefWidth="75.0" text="%length" />
+                            <TableColumn prefWidth="75.0" text="%popularity" />
+                        </columns>
+                        <VBox.margin>
+                            <Insets top="25.0" />
+                        </VBox.margin>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                        <contextMenu>
+                            <ContextMenu>
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#removeTrackFromFav" text="Удалить" />
+                                </items>
+                            </ContextMenu>
+                        </contextMenu>
+                    </TrackTable>
+                    <padding>
+                        <Insets bottom="80.0" />
+                    </padding>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+        <Tab fx:id="myPlaylistsTab" text="%playlists">
+            <ScrollPane fitToWidth="true">
+                <padding>
+                    <Insets bottom="80.0" />
+                </padding>
+                <VBox>
+                    <HBox alignment="CENTER_LEFT">
+                        <VBox.margin>
+                            <Insets top="30.0" />
+                        </VBox.margin>
+                        <Label styleClass="card-header" text="%found">
+                            <font>
+                                <Font size="23.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="playlistsCntLbl" styleClass="card-header" text="0" />
+                        <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </HBox>
+                        <Button fx:id="addPlaylistBtn" mnemonicParsing="false" onAction="#addPlaylistBtn_OnAction" prefHeight="32.0" prefWidth="32.0" styleClass="deezer-play-btn" text="+">
+                            <HBox.margin>
+                                <Insets right="30.0" />
+                            </HBox.margin>
+                        </Button>
+                    </HBox>
+                    <FlowPane fx:id="favPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                            <Insets top="25.0" />
+                        </VBox.margin>
+                    </FlowPane>
+                    <padding>
+                        <Insets bottom="80.0" />
+                    </padding>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+        <Tab fx:id="favAlbumsTab" text="%albums">
+            <ScrollPane fitToWidth="true">
+                <padding>
+                    <Insets right="80.0" />
+                </padding>
+                <VBox>
+                    <HBox>
+                        <VBox.margin>
+                            <Insets top="30.0" />
+                        </VBox.margin>
+                        <Label styleClass="card-header" text="%found">
+                            <font>
+                                <Font size="23.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="favAlbumsLbl" styleClass="card-header" text="0" />
+                    </HBox>
+                    <FlowPane fx:id="favAlbumsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                            <Insets top="25.0" />
+                        </VBox.margin>
+                    </FlowPane>
+                    <padding>
+                        <Insets bottom="80.0" />
+                    </padding>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+        <Tab fx:id="favArtistsTab" text="%artists">
+            <ScrollPane fx:id="favArtistsSP" fitToWidth="true">
+                <padding>
+                    <Insets right="80.0" />
+                </padding>
+                <VBox>
+                    <HBox>
+                        <VBox.margin>
+                            <Insets top="30.0" />
+                        </VBox.margin>
+                        <Label styleClass="card-header" text="%found">
+                            <font>
+                                <Font size="23.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="favArtistsLbl" styleClass="card-header" text="0" />
+                    </HBox>
+                    <FlowPane fx:id="favArtistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" vgap="25.0" VBox.vgrow="ALWAYS">
+                        <VBox.margin>
+                            <Insets top="25.0" />
+                        </VBox.margin>
+                    </FlowPane>
+                    <padding>
+                        <Insets bottom="80.0" />
+                    </padding>
+                </VBox>
+            </ScrollPane>
+        </Tab>
+    </TabPane>
+    <padding>
+        <Insets bottom="20.0" left="80.0" top="20.0" />
+    </padding>
+</VBox>

@@ -87,42 +87,27 @@
                         <list>api.objects.utils.service.Offer</list>
                         <list>api.objects.utils.service.Options</list>
 
+                        <list>components.cards.AlbumCard</list>
+                        <list>components.cards.ArtistCard</list>
+                        <list>components.cards.CommentCard</list>
+                        <list>components.cards.PlaylistCard</list>
+                        <list>components.cards.UserCard</list>
+                        <list>components.tables.TrackTable</list>
+
+                        <list>controllers.AlbumPageController</list>
+                        <list>controllers.ArtistPageController</list>
+                        <list>controllers.DrawerController</list>
+                        <list>controllers.ExplorePageController</list>
+                        <list>controllers.HomePageController</list>
                         <list>controllers.IndexController</list>
-                        <list>controllers.PlaylistDialog</list>
-
-                        <list>components.MusicPlayer</list>
-                        
-                        <list>components.containers.boxes.ArtistBox</list>
-                        <list>components.containers.boxes.CommentBox</list>
-                        <list>components.containers.boxes.PlaylistBox</list>
-
-                        <list>components.containers.cards.AlbumCard</list>
-                        <list>components.containers.cards.ArtistCard</list>
-                        <list>components.containers.cards.CommentCard</list>
-                        <list>components.containers.cards.PlaylistCard</list>
-                        <list>components.containers.cards.RadioCard</list>
-                        <list>components.containers.cards.UserCard</list>
-
-                        <list>components.containers.flows.AlbumFlowPane</list>
-                        <list>components.containers.flows.ArtistFlowPane</list>
-                        <list>components.containers.flows.PlaylistFlowPane</list>
-                        <list>components.containers.flows.RadioFlowPane</list>
-                        <list>components.containers.flows.UserFlowPane</list>
-
-                        <list>components.containers.tables.TrackTable</list>
-
-                        <list>components.navigation.Drawer</list>
-                        <list>components.navigation.SearchBar</list>
-                        <list>components.navigation.UserMenu</list>
-
-                        <list>components.views.AlbumView</list>
-                        <list>components.views.ArtistView</list>
-                        <list>components.views.ExploreView</list>
-                        <list>components.views.HomeView</list>
-                        <list>components.views.PlaylistView</list>
-                        <list>components.views.SearchView</list>
-                        <list>components.views.SettingsView</list>
-                        <list>components.views.UserView</list>
+                        <list>controllers.MusicPlayerController</list>
+                        <list>controllers.PlaylistDialogController</list>
+                        <list>controllers.PlaylistPageController</list>
+                        <list>controllers.SearchBarController</list>
+                        <list>controllers.SearchPageController</list>
+                        <list>controllers.SettingsPageController</list>
+                        <list>controllers.UserMenuController</list>
+                        <list>controllers.UserPageController</list>
 
                         <list>javafx.scene.control.ContextMenu</list>
                         

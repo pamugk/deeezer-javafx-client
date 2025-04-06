@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns:fx="http://javafx.com/fxml" minWidth="-Infinity" fx:controller="controllers.DrawerController">
+    <styleClass>
+        <String fx:value="drawer" />
+        <String fx:value="card" />
+    </styleClass>
+    <ImageView fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+        <VBox.margin>
+            <Insets left="20.0" />
+        </VBox.margin>
+        <Image url="@../img/deezer_logo_light.png" />
+    </ImageView>
+    <Button mnemonicParsing="false" onAction="#homeBtn_OnAction" text="%home" VBox.vgrow="ALWAYS">
+        <styleClass>
+            <String fx:value="drawer-btn" />
+            <String fx:value="drawer-btn-primary" />
+        </styleClass>
+        <VBox.margin>
+            <Insets left="13.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="exploreBtn" disable="true" maxHeight="0.0" minHeight="0.0" mnemonicParsing="false" onAction="#exploreBtn_OnAction" prefHeight="0.0" text="%explore" visible="false" VBox.vgrow="ALWAYS">
+        <styleClass>
+            <String fx:value="drawer-btn" />
+            <String fx:value="drawer-btn-primary" />
+        </styleClass>
+        <VBox.margin>
+            <Insets left="13.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="myMusicBtn" disable="true" mnemonicParsing="false" onAction="#myMusicBtn_OnAction" text="%myMusic" VBox.vgrow="ALWAYS">
+        <styleClass>
+            <String fx:value="drawer-btn" />
+            <String fx:value="drawer-btn-primary" />
+        </styleClass>
+        <VBox.margin>
+            <Insets left="13.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="tracksBtn" disable="true" mnemonicParsing="false" onAction="#favouriteTracksBtn_OnAction" styleClass="drawer-btn" text="%favTracks" VBox.vgrow="ALWAYS">
+        <VBox.margin>
+            <Insets left="40.0" top="20.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="playlistsBtn" disable="true" mnemonicParsing="false" onAction="#playlistsBtn_OnAction" styleClass="drawer-btn" text="%playlists" VBox.vgrow="ALWAYS">
+        <VBox.margin>
+            <Insets left="40.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="albumsBtn" disable="true" mnemonicParsing="false" onAction="#albumsBtn_OnAction" styleClass="drawer-btn" text="%albums" VBox.vgrow="ALWAYS">
+        <VBox.margin>
+            <Insets left="40.0" />
+        </VBox.margin>
+    </Button>
+    <Button fx:id="artistsBtn" disable="true" mnemonicParsing="false" onAction="#artistsBtn_OnAction" styleClass="drawer-btn" text="%artists" VBox.vgrow="ALWAYS">
+        <VBox.margin>
+            <Insets left="40.0" />
+        </VBox.margin>
+    </Button>
+</VBox>

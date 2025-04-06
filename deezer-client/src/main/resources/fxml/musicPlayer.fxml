@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<HBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER_LEFT" fx:controller="controllers.MusicPlayerController">
+    <styleClass>
+        <String fx:value="card" />
+        <String fx:value="player" />
+    </styleClass>
+    <Button alignment="CENTER" disable="true" mnemonicParsing="false" styleClass="player-nav-btn">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../img/icon-previous.png" />
+            </ImageView>
+        </graphic>
+        <HBox.margin>
+            <Insets bottom="16.0" left="24.0" top="16.0" />
+        </HBox.margin>
+    </Button>
+    <Button contentDisplay="CENTER" disable="true" mnemonicParsing="false" styleClass="player-nav-btn">
+        <graphic>
+            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../img/icon-play.png" />
+            </ImageView>
+        </graphic>
+        <HBox.margin>
+            <Insets left="18.0" />
+        </HBox.margin>
+    </Button>
+    <Button disable="true" mnemonicParsing="false" styleClass="player-nav-btn">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../img/icon-next.png" />
+            </ImageView>
+        </graphic>
+        <HBox.margin>
+            <Insets left="18.0" />
+        </HBox.margin>
+    </Button>
+    <GridPane HBox.hgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="450.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER" />
+            <RowConstraints valignment="CENTER" vgrow="NEVER" />
+        </rowConstraints>
+        <HBox.margin>
+            <Insets bottom="20.0" left="100.0" right="20.0" top="20.0" />
+        </HBox.margin>
+        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+            <HBox fx:id="trackInfoBox" visible="false" HBox.hgrow="ALWAYS">
+                <Hyperlink fx:id="trackLink" />
+                <Label text="." />
+                <Hyperlink fx:id="artistLink" />
+            </HBox>
+            <Button fx:id="textBtn" disable="true" mnemonicParsing="false" onAction="#textBtn_OnAction" styleClass="player-btn">
+                <graphic>
+                    <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/icon-text.png" />
+                    </ImageView>
+                </graphic>
+                <HBox.margin>
+                    <Insets right="10.0" />
+                </HBox.margin>
+            </Button>
+            <Button fx:id="addToPlaylistBtn" disable="true" mnemonicParsing="false" onAction="#addToPlaylistBtn_OnAction" styleClass="player-btn">
+                <graphic>
+                    <ImageView disable="true" fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/icon-add.png" />
+                    </ImageView>
+                </graphic>
+                <HBox.margin>
+                    <Insets right="10.0" />
+                </HBox.margin>
+            </Button>
+            <Button fx:id="likeBtn" disable="true" mnemonicParsing="false" onAction="#likeBtn_OnAction" styleClass="player-btn">
+                <graphic>
+                    <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../img/icon-like.png" />
+                    </ImageView>
+                </graphic>
+                <padding>
+                    <Insets right="10.0" />
+                </padding>
+            </Button>
+        </HBox>
+        <Label styleClass="player-timespan" text="00:00" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <Slider fx:id="trackSlider" disable="true" minWidth="-Infinity" prefWidth="450.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets left="10.0" right="10.0" top="10.0" />
+            </GridPane.margin>
+            <padding>
+                <Insets left="10.0" right="10.0" />
+            </padding>
+        </Slider>
+        <Label fx:id="durationLabel" styleClass="player-timespan" text="00:00" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    </GridPane>
+    <Button fx:id="repeatBtn" disable="true" mnemonicParsing="false" onAction="#repeatBtn_OnAction" styleClass="player-btn">
+        <HBox.margin>
+            <Insets right="10.0" />
+        </HBox.margin>
+        <graphic>
+            <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../img/icon-repeat.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button fx:id="shuffleBtn" disable="true" mnemonicParsing="false" onAction="#shuffleBtn_OnAction" styleClass="player-btn">
+        <HBox.margin>
+            <Insets right="10.0" />
+        </HBox.margin>
+        <graphic>
+            <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../img/icon-shuffle.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button fx:id="soundBtn" disable="true" mnemonicParsing="false" styleClass="player-btn">
+        <HBox.margin>
+            <Insets right="10.0" />
+        </HBox.margin>
+        <graphic>
+            <ImageView fx:id="soundImg" fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../img/icon-sound-100.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+    <Button disable="true" mnemonicParsing="false" styleClass="player-btn">
+        <HBox.margin>
+            <Insets right="10.0" />
+        </HBox.margin>
+        <graphic>
+            <ImageView fx:id="audioSettingsBtn" fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../img/icon-settings.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+    <Separator maxHeight="28.0" minHeight="28.0" orientation="VERTICAL" prefHeight="28.0" />
+    <Button alignment="TOP_LEFT" disable="true" mnemonicParsing="false" text="%playing">
+        <graphic>
+            <ImageView fx:id="playingImg" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" />
+        </graphic>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </padding>
+        <HBox.margin>
+            <Insets left="10.0" right="25.0" />
+        </HBox.margin>
+    </Button>
+</HBox>
