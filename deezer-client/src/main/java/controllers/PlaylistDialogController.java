@@ -43,7 +43,7 @@ public class PlaylistDialogController {
 
     static Playlist showAndWait(Playlist playlist) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/playlistdialoglocalisation");
-        FXMLLoader loader = new FXMLLoader(PlaylistDialogController.class.getResource("/src/main/resources/fxml/playlistDialog.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(PlaylistDialogController.class.getResource("/fxml/playlistDialog.fxml"), bundle);
         Parent dialogRoot = loader.load();
         PlaylistDialogController dialog = loader.getController();
         Stage dialogStage = new Stage();

@@ -23,6 +23,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+import java.util.function.Consumer;
+
 public class UserPageController {
     public enum Destinations{
         HIGHLIGHTS,
@@ -97,37 +99,12 @@ public class UserPageController {
     private FlowPane favArtistsFP;
     //</editor-fold>
 
-    @FXML
-    void addPlaylistBtn_OnAction(ActionEvent actionEvent) {
+    private Consumer<Album> albumRedirectioner = album -> {};
+    private Consumer<Artist> artistRedirectioner = artist -> {};
+    private Consumer<Playlist> playlistRedirectioner = playlist -> {};
 
-    }
-
-    @FXML
-    void favAlbumsBtn_OnAction(ActionEvent actionEvent) {
-        myMusicTabPane.getSelectionModel().select(favAlbumsTab);
-    }
-
-    @FXML
-    void favArtistsBtn_OnAction(ActionEvent actionEvent) {
-        myMusicTabPane.getSelectionModel().select(favArtistsTab);
-    }
-
-    @FXML
-    void favPlaylistsBtn_OnAction(ActionEvent actionEvent) {
-        myMusicTabPane.getSelectionModel().select(myPlaylistsTab);
-    }
-
-    @FXML
-    void removeTrackFromFav(ActionEvent event) {
-
-    }
-
-    @FXML
-    void shuffleMusicBtn_OnAction(ActionEvent actionEvent) {
-    }
-
-    public void setUser(User user, boolean loggedInUser, Deezer deezerClient) {
-        if (!loggedInUser){
+    public void fillData(User user, boolean loggedInUser, Deezer deezerClient) {
+        if (!loggedInUser) {
             viewedUserImg.setImage(new Image(user.getPicture_medium().toString(), true));
             viewedUserNameLbl.setText(user.getName());
         }
@@ -145,9 +122,10 @@ public class UserPageController {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
-            playlistCard.setPlaylist(playlist);
             playlistCard.prefWidthProperty().bind(Bindings.add(-35, highlightsPlaylistFP.widthProperty().divide(4.2)));
             playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistCard.setPlaylist(playlist);
+            playlistCard.setAction(() -> playlistRedirectioner.accept(playlist));
             highlightsPlaylistFP.getChildren().add(playlistCard);
         }
 
@@ -158,15 +136,18 @@ public class UserPageController {
             albumCard.prefWidthProperty().bind(Bindings.add(-35, highlightsAlbumFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
+            albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
             highlightsAlbumFP.getChildren().add(albumCard);
         }
         highlightsArtistFP.getChildren().clear();
         for (int i = 0; i < HIGHLIGHTS_LIMIT && i < favArtists.getData().size(); i++) {
             final Artist artist = favArtists.getData().get(i);
             final var artistCard = new ArtistCard();
-            artistCard.setArtist(artist);
             artistCard.prefWidthProperty().bind(Bindings.add(-35, highlightsArtistFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistCard.setArtist(artist);
+            artistCard.setAction(() -> artistRedirectioner.accept(artist));
             highlightsArtistFP.getChildren().add(artistCard);
         }
 
@@ -179,9 +160,10 @@ public class UserPageController {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
-            playlistCard.setPlaylist(playlist);
             playlistCard.prefWidthProperty().bind(Bindings.add(-35, favPlaylistsFP.widthProperty().divide(4.2)));
             playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistCard.setPlaylist(playlist);
+            playlistCard.setAction(() -> playlistRedirectioner.accept(playlist));
             favPlaylistsFP.getChildren().add(playlistCard);
         }
 
@@ -192,6 +174,8 @@ public class UserPageController {
             albumCard.prefWidthProperty().bind(Bindings.add(-35, favAlbumsFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
+            albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
             favAlbumsFP.getChildren().add(albumCard);
         }
 
@@ -202,6 +186,7 @@ public class UserPageController {
             artistCard.setArtist(artist);
             artistCard.prefWidthProperty().bind(Bindings.add(-35, favArtistsFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistCard.setAction(() -> artistRedirectioner.accept(artist));
             favArtistsFP.getChildren().add(artistCard);
         }
 
@@ -210,7 +195,7 @@ public class UserPageController {
     }
 
     public void navigateTo(Destinations destination) {
-        switch (destination){
+        switch (destination) {
             case HIGHLIGHTS:
                 myMusicTabPane.getSelectionModel().select(highlightsTab);
                 break;
@@ -227,5 +212,46 @@ public class UserPageController {
                 myMusicTabPane.getSelectionModel().select(favArtistsTab);
                 break;
         }
+    }
+
+    public void setAlbumRedirectioner(Consumer<Album> albumRedirectioner) {
+        this.albumRedirectioner = albumRedirectioner;
+    }
+
+    public void setArtistRedirectioner(Consumer<Artist> artistRedirectioner) {
+        this.artistRedirectioner = artistRedirectioner;
+    }
+
+    public void setPlaylistRedirectioner(Consumer<Playlist> playlistRedirectioner) {
+        this.playlistRedirectioner = playlistRedirectioner;
+    }
+
+    @FXML
+    private void addPlaylistBtn_OnAction(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    private void favAlbumsBtn_OnAction(ActionEvent actionEvent) {
+        myMusicTabPane.getSelectionModel().select(favAlbumsTab);
+    }
+
+    @FXML
+    private void favArtistsBtn_OnAction(ActionEvent actionEvent) {
+        myMusicTabPane.getSelectionModel().select(favArtistsTab);
+    }
+
+    @FXML
+    private void favPlaylistsBtn_OnAction(ActionEvent actionEvent) {
+        myMusicTabPane.getSelectionModel().select(myPlaylistsTab);
+    }
+
+    @FXML
+    private void removeTrackFromFav(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void shuffleMusicBtn_OnAction(ActionEvent actionEvent) {
     }
 }

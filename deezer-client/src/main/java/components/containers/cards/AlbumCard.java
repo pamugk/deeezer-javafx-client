@@ -14,6 +14,20 @@ import java.util.ResourceBundle;
 
 public class AlbumCard extends VBox {
 
+    @FXML
+    private ResourceBundle resources;
+    @FXML
+    private ImageView cover;
+    @FXML
+    private Label title;
+    @FXML
+    private Button artistRedirectButton;
+    @FXML
+    private Button albumRedirectButton;
+
+    private Runnable albumAction = () -> {};
+    private Runnable artistAction = () -> {};
+
     public AlbumCard() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("albumCard.fxml"), bundle);
@@ -26,25 +40,6 @@ public class AlbumCard extends VBox {
         }
     }
 
-    @FXML
-    private ResourceBundle resources;
-    @FXML
-    private ImageView cover;
-    @FXML
-    private Label title;
-    @FXML
-    private Button artistRedirectButton;
-    @FXML
-    private Button albumRedirectButton;
-
-    @FXML
-    private void onAlbumRedirection() {
-    }
-
-    @FXML
-    private void onArtistRedirection() {
-    }
-
     public void setAlbum(Album album) {
         cover.setImage(album.getCover_medium() == null ? null : new Image(album.getCover_medium().toString(), true));
         cover.fitWidthProperty().bind(this.prefWidthProperty());
@@ -53,5 +48,23 @@ public class AlbumCard extends VBox {
         albumRedirectButton.prefHeightProperty().bind(cover.fitHeightProperty());
         title.setText(album.getTitle());
         artistRedirectButton.setText(String.format("%s %s", resources.getString("by"), album.getArtist().getName()));
+    }
+
+    public void setAlbumAction(Runnable albumAction) {
+        this.albumAction = albumAction;
+    }
+
+    public void setArtistAction(Runnable artistAction) {
+        this.artistAction = artistAction;
+    }
+
+    @FXML
+    private void onAlbumRedirection() {
+        albumAction.run();
+    }
+
+    @FXML
+    private void onArtistRedirection() {
+        artistAction.run();
     }
 }

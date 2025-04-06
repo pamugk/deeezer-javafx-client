@@ -6,41 +6,41 @@
 <?import javafx.scene.layout.HBox?>
 <BorderPane styleClass="root" stylesheets="@../css/deezer-styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexController">
    <left>
-      <fx:include source="drawer.fxml" />
+      <fx:include fx:id="drawer" source="drawer.fxml" />
    </left>
    <center>
       <BorderPane>
          <top>
             <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
-               <fx:include source="searchBar.fxml" />
-               <fx:include source="userMenu.fxml" />
+               <fx:include fx:id="searchBar" source="searchBar.fxml" />
+               <fx:include fx:id="userMenu" source="userMenu.fxml" />
             </HBox>
          </top>
          <center>
             <TabPane fx:id="mainTabPane" styleClass="main-tab-pane" tabClosingPolicy="UNAVAILABLE">
                <Tab fx:id="homeTab">
-                  <fx:include source="homePage.fxml" />
+                  <fx:include fx:id="homePage" source="homePage.fxml" />
                </Tab>
                <Tab fx:id="searchTab">
-                  <fx:include source="searchPage.fxml" />
+                  <fx:include fx:id="searchPage" source="searchPage.fxml" />
                </Tab>
                <Tab fx:id="exploreTab">
-                  <fx:include source="explorePage.fxml" />
+                  <fx:include fx:id="explorePage" source="explorePage.fxml" />
                </Tab>
                <Tab fx:id="userTab">
-                  <fx:include source="userPage.fxml" />
+                  <fx:include fx:id="userPage" source="userPage.fxml" />
                </Tab>
                <Tab fx:id="albumTab">
-                  <fx:include source="albumPage.fxml" />
+                  <fx:include fx:id="albumPage" source="albumPage.fxml" />
                </Tab>
                <Tab fx:id="artistTab">
-                  <fx:include source="artistPage.fxml" />
+                  <fx:include fx:id="artistPage" source="artistPage.fxml" />
                </Tab>
                <Tab fx:id="playlistTab">
-                  <fx:include source="playlistPage.fxml" />
+                  <fx:include fx:id="playlistPage" source="playlistPage.fxml" />
                </Tab>
                <Tab fx:id="settingsTab">
-                  <fx:include source="settingsPage.fxml" />
+                  <fx:include fx:id="settingsPage" source="settingsPage.fxml" />
                </Tab>
                <padding>
                   <Insets top="-10.0" />
@@ -50,6 +50,6 @@
       </BorderPane>
    </center>
    <bottom>
-      <fx:include fx:id="musicPlayerContainer" source="musicPlayer.fxml" />
+      <fx:include fx:id="musicPlayer" source="musicPlayer.fxml" />
    </bottom>
 </BorderPane>

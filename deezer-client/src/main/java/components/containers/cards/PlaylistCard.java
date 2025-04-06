@@ -14,6 +14,19 @@ import java.util.ResourceBundle;
 
 public class PlaylistCard extends VBox {
 
+    @FXML
+    private ResourceBundle resources;
+    @FXML
+    private Button playlistRedirectButton;
+    @FXML
+    private ImageView picture;
+    @FXML
+    private Label title;
+    @FXML
+    private Label trackCount;
+
+    private Runnable action = () -> {};
+
     public PlaylistCard() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("playlistCard.fxml"), bundle);
@@ -26,19 +39,8 @@ public class PlaylistCard extends VBox {
         }
     }
 
-    @FXML
-    private ResourceBundle resources;
-    @FXML
-    private Button playlistRedirectButton;
-    @FXML
-    private ImageView picture;
-    @FXML
-    private Label title;
-    @FXML
-    private Label trackCount;
-
-    @FXML
-    private void onPlaylistRedirection() {
+    public void setAction(Runnable action) {
+        this.action = action;
     }
 
     public void setPlaylist(Playlist playlist) {
@@ -50,5 +52,10 @@ public class PlaylistCard extends VBox {
         title.setText(playlist.getTitle());
         trackCount.setText(String.format("%s: %d", resources.getString("tracksCnt"),
                 playlist.getNb_tracks()));
+    }
+
+    @FXML
+    private void onPlaylistRedirection() {
+        action.run();
     }
 }

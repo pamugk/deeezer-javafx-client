@@ -67,20 +67,7 @@ public class PlaylistPageController {
     private CommentBox playlistCommentariesBox;
     //</editor-fold>
 
-    @FXML
-    private void onPlaylistEdit(ActionEvent event) {
-    }
-
-    @FXML
-    private void playlistSearchBox_OnKeyPressed(KeyEvent keyEvent) {
-    }
-
-    @FXML
-    private void removeTrackFromPlaylist(ActionEvent event) {
-
-    }
-
-    public void setPlaylist(Playlist playlist, Deezer deezerClient){
+    public void setPlaylist(Playlist playlist, Deezer deezerClient) {
         playlistPicture.setImage(new Image(playlist.getPicture_medium().toString(), true));
         playlistTitleLbl.setText(playlist.getTitle());
         playlistCreatorImg.setImage(new Image(playlist.getCreator().getPicture_small().toString(), true));
@@ -99,5 +86,18 @@ public class PlaylistPageController {
         playlistTracksTV.getItems().clear();
         playlistTracksTV.getItems().addAll(playlist.getTracks().getData());
         playlistCommentariesBox.fill(deezerClient.getPlaylistComments(playlist));
+    }
+
+    @FXML
+    private void onPlaylistEdit(ActionEvent event) {
+    }
+
+    @FXML
+    private void playlistSearchBox_OnKeyPressed(KeyEvent keyEvent) {
+    }
+
+    @FXML
+    private void removeTrackFromPlaylist(ActionEvent event) {
+
     }
 }

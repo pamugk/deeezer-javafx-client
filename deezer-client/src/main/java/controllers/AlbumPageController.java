@@ -22,6 +22,7 @@ import utils.TimeUtils;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
 
@@ -68,7 +69,10 @@ public class AlbumPageController {
     private FlowPane albumArtistRelatedFP;
     //</editor-fold>
 
-    public void setAlbum(Album album, Deezer deezerClient) {
+    private Consumer<Album> albumRedirectioner = album -> {};
+    private Consumer<Artist> artistRedirectioner = artist -> {};
+
+    public void fillData(Album album, Deezer deezerClient) {
         albumCover.setImage(new Image(album.getCover_medium().toString(), true));
         albumName.setText(album.getTitle());
         albumArtistImg.setImage(new Image(album.getArtist().getPicture_small().toString(), true));
@@ -91,6 +95,8 @@ public class AlbumPageController {
             albumCard.prefWidthProperty().bind(Bindings.add(-35, albumArtistDiscographyFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(discographyAlbum);
+            albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
             albumArtistDiscographyFP.getChildren().add(albumCard);
         }
 
@@ -101,6 +107,7 @@ public class AlbumPageController {
             artistCard.setArtist(artist);
             artistCard.prefWidthProperty().bind(Bindings.add(-35, albumArtistRelatedFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistCard.setAction(() -> artistRedirectioner.accept(artist));
             albumArtistRelatedFP.getChildren().add(artistCard);
         }
 
@@ -111,5 +118,13 @@ public class AlbumPageController {
             addAlbumToLibrary.setText(resources.getString("addToMyMusic"));
             albumAddToLibImg.setImage(new Image("src/main/resources/img/icon-like.png"));
         }
+    }
+
+    public void setAlbumRedirectioner(Consumer<Album> albumRedirectioner) {
+        this.albumRedirectioner = albumRedirectioner;
+    }
+
+    public void setArtistRedirectioner(Consumer<Artist> artistRedirectioner) {
+        this.artistRedirectioner = artistRedirectioner;
     }
 }

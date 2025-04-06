@@ -14,6 +14,19 @@ import java.util.ResourceBundle;
 
 public class ArtistCard extends VBox {
 
+    @FXML
+    private ResourceBundle resources;
+    @FXML
+    private Button artistRedirectButton;
+    @FXML
+    private ImageView picture;
+    @FXML
+    private Label name;
+    @FXML
+    private Label followers;
+
+    private Runnable action = () -> {};
+
     public ArtistCard() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("artistCard.fxml"), bundle);
@@ -27,18 +40,12 @@ public class ArtistCard extends VBox {
     }
 
     @FXML
-    private ResourceBundle resources;
-    @FXML
-    private Button artistRedirectButton;
-    @FXML
-    private ImageView picture;
-    @FXML
-    private Label name;
-    @FXML
-    private Label followers;
-
-    @FXML
     private void onArtistRedirection() {
+        action.run();
+    }
+
+    public void setAction(Runnable action) {
+        this.action = action;
     }
 
     public void setArtist(Artist artist) {

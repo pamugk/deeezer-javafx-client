@@ -16,6 +16,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+import java.util.function.Consumer;
+
 public class HomePageController {
     @FXML
     private Label alert;
@@ -27,6 +29,10 @@ public class HomePageController {
     private FlowPane recommendedArtistsFP;
     @FXML
     private FlowPane recommendedAlbumsFP;
+
+    private Consumer<Album> albumRedirectioner = album -> {};
+    private Consumer<Artist> artistRedirectioner = artist -> {};
+    private Consumer<Playlist> playlistRedirectioner = playlist -> {};
 
     public void setupDeezer(Deezer deezerClient) {
         deezerClient.getAuthenticationEventHandler().addListener(new DeezerListener<>(event -> {
@@ -40,9 +46,10 @@ public class HomePageController {
                         continue;
                     }
                     final var playlistCard = new PlaylistCard();
-                    playlistCard.setPlaylist(playlist);
                     playlistCard.prefWidthProperty().bind(Bindings.add(-35, recommendedPlaylistsFP.widthProperty().divide(4.2)));
                     playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    playlistCard.setPlaylist(playlist);
+                    playlistCard.setAction(() -> playlistRedirectioner.accept(playlist));
                     recommendedPlaylistsFP.getChildren().add(playlistCard);
                 }
 
@@ -50,9 +57,10 @@ public class HomePageController {
                 recommendedArtistsFP.getChildren().clear();
                 for (final Artist artist: recommendedArtists.getData()) {
                     final var artistCard = new ArtistCard();
-                    artistCard.setArtist(artist);
                     artistCard.prefWidthProperty().bind(Bindings.add(-35, recommendedArtistsFP.widthProperty().divide(4.2)));
                     artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    artistCard.setArtist(artist);
+                    artistCard.setAction(() -> artistRedirectioner.accept(artist));
                     recommendedArtistsFP.getChildren().add(artistCard);
                 }
 
@@ -63,6 +71,8 @@ public class HomePageController {
                     albumCard.prefWidthProperty().bind(Bindings.add(-35, recommendedAlbumsFP.widthProperty().divide(4.2)));
                     albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
                     albumCard.setAlbum(album);
+                    albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+                    albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
                     recommendedAlbumsFP.getChildren().add(albumCard);
                 }
             }
@@ -72,5 +82,17 @@ public class HomePageController {
                 recommendedAlbumsFP.getChildren().clear();
             }
         }));
+    }
+
+    public void setAlbumRedirectioner(Consumer<Album> albumRedirectioner) {
+        this.albumRedirectioner = albumRedirectioner;
+    }
+
+    public void setArtistRedirectioner(Consumer<Artist> artistRedirectioner) {
+        this.artistRedirectioner = artistRedirectioner;
+    }
+
+    public void setPlaylistRedirectioner(Consumer<Playlist> playlistRedirectioner) {
+        this.playlistRedirectioner = playlistRedirectioner;
     }
 }

@@ -14,6 +14,15 @@ import java.util.ResourceBundle;
 
 public class UserCard extends VBox {
 
+    @FXML
+    private ImageView image;
+    @FXML
+    private Label name;
+    @FXML
+    private Button userRedirectButton;
+
+    private Runnable action = () -> {};
+
     public UserCard() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userCard.fxml"), bundle);
@@ -26,15 +35,8 @@ public class UserCard extends VBox {
         }
     }
 
-    @FXML
-    private ImageView image;
-    @FXML
-    private Label name;
-    @FXML
-    private Button userRedirectButton;
-
-    @FXML
-    private void onUserRedirection() {
+    public void setAction(Runnable action) {
+        this.action = action;
     }
 
     public void setUser(User user) {
@@ -44,5 +46,10 @@ public class UserCard extends VBox {
         userRedirectButton.prefWidthProperty().bind(image.fitWidthProperty());
         userRedirectButton.prefHeightProperty().bind(image.fitHeightProperty());
         name.setText(user.getName());
+    }
+
+    @FXML
+    private void onUserRedirection() {
+        action.run();
     }
 }

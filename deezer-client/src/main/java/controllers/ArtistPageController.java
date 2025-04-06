@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
@@ -114,22 +115,11 @@ public class ArtistPageController {
     private CommentBox artistCommentsBox;
     //</editor-fold>
 
-    @FXML
-    void artistPlaylistsBtn_OnAction(ActionEvent actionEvent) {
-        artistTabPane.getSelectionModel().select(artistPlaylistsTab);
-    }
+    private Consumer<Album> albumRedirectioner = album -> {};
+    private Consumer<Artist> artistRedirectioner = artist -> {};
+    private Consumer<Playlist> playlistRedirectioner = playlist -> {};
 
-    @FXML
-    void artistMPTracksBtn_OnAction(ActionEvent actionEvent) {
-        artistTabPane.getSelectionModel().select(artistPopularTracksTab);
-    }
-
-    @FXML
-    void artistSimiliarBtn_OnAction(ActionEvent actionEvent) {
-        artistTabPane.getSelectionModel().select(artistRelatedTab);
-    }
-
-    public void setArtist(Artist artist, Deezer deezerClient) {
+    public void fillData(Artist artist, Deezer deezerClient) {
         artistPicture.setImage(new Image(artist.getPicture_medium().toString(), true));
         artistNameLbl.setText(artist.getName());
         artistFansLbl.setText(String.format("%s: %d", resources.getString("followers"), artist.getNb_fan()));
@@ -153,9 +143,10 @@ public class ArtistPageController {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
-            playlistCard.setPlaylist(playlist);
             playlistCard.prefWidthProperty().bind(Bindings.add(-35, artistPlaylistsFP.widthProperty().divide(4.2)));
             playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistCard.setPlaylist(playlist);
+            playlistCard.setAction(() -> playlistRedirectioner.accept(playlist));
             artistPlaylistsFP.getChildren().add(playlistCard);
         }
 
@@ -164,9 +155,10 @@ public class ArtistPageController {
         artistRelatedFP.getChildren().clear();
         for (final Artist similarArtist: similarArtists.getData()) {
             final var artistCard = new ArtistCard();
-            artistCard.setArtist(similarArtist);
             artistCard.prefWidthProperty().bind(Bindings.add(-35, artistRelatedFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            artistCard.setArtist(similarArtist);
+            artistCard.setAction(() -> artistRedirectioner.accept(artist));
             artistRelatedFP.getChildren().add(artistCard);
         }
 
@@ -177,6 +169,8 @@ public class ArtistPageController {
             albumCard.prefWidthProperty().bind(Bindings.add(-35, artistDiscographyFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
+            albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
             artistDiscographyFP.getChildren().add(albumCard);
         }
         artistTopAlbumTracksTV.getItems().clear();
@@ -200,5 +194,32 @@ public class ArtistPageController {
         artistTopAlbumTracksTV.setVisible(albumShowed);
         artistCommentsBox.fill(deezerClient.getArtistComments(artist));
         artistTabPane.getSelectionModel().select(artistDiscographyTab);
+    }
+
+    public void setAlbumRedirectioner(Consumer<Album> albumRedirectioner) {
+        this.albumRedirectioner = albumRedirectioner;
+    }
+
+    public void setArtistRedirectioner(Consumer<Artist> artistRedirectioner) {
+        this.artistRedirectioner = artistRedirectioner;
+    }
+
+    public void setPlaylistRedirectioner(Consumer<Playlist> playlistRedirectioner) {
+        this.playlistRedirectioner = playlistRedirectioner;
+    }
+
+    @FXML
+    private void artistPlaylistsBtn_OnAction(ActionEvent actionEvent) {
+        artistTabPane.getSelectionModel().select(artistPlaylistsTab);
+    }
+
+    @FXML
+    private void artistMPTracksBtn_OnAction(ActionEvent actionEvent) {
+        artistTabPane.getSelectionModel().select(artistPopularTracksTab);
+    }
+
+    @FXML
+    private void artistSimiliarBtn_OnAction(ActionEvent actionEvent) {
+        artistTabPane.getSelectionModel().select(artistRelatedTab);
     }
 }

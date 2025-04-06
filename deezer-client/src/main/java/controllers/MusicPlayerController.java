@@ -39,12 +39,32 @@ public class MusicPlayerController {
     @FXML
     private ImageView playingImg;
 
+    public TrackSearch getSelectedTrack() {
+        return selectedTrack;
+    }
+
+    public void setSelectedTrack(TrackSearch newTrack) {
+        selectedTrack = newTrack;
+        if (newTrack == null) {
+            trackLink.setText("");
+            artistLink.setText("");
+            trackInfoBox.setVisible(false);
+            addToPlaylistBtn.setDisable(true);
+        }
+        else {
+            trackLink.setText(newTrack.getTitle());
+            artistLink.setText(newTrack.getArtist().getName());
+            trackInfoBox.setVisible(true);
+            addToPlaylistBtn.setDisable(false);
+        }
+    }
+
     @FXML
     private void addToPlaylistBtn_OnAction(ActionEvent event) {
     }
 
     @FXML
-    private void likeBtn_OnAction(ActionEvent event){
+    private void likeBtn_OnAction(ActionEvent event) {
 
     }
 
@@ -61,25 +81,5 @@ public class MusicPlayerController {
     @FXML
     private void textBtn_OnAction(ActionEvent event) {
 
-    }
-
-    public TrackSearch getSelectedTrack(){
-        return selectedTrack;
-    }
-
-    public void setSelectedTrack(TrackSearch newTrack){
-        selectedTrack = newTrack;
-        if (newTrack == null) {
-            trackLink.setText("");
-            artistLink.setText("");
-            trackInfoBox.setVisible(false);
-            addToPlaylistBtn.setDisable(true);
-        }
-        else {
-            trackLink.setText(newTrack.getTitle());
-            artistLink.setText(newTrack.getArtist().getName());
-            trackInfoBox.setVisible(true);
-            addToPlaylistBtn.setDisable(false);
-        }
     }
 }

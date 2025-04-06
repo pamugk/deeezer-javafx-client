@@ -16,7 +16,7 @@
                 <padding>
                     <Insets left="80.0" right="80.0" top="50.0" />
                 </padding>
-                <VBox fx:id="fullFoundBox">
+                <VBox>
                     <Button fx:id="tracksResultBtn" mnemonicParsing="false" onAction="#tracksResultBtn_OnAction" text="%tracks">
                         <styleClass>
                             <String fx:value="deezer-button" />

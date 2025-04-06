@@ -18,8 +18,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class SearchPageController {
@@ -29,8 +29,6 @@ public class SearchPageController {
     private TabPane searchTabPane;
     @FXML
     private Tab allResultsTab;
-    @FXML
-    private VBox fullFoundBox;
     @FXML
     private Button tracksResultBtn;
     @FXML
@@ -76,42 +74,18 @@ public class SearchPageController {
     @FXML
     private FlowPane foundPlaylistsFP;
     @FXML
-    private Tab mixResultsTab;
-    @FXML
-    private Label foundMixesLbl;
-    @FXML
     private Tab profileResultsTab;
     @FXML
     private Label foundProfilesLbl;
     @FXML
     private FlowPane foundProfilesFP;
 
-    @FXML
-    void albumsResultBtn_OnAction(ActionEvent actionEvent) {
-        searchTabPane.getSelectionModel().select(albumResultsTab);
-    }
+    private Consumer<Album> albumRedirectioner = album -> {};
+    private Consumer<Artist> artistRedirectioner = artist -> {};
+    private Consumer<Playlist> playlistRedirectioner = playlist -> {};
+    private Consumer<User> userRedirectioner = user -> {};
 
-    @FXML
-    void artistsResultBtn_OnAction(ActionEvent actionEvent) {
-        searchTabPane.getSelectionModel().select(artistResultsTab);
-    }
-
-    @FXML
-    void playlistsResultsBtn_OnAction(ActionEvent actionEvent) {
-        searchTabPane.getSelectionModel().select(playlistResultsTab);
-    }
-
-    @FXML
-    void profilesResultsBtn_OnAction(ActionEvent actionEvent) {
-        searchTabPane.getSelectionModel().select(profileResultsTab);
-    }
-
-    @FXML
-    void tracksResultBtn_OnAction(ActionEvent actionEvent) {
-        searchTabPane.getSelectionModel().select(trackResultsTab);
-    }
-
-    public void setSearchResults(FullSearchSet searchSet) {
+    public void fillData(FullSearchSet searchSet) {
         searchTabPane.getTabs().clear();
         searchTabPane.getTabs().add(allResultsTab);
 
@@ -139,6 +113,8 @@ public class SearchPageController {
             albumCard.prefWidthProperty().bind(Bindings.add(-35, albumsResultsFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
+            albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
             albumsResultsFP.getChildren().add(albumCard);
         }
         foundAlbumsFP.getChildren().clear();
@@ -148,6 +124,8 @@ public class SearchPageController {
             albumCard.prefWidthProperty().bind(Bindings.add(-35, foundAlbumsFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
+            albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
             foundAlbumsFP.getChildren().add(albumCard);
         }
 
@@ -164,6 +142,7 @@ public class SearchPageController {
             artistCard.prefWidthProperty().bind(Bindings.add(-35, artistsResultsFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             artistCard.setArtist(artist);
+            artistCard.setAction(() -> artistRedirectioner.accept(artist));
             artistsResultsFP.getChildren().add(artistCard);
         }
         foundArtistsFP.getChildren().clear();
@@ -173,6 +152,7 @@ public class SearchPageController {
             artistCard.prefWidthProperty().bind(Bindings.add(-35, foundArtistsFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             artistCard.setArtist(artist);
+            artistCard.setAction(() -> artistRedirectioner.accept(artist));
             foundArtistsFP.getChildren().add(artistCard);
         }
 
@@ -189,9 +169,10 @@ public class SearchPageController {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
-            playlistCard.setPlaylist(playlist);
             playlistCard.prefWidthProperty().bind(Bindings.add(-35, playlistsResultsFP.widthProperty().divide(4.2)));
             playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistCard.setPlaylist(playlist);
+            playlistCard.setAction(() -> playlistRedirectioner.accept(playlist));
             playlistsResultsFP.getChildren().add(playlistCard);
         }
         foundPlaylistsFP.getChildren().clear();
@@ -201,9 +182,10 @@ public class SearchPageController {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
-            playlistCard.setPlaylist(playlist);
             playlistCard.prefWidthProperty().bind(Bindings.add(-35, foundPlaylistsFP.widthProperty().divide(4.2)));
             playlistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            playlistCard.setPlaylist(playlist);
+            playlistCard.setAction(() -> playlistRedirectioner.accept(playlist));
             foundPlaylistsFP.getChildren().add(playlistCard);
         }
 
@@ -220,6 +202,7 @@ public class SearchPageController {
             userCard.prefWidthProperty().bind(Bindings.add(-35, profilesResultsFP.widthProperty().divide(4.2)));
             userCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             userCard.setUser(user);
+            userCard.setAction(() -> userRedirectioner.accept(user));
             profilesResultsFP.getChildren().add(userCard);
         }
         foundProfilesFP.getChildren().clear();
@@ -229,7 +212,49 @@ public class SearchPageController {
             userCard.prefWidthProperty().bind(Bindings.add(-35, foundProfilesFP.widthProperty().divide(4.2)));
             userCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             userCard.setUser(user);
+            userCard.setAction(() -> userRedirectioner.accept(user));
             foundProfilesFP.getChildren().add(userCard);
         }
+    }
+
+    public void setAlbumRedirectioner(Consumer<Album> albumRedirectioner) {
+        this.albumRedirectioner = albumRedirectioner;
+    }
+
+    public void setArtistRedirectioner(Consumer<Artist> artistRedirectioner) {
+        this.artistRedirectioner = artistRedirectioner;
+    }
+
+    public void setPlaylistRedirectioner(Consumer<Playlist> playlistRedirectioner) {
+        this.playlistRedirectioner = playlistRedirectioner;
+    }
+
+    public void setUserRedirectioner(Consumer<User> userRedirectioner) {
+        this.userRedirectioner = userRedirectioner;
+    }
+
+    @FXML
+    private void albumsResultBtn_OnAction(ActionEvent actionEvent) {
+        searchTabPane.getSelectionModel().select(albumResultsTab);
+    }
+
+    @FXML
+    private void artistsResultBtn_OnAction(ActionEvent actionEvent) {
+        searchTabPane.getSelectionModel().select(artistResultsTab);
+    }
+
+    @FXML
+    private void playlistsResultsBtn_OnAction(ActionEvent actionEvent) {
+        searchTabPane.getSelectionModel().select(playlistResultsTab);
+    }
+
+    @FXML
+    private void profilesResultsBtn_OnAction(ActionEvent actionEvent) {
+        searchTabPane.getSelectionModel().select(profileResultsTab);
+    }
+
+    @FXML
+    private void tracksResultBtn_OnAction(ActionEvent actionEvent) {
+        searchTabPane.getSelectionModel().select(trackResultsTab);
     }
 }

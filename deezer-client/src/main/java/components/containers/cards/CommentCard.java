@@ -16,16 +16,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class CommentCard extends HBox {
-    private Comment comment;
-
-    public CommentCard() {
-        load();
-    }
-
-    public CommentCard(Comment comment){
-        load();
-        setComment(comment);
-    }
 
     @FXML
     private Button userRedirectButton;
@@ -36,11 +26,27 @@ public class CommentCard extends HBox {
     @FXML
     private Label commentText;
 
-    @FXML
-    private void onUserRedirection() {
+    private Runnable userAction = () -> {};
+
+    public CommentCard() {
+        load();
     }
 
-    private void load(){
+    public CommentCard(Comment comment) {
+        load();
+        setComment(comment);
+    }
+
+    public void setUserAction(Runnable userAction) {
+        this.userAction = userAction;
+    }
+
+    @FXML
+    private void onUserRedirection() {
+        userAction.run();
+    }
+
+    private void load() {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("commentCard.fxml"), bundle);
         fxmlLoader.setRoot(this);

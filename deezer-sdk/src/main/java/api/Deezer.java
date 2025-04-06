@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 
 public class Deezer {
     private DeezerRequestExecutor requestExecutor;
-    private DeezerEventHandler<AuthenticationEvent> authenticationEventHandler;
+    private final DeezerEventHandler<AuthenticationEvent> authenticationEventHandler;
     private Long currentUserId;
 
     private static final Type ALBUM_TYPE = new TypeToken<Album>(){}.getType();

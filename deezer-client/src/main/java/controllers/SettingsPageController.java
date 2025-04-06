@@ -38,14 +38,6 @@ public class SettingsPageController {
     @FXML
     private TextField birthdayTextField;
 
-    @FXML
-    void emailBtn_OnAction(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    void passwordBtn_OnAction(ActionEvent actionEvent) {
-    }
-
     public void setUserDetails(User loggedInUser) {
         userImg.setImage(new Image(loggedInUser.getPicture_medium().toString(), true));
         emailTextField.setText(loggedInUser.getEmail());
@@ -57,5 +49,13 @@ public class SettingsPageController {
         lastnameTextField.setText(loggedInUser.getLastname());
         birthdayTextField.setText(loggedInUser.getBirthday().toInstant().atZone(ZoneId.systemDefault())
                 .format(DateTimeFormatter.ISO_LOCAL_DATE));
+    }
+
+    @FXML
+    private void emailBtn_OnAction(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    private void passwordBtn_OnAction(ActionEvent actionEvent) {
     }
 }
