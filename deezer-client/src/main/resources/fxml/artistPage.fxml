@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER">
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" fx:controller="controllers.ArtistPageController">
     <HBox spacing="10.0">
         <ImageView fx:id="artistPicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         <VBox alignment="CENTER" spacing="15.0">
@@ -46,7 +46,7 @@
                         <Button fx:id="artistPlaylistsBtn" mnemonicParsing="false" onAction="#artistPlaylistsBtn_OnAction" styleClass="deezer-button" text="%playlists" GridPane.columnIndex="1" />
                         <Button fx:id="artistMtPReleaseBtn" mnemonicParsing="false" styleClass="deezer-button" text="%mostPopularRelease" GridPane.rowIndex="2" />
                         <Button fx:id="artistSimiliarBtn" mnemonicParsing="false" onAction="#artistSimiliarBtn_OnAction" styleClass="deezer-button" text="%artistRelated" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <PlaylistBox fx:id="artistPlaylistsVBox" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                        <PlaylistBox fx:id="artistPlaylistsBox" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
                         <TableView fx:id="artistTopTracksTV" maxHeight="100.0" GridPane.rowIndex="1">
                             <columns>
                                 <TableColumn fx:id="artistTMPTIdxCol" prefWidth="75.0" text="%number" />
@@ -59,7 +59,7 @@
                                 <Insets left="40.0" right="40.0" />
                             </GridPane.margin>
                         </TableView>
-                        <ArtistBox fx:id="artistRelatedVBox" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                        <ArtistBox fx:id="artistRelatedBox" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
                         <HBox spacing="20.0" GridPane.rowIndex="3">
                             <VBox HBox.hgrow="NEVER">
                                 <ImageView fx:id="artistTopAlbumImg" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
@@ -172,7 +172,7 @@
                             <Insets top="45.0" />
                         </VBox.margin>
                     </Label>
-                    <CommentBox fx:id="artistCommentsVBox" VBox.vgrow="ALWAYS" />
+                    <CommentBox fx:id="artistCommentsBox" VBox.vgrow="ALWAYS" />
                 </VBox>
                 <padding>
                     <Insets left="80.0" right="80.0" />
@@ -183,4 +183,4 @@
     <padding>
         <Insets bottom="20.0" left="72.0" right="72.0" top="20.0" />
     </padding>
-</fx:root>
+</VBox>

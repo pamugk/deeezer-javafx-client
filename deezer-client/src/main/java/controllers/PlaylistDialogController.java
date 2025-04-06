@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class PlaylistDialog {
+public class PlaylistDialogController {
     private Playlist playlist;
 
     private void close() {
@@ -43,9 +43,9 @@ public class PlaylistDialog {
 
     static Playlist showAndWait(Playlist playlist) throws IOException {
         ResourceBundle bundle = ResourceBundle.getBundle("localisation/playlistdialoglocalisation");
-        FXMLLoader loader = new FXMLLoader(PlaylistDialog.class.getResource("/src/main/resources/fxml/playlistDialog.fxml"), bundle);
+        FXMLLoader loader = new FXMLLoader(PlaylistDialogController.class.getResource("/src/main/resources/fxml/playlistDialog.fxml"), bundle);
         Parent dialogRoot = loader.load();
-        PlaylistDialog dialog = loader.getController();
+        PlaylistDialogController dialog = loader.getController();
         Stage dialogStage = new Stage();
         dialogStage.setResizable(false);
         dialogStage.maximizedProperty().addListener((observable, oldValue, newValue) -> {

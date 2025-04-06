@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AlbumPageController">
     <VBox.margin>
         <Insets top="25.0" />
     </VBox.margin>
@@ -58,4 +58,4 @@
     <padding>
         <Insets bottom="20.0" top="20.0" />
     </padding>
-</fx:root>
+</VBox>

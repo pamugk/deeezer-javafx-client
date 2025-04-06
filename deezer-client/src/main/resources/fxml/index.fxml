@@ -1,54 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import components.*?>
-<?import components.navigation.*?>
-<?import components.views.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane styleClass="root" stylesheets="@../css/deezer-styles.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexController">
    <left>
-      <Drawer fx:id="drawer" />
+      <fx:include source="drawer.fxml" />
    </left>
    <center>
       <BorderPane>
          <top>
             <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
-               <SearchBar fx:id="searchBar" minWidth="-Infinity" HBox.hgrow="ALWAYS" />
-               <UserMenu fx:id="userMenu" minWidth="-Infinity" HBox.hgrow="SOMETIMES" />
+               <fx:include source="searchBar.fxml" />
+               <fx:include source="userMenu.fxml" />
             </HBox>
          </top>
          <center>
             <TabPane fx:id="mainTabPane" styleClass="main-tab-pane" tabClosingPolicy="UNAVAILABLE">
                <Tab fx:id="homeTab">
-                  <ScrollPane>
-                     <HomeView fx:id="homeView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
-                  </ScrollPane>
+                  <fx:include source="homePage.fxml" />
                </Tab>
                <Tab fx:id="searchTab">
-                  <SearchView fx:id="searchView" />
+                  <fx:include source="searchPage.fxml" />
                </Tab>
                <Tab fx:id="exploreTab">
-                  <ExploreView fx:id="exploreView" />
+                  <fx:include source="explorePage.fxml" />
                </Tab>
                <Tab fx:id="userTab">
-                  <UserView fx:id="userView" />
+                  <fx:include source="userPage.fxml" />
                </Tab>
                <Tab fx:id="albumTab">
-                  <AlbumView fx:id="albumView" />
+                  <fx:include source="albumPage.fxml" />
                </Tab>
                <Tab fx:id="artistTab">
-                  <ArtistView fx:id="artistView" />
+                  <fx:include source="artistPage.fxml" />
                </Tab>
                <Tab fx:id="playlistTab">
-                  <PlaylistView fx:id="playlistView"/>
-               </Tab>
-               <Tab fx:id="radioTab">
-
+                  <fx:include source="playlistPage.fxml" />
                </Tab>
                <Tab fx:id="settingsTab">
-                  <SettingsView fx:id="settingsView" />
+                  <fx:include source="settingsPage.fxml" />
                </Tab>
                <padding>
                   <Insets top="-10.0" />
@@ -58,6 +50,6 @@
       </BorderPane>
    </center>
    <bottom>
-      <MusicPlayer fx:id="musicPlayer" />
+      <fx:include fx:id="musicPlayerContainer" source="musicPlayer.fxml" />
    </bottom>
 </BorderPane>

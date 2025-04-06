@@ -1,4 +1,4 @@
-package components.views;
+package controllers;
 
 import api.PartialSearchResponse;
 import api.objects.playables.Album;
@@ -15,30 +15,15 @@ import components.containers.tables.TrackTable;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class SearchView extends VBox {
+public class SearchPageController {
     private static final int HIGHLIGHTS_LIMIT = 4;
-
-    public SearchView() {
-        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("searchView.fxml"), bundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
 
     @FXML
     private TabPane searchTabPane;

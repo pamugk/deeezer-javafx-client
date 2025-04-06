@@ -4,8 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
-    <Label fx:id="alert" alignment="CENTER" maxWidth="1.7976931348623157E308" text="%notLoggedInAlert" textAlignment="CENTER" wrapText="true">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.HomePageController">
+    <Label fx:id="alert" alignment="CENTER" text="%notLoggedInAlert" textAlignment="CENTER" wrapText="true">
         <styleClass>
             <String fx:value="deezer-title" />
             <String fx:value="deezer-alert" />
@@ -42,4 +42,4 @@
             </VBox.margin>
         </FlowPane>
     </VBox>
-</fx:root>
+</VBox>

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SearchPageController">
     <TabPane fx:id="searchTabPane" tabClosingPolicy="UNAVAILABLE">
         <padding>
             <Insets top="25.0" />
@@ -195,4 +195,4 @@
             </ScrollPane>
         </Tab>
     </TabPane>
-</fx:root>
+</VBox>

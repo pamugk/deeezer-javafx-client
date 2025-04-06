@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
 <?import components.containers.boxes.CommentBox?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER" spacing="25.0">
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="25.0" fx:controller="controllers.PlaylistPageController">
     <HBox spacing="20.0">
         <VBox.margin>
             <Insets />
@@ -69,4 +69,4 @@
     </TableView>
     <Label styleClass="deezer-title" text="%comments" />
     <CommentBox fx:id="playlistCommentariesBox" prefHeight="200.0" prefWidth="100.0" styleClass="card" />
-</fx:root>
+</VBox>

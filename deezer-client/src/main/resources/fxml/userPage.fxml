@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import java.lang.*?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox" alignment="CENTER" spacing="25.0">
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="25.0" fx:controller="controllers.UserPageController">
     <HBox fx:id="viewedUserBox" spacing="15.0">
         <VBox.margin>
             <Insets left="85.0" top="90.0" />
@@ -95,7 +95,7 @@
             </ScrollPane>
         </Tab>
         <Tab fx:id="favTracksTab" text="%favTracks">
-            <ScrollPane fx:id="favTracksSP" fitToWidth="true">
+            <ScrollPane fitToWidth="true">
                 <padding>
                     <Insets right="80.0" />
                 </padding>
@@ -109,12 +109,12 @@
                     </HBox>
                     <TrackTable fx:id="favTracksTV" VBox.vgrow="ALWAYS">
                         <columns>
-                            <TableColumn fx:id="favTrackIdxCol" prefWidth="75.0" text="%number" />
-                            <TableColumn fx:id="favTrackTitleCol" prefWidth="75.0" text="%track" />
-                            <TableColumn fx:id="favTrackArtistCol" prefWidth="75.0" text="%artist" />
-                            <TableColumn fx:id="favTrackAlbumCol" prefWidth="75.0" text="%album" />
-                            <TableColumn fx:id="favTrackLengthCol" prefWidth="75.0" text="%length" />
-                            <TableColumn fx:id="favTrackPopCol" prefWidth="75.0" text="%popularity" />
+                            <TableColumn prefWidth="75.0" text="%number" />
+                            <TableColumn prefWidth="75.0" text="%track" />
+                            <TableColumn prefWidth="75.0" text="%artist" />
+                            <TableColumn prefWidth="75.0" text="%album" />
+                            <TableColumn prefWidth="75.0" text="%length" />
+                            <TableColumn prefWidth="75.0" text="%popularity" />
                         </columns>
                         <VBox.margin>
                             <Insets top="25.0" />
@@ -234,4 +234,4 @@
     <padding>
         <Insets bottom="20.0" left="80.0" top="20.0" />
     </padding>
-</fx:root>
+</VBox>

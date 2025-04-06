@@ -1,4 +1,4 @@
-package components.navigation;
+package navigation;
 
 public enum Pages {
     HOME,

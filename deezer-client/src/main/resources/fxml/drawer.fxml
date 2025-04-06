@@ -7,7 +7,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<fx:root minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
+<VBox xmlns:fx="http://javafx.com/fxml" minWidth="-Infinity" fx:controller="controllers.DrawerController">
     <styleClass>
         <String fx:value="drawer" />
         <String fx:value="card" />
@@ -16,7 +16,7 @@
         <VBox.margin>
             <Insets left="20.0" />
         </VBox.margin>
-        <Image url="@../../img/deezer_logo_light.png" />
+        <Image url="@../img/deezer_logo_light.png" />
     </ImageView>
     <Button mnemonicParsing="false" onAction="#homeBtn_OnAction" text="%home" VBox.vgrow="ALWAYS">
         <styleClass>
@@ -65,4 +65,4 @@
             <Insets left="40.0" />
         </VBox.margin>
     </Button>
-</fx:root>
+</VBox>

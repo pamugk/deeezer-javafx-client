@@ -1,4 +1,4 @@
-package components.views;
+package controllers;
 
 import api.Deezer;
 import api.PartialSearchResponse;
@@ -15,15 +15,12 @@ import components.containers.cards.PlaylistCard;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -33,20 +30,7 @@ import java.util.stream.Collectors;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
 
-public class ArtistView extends VBox {
-
-    public ArtistView() {
-        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("artistView.fxml"), bundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
+public class ArtistPageController {
     //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML
     private ResourceBundle resources;

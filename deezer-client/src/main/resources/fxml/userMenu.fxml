@@ -6,7 +6,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root alignment="CENTER_LEFT" minWidth="-Infinity" type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal">
+<HBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" minWidth="-Infinity" HBox.hgrow="SOMETIMES" fx:controller="controllers.UserMenuController">
     <Button fx:id="loginBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#loginBtn_OnAction" styleClass="login-btn" text="%login" HBox.hgrow="NEVER" />
     <MenuBar fx:id="userMenuBar" minWidth="-Infinity" styleClass="navbar-usermenu" visible="false" HBox.hgrow="NEVER">
         <HBox.margin>
@@ -30,4 +30,4 @@
         <String fx:value="card" />
         <String fx:value="navbar" />
     </styleClass>
-</fx:root>
+</HBox>

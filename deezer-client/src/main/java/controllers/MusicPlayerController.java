@@ -1,32 +1,15 @@
-package components;
+package controllers;
 
 import api.objects.playables.TrackSearch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
-
-public class MusicPlayer extends HBox {
+public class MusicPlayerController {
     private TrackSearch selectedTrack;
 
-    public MusicPlayer() {
-        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("musicPlayer.fxml"), bundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
-    //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML
     private HBox trackInfoBox;
     @FXML
@@ -55,15 +38,9 @@ public class MusicPlayer extends HBox {
     private ImageView audioSettingsBtn;
     @FXML
     private ImageView playingImg;
-    //</editor-fold>
+
     @FXML
     private void addToPlaylistBtn_OnAction(ActionEvent event) {
-        /*ChoiceDialog<Playlist> playlistChoicer = new ChoiceDialog<>(null,
-                deezerClient.getFavouredPlaylists(deezerClient.getLoggedInUser(), null).getData());
-        playlistChoicer.showAndWait().ifPresent(playlist -> {
-            if (deezerClient.addTracksToPlaylist(playlist, Collections.singletonList(musicPlayer.getSelectedTrack())))
-                new Alert(Alert.AlertType.INFORMATION, "Трек успешно добавлен в плейлист").showAndWait();
-        });*/
     }
 
     @FXML

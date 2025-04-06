@@ -1,4 +1,4 @@
-package components.views;
+package controllers;
 
 import api.Deezer;
 import api.PartialSearchResponse;
@@ -15,7 +15,6 @@ import components.containers.tables.TrackTable;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,10 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
-
-public class UserView extends VBox {
+public class UserPageController {
     public enum Destinations{
         HIGHLIGHTS,
         TRACKS,
@@ -37,18 +33,6 @@ public class UserView extends VBox {
     }
 
     private static final int HIGHLIGHTS_LIMIT = 4;
-
-    public UserView() {
-        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("userView.fxml"), bundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
 
     //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML

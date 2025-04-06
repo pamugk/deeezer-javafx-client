@@ -9,7 +9,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.GridPane" alignment="TOP_CENTER" styleClass="card">
+<GridPane xmlns:fx="http://javafx.com/fxml" alignment="TOP_CENTER" styleClass="card" fx:controller="controllers.SettingsPageController">
     <columnConstraints>
         <ColumnConstraints hgrow="NEVER" />
         <ColumnConstraints hgrow="ALWAYS" />
@@ -115,4 +115,4 @@
             </Button>
         </GridPane>
     </VBox>
-</fx:root>
+</GridPane>

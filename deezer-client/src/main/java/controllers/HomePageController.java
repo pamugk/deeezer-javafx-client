@@ -1,4 +1,4 @@
-package components.views;
+package controllers;
 
 import api.Deezer;
 import api.PartialSearchResponse;
@@ -11,28 +11,12 @@ import components.containers.cards.ArtistCard;
 import components.containers.cards.PlaylistCard;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
-
-public class HomeView extends VBox {
-    public HomeView() {
-        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homeView.fxml"), bundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
-
+public class HomePageController {
     @FXML
     private Label alert;
     @FXML

@@ -1,4 +1,4 @@
-package components.views;
+package controllers;
 
 import api.Deezer;
 import api.objects.playables.Album;
@@ -8,32 +8,17 @@ import api.objects.playables.TrackSearch;
 import components.containers.boxes.CommentBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import utils.TimeUtils;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 import static api.LoginStatus.NOT_AUTHORIZED;
 
-public class PlaylistView extends VBox {
-
-    public PlaylistView() {
-        ResourceBundle bundle = ResourceBundle.getBundle("localisation/localisation");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("playlistView.fxml"), bundle);
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
+public class PlaylistPageController {
 
     //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML

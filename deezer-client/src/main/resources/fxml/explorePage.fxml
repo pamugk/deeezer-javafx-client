@@ -4,7 +4,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<fx:root xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ExplorePageController">
     <Label styleClass="card-header" text="%allChannels">
         <VBox.margin>
             <Insets top="90.0" />
@@ -18,4 +18,4 @@
     <padding>
         <Insets left="80.0" right="80.0" />
     </padding>
-</fx:root>
+</VBox>
