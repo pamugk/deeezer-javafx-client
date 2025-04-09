@@ -25,9 +25,9 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class DeezerRequestExecutor {
-    private DeezerCallbackServer callbackServer;
-    private DeezerTokenClient tokenClient;
-    private OAuth20Service service;
+    private final DeezerCallbackServer callbackServer;
+    private final DeezerTokenClient tokenClient;
+    private final OAuth20Service service;
     private Future<OAuth2AccessToken> authTokenF;
     private final String permissionsParam;
     private final SessionStorage storage;
@@ -56,8 +56,6 @@ public class DeezerRequestExecutor {
                 .build(DeezerApi.instance());
         permissionsParam = String.format("perms=%s", summarizePermissions(requiredPermissions));
     }
-
-    SessionStorage getStorage() { return storage; }
 
     private String summarizePermissions(List<Permissions> permissions) {
         return permissions.stream().map(permissionCodes::get).collect(Collectors.joining(","));

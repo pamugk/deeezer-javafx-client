@@ -9,8 +9,8 @@ import java.security.*;
 import java.security.cert.CertificateException;
 
 class SessionStorage {
-    private File storageFile;
-    private File keystoreFile;
+    private final File storageFile;
+    private final File keystoreFile;
     private final Cipher cipher;
     private final KeyStore keyStore;
 
@@ -22,18 +22,22 @@ class SessionStorage {
 
         cipher = Cipher.getInstance("AES");
         keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        if (keystoreFile.exists())
+        if (keystoreFile.exists()) {
             try (InputStream keyStoreData = new FileInputStream(keystoreFile)) {
                 keyStore.load(keyStoreData, "password".toCharArray());
             }
-        else initKeyStorage();
+        }
+        else {
+            initKeyStorage();
+        }
     }
 
     private void cipherToken(OAuth2AccessToken accessToken)
             throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException,
             CertificateException, IOException {
-        if (!keystoreFile.exists())
+        if (!keystoreFile.exists()) {
             initKeyStorage();
+        }
         Key key = keyStore.getKey("key", "password".toCharArray());
         cipher.init(Cipher.ENCRYPT_MODE, key);
         try (FileOutputStream writer = new FileOutputStream(storageFile.getPath())) {
@@ -60,8 +64,9 @@ class SessionStorage {
 
     private void initKeyStorage() throws CertificateException, NoSuchAlgorithmException, IOException, KeyStoreException {
         keyStore.load(null, "password".toCharArray());
-        if (storageFile.exists())
+        if (storageFile.exists()) {
             storageFile.delete();
+        }
         KeyGenerator kg = KeyGenerator.getInstance("AES");
         SecretKey key = kg.generateKey();
         keyStore.setEntry("key",

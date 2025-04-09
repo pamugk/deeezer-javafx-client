@@ -34,9 +34,12 @@ public class SearchBarController implements Initializable {
     @FXML
     private void searchTextField_OnKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER && searchTextField.getText() != null) {
-            if (searchTextField.getText().trim().isEmpty())
+            if (searchTextField.getText().trim().isEmpty()) {
                 searchTextField.setText(null);
-            else searchEngine.accept(searchTextField.getText());
+            }
+            else {
+                searchEngine.accept(searchTextField.getText());
+            }
         }
     }
 

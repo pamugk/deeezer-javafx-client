@@ -39,15 +39,15 @@ public class SettingsPageController {
     private TextField birthdayTextField;
 
     public void setUserDetails(User loggedInUser) {
-        userImg.setImage(new Image(loggedInUser.getPicture_medium().toString(), true));
-        emailTextField.setText(loggedInUser.getEmail());
+        userImg.setImage(new Image(loggedInUser.picture_medium().toString(), true));
+        emailTextField.setText(loggedInUser.email());
         passwordTextField.setText("****");
-        maleRadioBtn.setSelected(loggedInUser.getGender().equals("M"));
-        femaleRadioBtn.setSelected(loggedInUser.getGender().equals("F"));
-        usernameTextField.setText(loggedInUser.getName());
-        firstnameTextField.setText(loggedInUser.getFirstname());
-        lastnameTextField.setText(loggedInUser.getLastname());
-        birthdayTextField.setText(loggedInUser.getBirthday().toInstant().atZone(ZoneId.systemDefault())
+        maleRadioBtn.setSelected(loggedInUser.gender().equals("M"));
+        femaleRadioBtn.setSelected(loggedInUser.gender().equals("F"));
+        usernameTextField.setText(loggedInUser.name());
+        firstnameTextField.setText(loggedInUser.firstname());
+        lastnameTextField.setText(loggedInUser.lastname());
+        birthdayTextField.setText(loggedInUser.birthday().toInstant().atZone(ZoneId.systemDefault())
                 .format(DateTimeFormatter.ISO_LOCAL_DATE));
     }
 

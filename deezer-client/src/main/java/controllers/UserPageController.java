@@ -36,7 +36,6 @@ public class UserPageController {
 
     private static final int HIGHLIGHTS_LIMIT = 4;
 
-    //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML
     private HBox viewedUserBox;
     @FXML
@@ -97,7 +96,6 @@ public class UserPageController {
     private Label favArtistsLbl;
     @FXML
     private FlowPane favArtistsFP;
-    //</editor-fold>
 
     private Consumer<Album> albumRedirectioner = album -> {};
     private Consumer<Artist> artistRedirectioner = artist -> {};
@@ -105,8 +103,8 @@ public class UserPageController {
 
     public void fillData(User user, boolean loggedInUser, Deezer deezerClient) {
         if (!loggedInUser) {
-            viewedUserImg.setImage(new Image(user.getPicture_medium().toString(), true));
-            viewedUserNameLbl.setText(user.getName());
+            viewedUserImg.setImage(new Image(user.picture_medium().toString(), true));
+            viewedUserNameLbl.setText(user.name());
         }
 
         addPlaylistBtn.setVisible(loggedInUser);
@@ -116,8 +114,8 @@ public class UserPageController {
         PartialSearchResponse<Artist> favArtists = deezerClient.getFavoredArtists(user, SearchOrder.ARTIST_ASC);
 
         highlightsPlaylistFP.getChildren().clear();
-        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < playlists.getData().size(); i++) {
-            final Playlist playlist = playlists.getData().get(i);
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < playlists.data().size(); i++) {
+            final Playlist playlist = playlists.data().get(i);
             if (playlist.is_loved_track()) {
                 continue;
             }
@@ -130,19 +128,19 @@ public class UserPageController {
         }
 
         highlightsAlbumFP.getChildren().clear();
-        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < favAlbums.getData().size(); i++) {
-            final Album album = favAlbums.getData().get(i);
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < favAlbums.data().size(); i++) {
+            final Album album = favAlbums.data().get(i);
             final var albumCard = new AlbumCard();
             albumCard.prefWidthProperty().bind(Bindings.add(-35, highlightsAlbumFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
             albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
-            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
             highlightsAlbumFP.getChildren().add(albumCard);
         }
         highlightsArtistFP.getChildren().clear();
-        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < favArtists.getData().size(); i++) {
-            final Artist artist = favArtists.getData().get(i);
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < favArtists.data().size(); i++) {
+            final Artist artist = favArtists.data().get(i);
             final var artistCard = new ArtistCard();
             artistCard.prefWidthProperty().bind(Bindings.add(-35, highlightsArtistFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -154,8 +152,8 @@ public class UserPageController {
         favTracksTV.fill(favTracks, favTracksLbl, true);
 
         favPlaylistsFP.getChildren().clear();
-        playlistsCntLbl.setText(String.valueOf(playlists.getTotal() - 1));
-        for (final Playlist playlist: playlists.getData()) {
+        playlistsCntLbl.setText(String.valueOf(playlists.total() - 1));
+        for (final Playlist playlist: playlists.data()) {
             if (playlist.is_loved_track()) {
                 continue;
             }
@@ -168,20 +166,20 @@ public class UserPageController {
         }
 
         favAlbumsFP.getChildren().clear();
-        favAlbumsLbl.setText(String.valueOf(favAlbums.getTotal()));
-        for (final Album album: favAlbums.getData()) {
+        favAlbumsLbl.setText(String.valueOf(favAlbums.total()));
+        for (final Album album: favAlbums.data()) {
             final var albumCard = new AlbumCard();
             albumCard.prefWidthProperty().bind(Bindings.add(-35, favAlbumsFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
             albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
-            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
             favAlbumsFP.getChildren().add(albumCard);
         }
 
         favArtistsFP.getChildren().clear();
-        favArtistsLbl.setText(String.valueOf(favArtists.getTotal()));
-        for (final Artist artist: favArtists.getData()) {
+        favArtistsLbl.setText(String.valueOf(favArtists.total()));
+        for (final Artist artist: favArtists.data()) {
             final var artistCard = new ArtistCard();
             artistCard.setArtist(artist);
             artistCard.prefWidthProperty().bind(Bindings.add(-35, favArtistsFP.widthProperty().divide(4.2)));

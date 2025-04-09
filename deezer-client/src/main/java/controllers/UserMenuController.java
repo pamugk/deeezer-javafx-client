@@ -1,8 +1,6 @@
 package controllers;
 
-import api.Deezer;
 import api.events.authentication.AuthenticationEvent;
-import api.events.handlers.DeezerListener;
 import api.objects.utils.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +13,6 @@ import navigation.Pages;
 
 import java.util.function.Consumer;
 
-import static api.LoginStatus.NOT_AUTHORIZED;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class UserMenuController {
@@ -46,9 +43,9 @@ public class UserMenuController {
             return;
         }
 
-        Image avatar = new Image(currentUser.getPicture_small().toString(), true);
+        Image avatar = new Image(currentUser.picture_small().toString(), true);
         userAvatar.setImage(avatar);
-        userAccounttem.setText(currentUser.getName());
+        userAccounttem.setText(currentUser.name());
         userMenuAvatar.setImage(avatar);
     }
 

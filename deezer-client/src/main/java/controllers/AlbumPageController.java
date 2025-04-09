@@ -28,7 +28,6 @@ import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class AlbumPageController {
 
-    //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -67,42 +66,41 @@ public class AlbumPageController {
     private FlowPane albumArtistDiscographyFP;
     @FXML
     private FlowPane albumArtistRelatedFP;
-    //</editor-fold>
 
     private Consumer<Album> albumRedirectioner = album -> {};
     private Consumer<Artist> artistRedirectioner = artist -> {};
 
     public void fillData(Album album, Deezer deezerClient) {
-        albumCover.setImage(new Image(album.getCover_medium().toString(), true));
-        albumName.setText(album.getTitle());
-        albumArtistImg.setImage(new Image(album.getArtist().getPicture_small().toString(), true));
-        albumArtist.setText(album.getArtist().getName());
+        albumCover.setImage(new Image(album.cover_medium().toString(), true));
+        albumName.setText(album.title());
+        albumArtistImg.setImage(new Image(album.artist().picture_small().toString(), true));
+        albumArtist.setText(album.artist().name());
         albumTracksLbl.setText(String.format("%s: %d",
-                resources.getString("tracksCnt"),album.getNb_tracks()));
-        albumDurationLbl.setText(String.format("%s", TimeUtils.secondsToNormalTime(album.getDuration(), resources)));
-        albumOutLbl.setText(String.format("%s", album.getRelease_date().toInstant().atZone(ZoneId.systemDefault())
+                resources.getString("tracksCnt"),album.nb_tracks()));
+        albumDurationLbl.setText(String.format("%s", TimeUtils.secondsToNormalTime(album.duration(), resources)));
+        albumOutLbl.setText(String.format("%s", album.release_date().toInstant().atZone(ZoneId.systemDefault())
                 .format(DateTimeFormatter.ISO_LOCAL_DATE)));
         albumFollowersLbl.setText(String.format("%s: %d",
-                resources.getString("followers"), album.getFans()));
+                resources.getString("followers"), album.fans()));
 
         albumTracksTV.getItems().clear();
-        albumTracksTV.getItems().addAll(album.getTracks().getData());
+        albumTracksTV.getItems().addAll(album.tracks().getData());
 
-        final PartialSearchResponse<Album> albumArtistDiscography = deezerClient.getArtistDiscography(album.getArtist());
+        final PartialSearchResponse<Album> albumArtistDiscography = deezerClient.getArtistDiscography(album.artist());
         albumArtistDiscographyFP.getChildren().clear();
-        for (final Album discographyAlbum: albumArtistDiscography.getData()) {
+        for (final Album discographyAlbum: albumArtistDiscography.data()) {
             final var albumCard = new AlbumCard();
             albumCard.prefWidthProperty().bind(Bindings.add(-35, albumArtistDiscographyFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(discographyAlbum);
             albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
-            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
             albumArtistDiscographyFP.getChildren().add(albumCard);
         }
 
-        final PartialSearchResponse<Artist> albumArtistRelated = deezerClient.getArtistRelated(album.getArtist(), 25);
+        final PartialSearchResponse<Artist> albumArtistRelated = deezerClient.getArtistRelated(album.artist(), 25);
         albumArtistRelatedFP.getChildren().clear();
-        for (final Artist artist: albumArtistRelated.getData()) {
+        for (final Artist artist: albumArtistRelated.data()) {
             final var artistCard = new ArtistCard();
             artistCard.setArtist(artist);
             artistCard.prefWidthProperty().bind(Bindings.add(-35, albumArtistRelatedFP.widthProperty().divide(4.2)));

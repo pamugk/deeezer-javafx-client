@@ -89,55 +89,55 @@ public class SearchPageController {
         searchTabPane.getTabs().clear();
         searchTabPane.getTabs().add(allResultsTab);
 
-        boolean found = !searchSet.getTrackResponse().getData().isEmpty();
+        boolean found = !searchSet.trackResponse().data().isEmpty();
         if (found) {
             tracksResultTV.fill(
-                    new PartialSearchResponse<>(searchSet.getTrackResponse().getData().stream().limit(6).collect(Collectors.toList())),
+                    new PartialSearchResponse<>(searchSet.trackResponse().data().stream().limit(6).collect(Collectors.toList())),
                     null, true);
             searchTabPane.getTabs().add(trackResultsTab);
         }
-        foundTracksTV.fill(searchSet.getTrackResponse(), foundTracksLbl, true);
+        foundTracksTV.fill(searchSet.trackResponse(), foundTracksLbl, true);
         tracksResultBtn.setVisible(found);
         tracksResultTV.setVisible(found);
 
-        found = !searchSet.getAlbumResponse().getData().isEmpty();
+        found = !searchSet.albumResponse().data().isEmpty();
         if (found) {
             searchTabPane.getTabs().add(albumResultsTab);
         }
         albumsResultBtn.setVisible(found);
         albumsResultsFP.setVisible(found);
         albumsResultsFP.getChildren().clear();
-        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getAlbumResponse().getData().size(); i++) {
-            final Album album = searchSet.getAlbumResponse().getData().get(i);
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.albumResponse().data().size(); i++) {
+            final Album album = searchSet.albumResponse().data().get(i);
             final var albumCard = new AlbumCard();
             albumCard.prefWidthProperty().bind(Bindings.add(-35, albumsResultsFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
             albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
-            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
             albumsResultsFP.getChildren().add(albumCard);
         }
         foundAlbumsFP.getChildren().clear();
-        foundAlbumsLbl.setText(String.valueOf(searchSet.getAlbumResponse().getTotal()));
-        for (final Album album: searchSet.getAlbumResponse().getData()) {
+        foundAlbumsLbl.setText(String.valueOf(searchSet.albumResponse().total()));
+        for (final Album album: searchSet.albumResponse().data()) {
             final var albumCard = new AlbumCard();
             albumCard.prefWidthProperty().bind(Bindings.add(-35, foundAlbumsFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
             albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
-            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
             foundAlbumsFP.getChildren().add(albumCard);
         }
 
-        found = !searchSet.getArtistResponse().getData().isEmpty();
+        found = !searchSet.artistResponse().data().isEmpty();
         if (found) {
             searchTabPane.getTabs().add(artistResultsTab);
         }
         artistsResultBtn.setVisible(found);
         artistsResultsFP.setVisible(found);
         artistsResultsFP.getChildren().clear();
-        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getArtistResponse().getData().size(); i++) {
-            final Artist artist = searchSet.getArtistResponse().getData().get(i);
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.artistResponse().data().size(); i++) {
+            final Artist artist = searchSet.artistResponse().data().get(i);
             final var artistCard = new ArtistCard();
             artistCard.prefWidthProperty().bind(Bindings.add(-35, artistsResultsFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -146,8 +146,8 @@ public class SearchPageController {
             artistsResultsFP.getChildren().add(artistCard);
         }
         foundArtistsFP.getChildren().clear();
-        foundArtistsLbl.setText(String.valueOf(searchSet.getArtistResponse().getTotal()));
-        for (final Artist artist: searchSet.getArtistResponse().getData()) {
+        foundArtistsLbl.setText(String.valueOf(searchSet.artistResponse().total()));
+        for (final Artist artist: searchSet.artistResponse().data()) {
             final var artistCard = new ArtistCard();
             artistCard.prefWidthProperty().bind(Bindings.add(-35, foundArtistsFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -156,15 +156,15 @@ public class SearchPageController {
             foundArtistsFP.getChildren().add(artistCard);
         }
 
-        found = !searchSet.getPlaylistResponse().getData().isEmpty();
+        found = !searchSet.playlistResponse().data().isEmpty();
         if (found) {
             searchTabPane.getTabs().add(playlistResultsTab);
         }
         playlistsResultsBtn.setVisible(found);
         playlistsResultsFP.setVisible(found);
         playlistsResultsFP.getChildren().clear();
-        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getPlaylistResponse().getData().size(); i++) {
-            final Playlist playlist = searchSet.getPlaylistResponse().getData().get(i);
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.playlistResponse().data().size(); i++) {
+            final Playlist playlist = searchSet.playlistResponse().data().get(i);
             if (playlist.is_loved_track()) {
                 continue;
             }
@@ -176,8 +176,8 @@ public class SearchPageController {
             playlistsResultsFP.getChildren().add(playlistCard);
         }
         foundPlaylistsFP.getChildren().clear();
-        foundPlaylistsLabel.setText(String.valueOf(searchSet.getPlaylistResponse().getTotal() - 1));
-        for (final Playlist playlist: searchSet.getPlaylistResponse().getData()) {
+        foundPlaylistsLabel.setText(String.valueOf(searchSet.playlistResponse().total() - 1));
+        for (final Playlist playlist: searchSet.playlistResponse().data()) {
             if (playlist.is_loved_track()) {
                 continue;
             }
@@ -189,15 +189,15 @@ public class SearchPageController {
             foundPlaylistsFP.getChildren().add(playlistCard);
         }
 
-        found = !searchSet.getUserResponse().getData().isEmpty();
+        found = !searchSet.userResponse().data().isEmpty();
         if (found) {
             searchTabPane.getTabs().add(profileResultsTab);
         }
         profilesResultsBtn.setVisible(found);
         profilesResultsFP.setVisible(found);
         profilesResultsFP.getChildren().clear();
-        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.getUserResponse().getData().size(); i++) {
-            final User user = searchSet.getUserResponse().getData().get(i);
+        for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.userResponse().data().size(); i++) {
+            final User user = searchSet.userResponse().data().get(i);
             final var userCard = new UserCard();
             userCard.prefWidthProperty().bind(Bindings.add(-35, profilesResultsFP.widthProperty().divide(4.2)));
             userCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -206,8 +206,8 @@ public class SearchPageController {
             profilesResultsFP.getChildren().add(userCard);
         }
         foundProfilesFP.getChildren().clear();
-        foundProfilesLbl.setText(String.valueOf(searchSet.getUserResponse().getTotal()));
-        for (final User user : searchSet.getUserResponse().getData()) {
+        foundProfilesLbl.setText(String.valueOf(searchSet.userResponse().total()));
+        for (final User user : searchSet.userResponse().data()) {
             final var userCard = new UserCard();
             userCard.prefWidthProperty().bind(Bindings.add(-35, foundProfilesFP.widthProperty().divide(4.2)));
             userCard.setPrefHeight(Region.USE_COMPUTED_SIZE);

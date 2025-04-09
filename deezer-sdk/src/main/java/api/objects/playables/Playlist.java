@@ -3,34 +3,34 @@ package api.objects.playables;
 import api.objects.utils.User;
 import api.objects.utils.search.SearchResponse;
 import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.net.URL;
 
-@Getter
-@Setter
-public class Playlist extends Playable {
-    private String title;
-    private String description;
-    private int duration;
-    @SerializedName("public")
-    private boolean _public;
-    private boolean is_loved_track;
-    private boolean collaborative;
-    private int rating;
-    private int nb_tracks;
-    private int unseen_track_count;
-    private int fans;
-    private URL picture;
-    private URL picture_small;
-    private URL picture_medium;
-    private URL picture_big;
-    private URL picture_xl;
-    private String checksum;
-    private User creator;
-    private SearchResponse<Track> tracks;
-
+public record Playlist(
+        long id,
+        String type,
+        URL link,
+        URL share,
+        String title,
+        String description,
+        int duration,
+        @SerializedName("public")
+        boolean _public,
+        boolean is_loved_track,
+        boolean collaborative,
+        int rating,
+        int nb_tracks,
+        int unseen_track_count,
+        int fans,
+        URL picture,
+        URL picture_small,
+        URL picture_medium,
+        URL picture_big,
+        URL picture_xl,
+        String checksum,
+        User creator,
+        SearchResponse<Track> tracks
+) {
     @Override
     public String toString(){
         return title;

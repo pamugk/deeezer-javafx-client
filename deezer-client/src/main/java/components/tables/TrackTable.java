@@ -40,11 +40,13 @@ public class TrackTable<T extends TrackSearch> extends TableView<T> {
 
     public void fill(PartialSearchResponse<T> tracks, Label countLabel, boolean clear)
     {
-        if (clear)
+        if (clear) {
             getChildren().clear();
-        getItems().addAll(tracks.getData());
-        if (!tracks.hasPrev() && countLabel != null)
-            countLabel.setText(String.valueOf(tracks.getTotal()));
+        }
+        getItems().addAll(tracks.data());
+        if (!tracks.hasPrev() && countLabel != null) {
+            countLabel.setText(String.valueOf(tracks.total()));
+        }
     }
 
     public void setRowAction(Consumer<T> rowAction) {
@@ -82,8 +84,10 @@ public class TrackTable<T extends TrackSearch> extends TableView<T> {
                 @Override
                 public void updateItem(Album album, boolean empty) {
                     if (album != null && imageview.getImage() == null) {
-                        imageview.setImage(new Image(album.getCover_small().toString(), true));
-                    } else imageview.setImage(null);
+                        imageview.setImage(new Image(album.cover_small().toString(), true));
+                    } else {
+                        imageview.setImage(null);
+                    }
                 }
             };
             cell.setGraphic(imageview);
@@ -99,10 +103,13 @@ public class TrackTable<T extends TrackSearch> extends TableView<T> {
                 return new TableCell<>() {
                     @Override
                     public void updateItem(Integer duration, boolean empty) {
-                        if (duration != null)
+                        if (duration != null) {
                             this.setText(LocalTime.ofSecondOfDay(duration)
                                     .format(DateTimeFormatter.ofPattern("mm:ss")));
-                        else this.setText(null);
+                        }
+                        else {
+                            this.setText(null);
+                        }
                     }
                 };
             }

@@ -41,13 +41,13 @@ public class AlbumCard extends VBox {
     }
 
     public void setAlbum(Album album) {
-        cover.setImage(album.getCover_medium() == null ? null : new Image(album.getCover_medium().toString(), true));
+        cover.setImage(album.cover_medium() == null ? null : new Image(album.cover_medium().toString(), true));
         cover.fitWidthProperty().bind(this.prefWidthProperty());
         cover.fitHeightProperty().bind(cover.fitWidthProperty());
         albumRedirectButton.prefWidthProperty().bind(cover.fitWidthProperty());
         albumRedirectButton.prefHeightProperty().bind(cover.fitHeightProperty());
-        title.setText(album.getTitle());
-        artistRedirectButton.setText(String.format("%s %s", resources.getString("by"), album.getArtist().getName()));
+        title.setText(album.title());
+        artistRedirectButton.setText(String.format("%s %s", resources.getString("by"), album.artist().name()));
     }
 
     public void setAlbumAction(Runnable albumAction) {

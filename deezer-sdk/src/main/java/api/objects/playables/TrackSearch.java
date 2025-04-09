@@ -1,22 +1,23 @@
 package api.objects.playables;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.net.URL;
 
-@Getter
-@Setter
-public class TrackSearch extends Playable {
-    private boolean readable;
-    private String title;
-    private String title_short;
-    private String title_version;
-    private int duration;
-    private int rank;
-    private boolean explicit_lyrics;
-    private String preview;
-    private Artist artist;
-    private Album album;
-
+public record TrackSearch(
+        long id,
+        String type,
+        URL link,
+        URL share,
+        boolean readable,
+        String title,
+        String title_short,
+        String title_version,
+        int duration,
+        int rank,
+        boolean explicit_lyrics,
+        String preview,
+        Artist artist,
+        Album album
+) {
     @Override
     public String toString() {
         return title;

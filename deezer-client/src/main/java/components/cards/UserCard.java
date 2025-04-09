@@ -40,12 +40,12 @@ public class UserCard extends VBox {
     }
 
     public void setUser(User user) {
-        image.setImage(user.getPicture_medium() == null ? null : new Image(user.getPicture_medium().toString(), true));
+        image.setImage(user.picture_medium() == null ? null : new Image(user.picture_medium().toString(), true));
         image.fitWidthProperty().bind(this.prefWidthProperty());
         image.fitHeightProperty().bind(image.fitWidthProperty());
         userRedirectButton.prefWidthProperty().bind(image.fitWidthProperty());
         userRedirectButton.prefHeightProperty().bind(image.fitHeightProperty());
-        name.setText(user.getName());
+        name.setText(user.name());
     }
 
     @FXML

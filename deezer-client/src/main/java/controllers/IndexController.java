@@ -77,7 +77,7 @@ public class IndexController implements Initializable {
         Parent root = loader.load();
         primaryStage.setTitle(bundle.getString("title"));
         primaryStage.getIcons().add(
-                new Image(IndexController.class.getResourceAsStream("/img/deezer-icon.jpg")));
+                new Image(Objects.requireNonNull(IndexController.class.getResourceAsStream("/img/deezer-icon.jpg"))));
         primaryStage.setScene(new Scene(root));
         primaryStage.setMinHeight(100);
         primaryStage.setWidth(1024);
@@ -111,21 +111,24 @@ public class IndexController implements Initializable {
         userMenuController.setLogoutAction(deezerClient::logout);
         drawerController.setNavigator(this::navigate);
 
-        albumPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
-        albumPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
-        artistPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
-        artistPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
-        artistPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.getId()));
-        artistPageController.setUserRedirectioner((user) -> redirectToUser(user.getId()));
+        albumPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.id()));
+        albumPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.id()));
+        artistPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.id()));
+        artistPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.id()));
+        artistPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.id()));
+        artistPageController.setUserRedirectioner((user) -> redirectToUser(user.id()));
         homePageController.setupDeezer(deezerClient);
-        playlistPageController.setUserRedirectioner((user) -> redirectToUser(user.getId()));
-        searchPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
-        searchPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
-        searchPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.getId()));
-        searchPageController.setUserRedirectioner((user) -> redirectToUser(user.getId()));
-        userPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.getId()));
-        userPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.getId()));
-        userPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.getId()));
+        homePageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.id()));
+        homePageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.id()));
+        homePageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.id()));
+        playlistPageController.setUserRedirectioner((user) -> redirectToUser(user.id()));
+        searchPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.id()));
+        searchPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.id()));
+        searchPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.id()));
+        searchPageController.setUserRedirectioner((user) -> redirectToUser(user.id()));
+        userPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.id()));
+        userPageController.setArtistRedirectioner((artist) -> redirectToArtist(artist.id()));
+        userPageController.setPlaylistRedirectioner((playlist) -> redirectToPlaylist(playlist.id()));
     }
 
     private void changeInterfaceState(boolean logout) {
@@ -188,23 +191,8 @@ public class IndexController implements Initializable {
     }
 
     private void redirectToUser(long userId) {
-        showUser(deezerClient.getUser(userId), userId == deezerClient.getLoggedInUser().getId(),
+        showUser(deezerClient.getUser(userId), userId == deezerClient.getLoggedInUser().id(),
                 UserPageController.Destinations.HIGHLIGHTS);
-    }
-
-    private void removeTrackFromFavourite() {
-        if (deezerClient.removeTrackFromFavourites(musicPlayerController.getSelectedTrack())) {
-            new Alert(Alert.AlertType.INFORMATION, "Удаление успешно");
-            navigate(Pages.PLAYLISTS);
-        }
-        else new Alert(Alert.AlertType.INFORMATION, "Удаление отклонено сервером");
-    }
-
-    private void removeTrackFromPlaylist(Playlist playlist) {
-        if (deezerClient.removeTracksFromPlaylist(playlist, Collections.singletonList(musicPlayerController.getSelectedTrack()))) {
-            new Alert(Alert.AlertType.INFORMATION, "Удаление успешно");
-        }
-        else new Alert(Alert.AlertType.INFORMATION, "Удаление отклонено сервером");
     }
 
     private void search(String query) {

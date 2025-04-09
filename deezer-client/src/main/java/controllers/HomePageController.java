@@ -41,7 +41,7 @@ public class HomePageController {
             if (event.isLoggedIn()) {
                 final PartialSearchResponse<Playlist> recommendedPlaylists = deezerClient.getRecommendedPlaylists(12);
                 recommendedPlaylistsFP.getChildren().clear();
-                for (final Playlist playlist: recommendedPlaylists.getData()) {
+                for (final Playlist playlist: recommendedPlaylists.data()) {
                     if (playlist.is_loved_track()) {
                         continue;
                     }
@@ -55,7 +55,7 @@ public class HomePageController {
 
                 final PartialSearchResponse<Artist> recommendedArtists = deezerClient.getRecommendedArtists(12);
                 recommendedArtistsFP.getChildren().clear();
-                for (final Artist artist: recommendedArtists.getData()) {
+                for (final Artist artist: recommendedArtists.data()) {
                     final var artistCard = new ArtistCard();
                     artistCard.prefWidthProperty().bind(Bindings.add(-35, recommendedArtistsFP.widthProperty().divide(4.2)));
                     artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -66,13 +66,13 @@ public class HomePageController {
 
                 final PartialSearchResponse<Album> recommendedAlbums = deezerClient.getRecommendedAlbums(12);
                 recommendedAlbumsFP.getChildren().clear();
-                for (final Album album: recommendedAlbums.getData()) {
+                for (final Album album: recommendedAlbums.data()) {
                     final var albumCard = new AlbumCard();
                     albumCard.prefWidthProperty().bind(Bindings.add(-35, recommendedAlbumsFP.widthProperty().divide(4.2)));
                     albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
                     albumCard.setAlbum(album);
                     albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
-                    albumCard.setArtistAction(() -> artistRedirectioner.accept(album.getArtist()));
+                    albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
                     recommendedAlbumsFP.getChildren().add(albumCard);
                 }
             }

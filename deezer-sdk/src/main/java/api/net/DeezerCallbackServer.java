@@ -8,7 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 class DeezerCallbackServer {
     private final HttpServer server;
-    private String authUrl;
+    private final String authUrl;
     private CompletableFuture<String> oAuth2Code = new CompletableFuture<>();
 
     DeezerCallbackServer(String callbackContext, int port)

@@ -52,8 +52,8 @@ public class MusicPlayerController {
             addToPlaylistBtn.setDisable(true);
         }
         else {
-            trackLink.setText(newTrack.getTitle());
-            artistLink.setText(newTrack.getArtist().getName());
+            trackLink.setText(newTrack.title());
+            artistLink.setText(newTrack.artist().name());
             trackInfoBox.setVisible(true);
             addToPlaylistBtn.setDisable(false);
         }

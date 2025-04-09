@@ -24,7 +24,6 @@ import static api.LoginStatus.NOT_AUTHORIZED;
 
 public class PlaylistPageController {
 
-    //<editor-fold defaultstate="collapsed" desc="Controls">
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -69,7 +68,6 @@ public class PlaylistPageController {
     private TableColumn<TrackSearch, Integer> playlistTrackPopularityCol;
     @FXML
     private VBox playlistCommentariesBox;
-    //</editor-fold>
 
     private Consumer<User> userRedirectioner = user -> {};
 

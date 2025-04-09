@@ -64,16 +64,10 @@
 
                         <list>api.objects.playables.Album</list>
                         <list>api.objects.playables.Artist</list>
-                        <list>api.objects.playables.Playable</list>
                         <list>api.objects.playables.Playlist</list>
-                        <list>api.objects.playables.Radio</list>
                         <list>api.objects.playables.Track</list>
                         <list>api.objects.playables.TrackSearch</list>
 
-                        <list>api.objects.utils.compilations.Chart</list>
-                        <list>api.objects.utils.compilations.Editorial</list>
-
-                        <list>api.objects.utils.search.AdvancedSearch</list>
                         <list>api.objects.utils.search.FullSearchSet</list>
                         <list>api.objects.utils.search.SearchOrder</list>
                         <list>api.objects.utils.search.SearchResponse</list>
@@ -81,11 +75,6 @@
                         <list>api.objects.utils.Contributor</list>
                         <list>api.objects.utils.Genre</list>
                         <list>api.objects.utils.User</list>
-
-                        <list>api.objects.utils.service.Ad</list>
-                        <list>api.objects.utils.service.Infos</list>
-                        <list>api.objects.utils.service.Offer</list>
-                        <list>api.objects.utils.service.Options</list>
 
                         <list>components.cards.AlbumCard</list>
                         <list>components.cards.ArtistCard</list>
@@ -101,7 +90,6 @@
                         <list>controllers.HomePageController</list>
                         <list>controllers.IndexController</list>
                         <list>controllers.MusicPlayerController</list>
-                        <list>controllers.PlaylistDialogController</list>
                         <list>controllers.PlaylistPageController</list>
                         <list>controllers.SearchBarController</list>
                         <list>controllers.SearchPageController</list>

@@ -33,16 +33,16 @@ public class CommentCard extends HBox {
     }
 
     public void setComment(Comment comment) {
-        commentorImg.setImage(comment.getAuthor().getPicture_medium() == null ? null :
-                new Image(comment.getAuthor().getPicture_medium().toString(), true));
+        commentorImg.setImage(comment.author().picture_medium() == null ? null :
+                new Image(comment.author().picture_medium().toString(), true));
         commentorImg.fitWidthProperty().bind(this.prefWidthProperty());
         commentorImg.fitHeightProperty().bind(commentorImg.fitWidthProperty());
         userRedirectButton.prefWidthProperty().bind(commentorImg.fitWidthProperty());
         userRedirectButton.prefHeightProperty().bind(commentorImg.fitHeightProperty());
-        commentCreationInfo.setText(String.format("%s - %s", comment.getAuthor().getName(),
-                Instant.ofEpochSecond(comment.getDate()).atZone(ZoneId.systemDefault())
+        commentCreationInfo.setText(String.format("%s - %s", comment.author().name(),
+                Instant.ofEpochSecond(comment.date()).atZone(ZoneId.systemDefault())
                         .format(DateTimeFormatter.ISO_LOCAL_DATE)));
-        commentText.setText(comment.getText());
+        commentText.setText(comment.text());
     }
 
     public void setUserAction(Runnable userAction) {

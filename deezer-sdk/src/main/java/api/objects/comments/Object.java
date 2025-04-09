@@ -1,6 +1,7 @@
 package api.objects.comments;
 
-import api.objects.DeezerEntity;
-
-public class Object extends DeezerEntity {
+public record Object(
+        long id,
+        String type
+) {
 }
