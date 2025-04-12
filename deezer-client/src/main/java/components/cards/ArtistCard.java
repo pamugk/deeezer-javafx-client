@@ -49,13 +49,13 @@ public class ArtistCard extends VBox {
     }
 
     public void setArtist(Artist artist) {
-        picture.setImage(new Image(artist.picture_medium().toString(), true));
+        picture.setImage(new Image(artist.pictureMedium().toString(), true));
         picture.fitWidthProperty().bind(this.prefWidthProperty());
         picture.fitHeightProperty().bind(picture.fitWidthProperty());
         artistRedirectButton.prefWidthProperty().bind(picture.fitWidthProperty());
         artistRedirectButton.prefHeightProperty().bind(picture.fitHeightProperty());
         name.setText(artist.name());
-        followers.setText(String.format("%s: %s", resources.getString("followers"), artist.nb_fan()));
-        followers.setVisible(artist.nb_fan() > 0);
+        followers.setText(String.format("%s: %s", resources.getString("followers"), artist.fanCount()));
+        followers.setVisible(artist.fanCount() > 0);
     }
 }

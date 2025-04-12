@@ -51,13 +51,13 @@ public class PlaylistPageController {
     private Consumer<User> userRedirectioner = user -> {};
 
     public void fillData(Playlist playlist, Deezer deezerClient) {
-        playlistPicture.setImage(new Image(playlist.picture_medium().toString(), true));
+        playlistPicture.setImage(new Image(playlist.pictureMedium().toString(), true));
         playlistTitleLbl.setText(playlist.title());
-        playlistCreatorImg.setImage(new Image(playlist.creator().picture_small().toString(), true));
+        playlistCreatorImg.setImage(new Image(playlist.creator().pictureSmall().toString(), true));
         playlistCreatorBtn.setText(playlist.creator().name());
         playlistDescriptionLbl.setText(playlist.description());
         playlistTracksCountLbl.setText(String.format("%s: %d",
-                resources.getString("tracksCnt"), playlist.nb_tracks()));
+                resources.getString("tracksCnt"), playlist.trackCount()));
         playlistDurationLbl.setText(TimeUtils.secondsToNormalTime(playlist.duration(), resources));
         playlistFollowersLbl.setText(String.format("%s: %d", resources.getString("followers"), playlist.fans()));
         if (deezerClient.getLoginStatus() == NOT_AUTHORIZED)

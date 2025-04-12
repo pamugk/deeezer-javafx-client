@@ -44,13 +44,13 @@ public class PlaylistCard extends VBox {
     }
 
     public void setPlaylist(Playlist playlist) {
-        picture.setImage(new Image(playlist.picture_medium().toString(), true));
+        picture.setImage(new Image(playlist.pictureMedium().toString(), true));
         picture.fitWidthProperty().bind(this.prefWidthProperty());
         picture.fitHeightProperty().bind(picture.fitWidthProperty());
         playlistRedirectButton.prefWidthProperty().bind(picture.fitWidthProperty());
         playlistRedirectButton.prefHeightProperty().bind(picture.fitHeightProperty());
         title.setText(playlist.title());
-        trackCount.setText(String.format("%s: %d", resources.getString("tracksCnt"), playlist.nb_tracks()));
+        trackCount.setText(String.format("%s: %d", resources.getString("tracksCnt"), playlist.trackCount()));
     }
 
     @FXML

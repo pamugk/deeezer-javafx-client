@@ -13,6 +13,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import javax.crypto.NoSuchPaddingException;
@@ -31,6 +32,8 @@ public class Deezer {
     private DeezerRequestExecutor requestExecutor;
     private final DeezerEventHandler<AuthenticationEvent> authenticationEventHandler;
     private Long currentUserId;
+
+    private final Gson serializer;
 
     private static final Type ALBUM_TYPE = new TypeToken<Album>(){}.getType();
     private static final Type ARTIST_TYPE = new TypeToken<Artist>(){}.getType();
@@ -61,6 +64,7 @@ public class Deezer {
 
     public Deezer(Configuration configuration) throws IOException {
         authenticationEventHandler = new DeezerEventHandler<>();
+        serializer = new GsonBuilder().create();
 
         try {
             requestExecutor = new DeezerRequestExecutor(configuration.callbackContext(), configuration.apiKey(),
@@ -74,17 +78,13 @@ public class Deezer {
     public void stop() { requestExecutor.stop(); }
 
     public Album getAlbum(long albumId) {
-        Album album = abstractSearch(ALBUM_TYPE, null, null,
+        return abstractSearch(ALBUM_TYPE, null, null,
                 String.format("%s/%d", ALBUM_SECTION, albumId));
-        //album.tracks().data().forEach(track -> track.setAlbum(album));
-        return album;
     }
 
     public PartialSearchResponse<Track> getAlbumTracks(Album album) {
-        PartialSearchResponse<Track> response = abstractSearch(TRACK_RESPONSE_TYPE, null, null, null,
+        return abstractSearch(TRACK_RESPONSE_TYPE, null, null, null,
                 String.format("%s/%d/%s", ALBUM_SECTION, album.id(), TRACKS_SECTION), 25, false);
-        //response.data().forEach(track -> track.setAlbum(album));
-        return response;
     }
 
     public Artist getArtist(long artistId) {
@@ -99,11 +99,9 @@ public class Deezer {
     }
 
     public PartialSearchResponse<Album> getArtistDiscography(Artist artist) {
-        PartialSearchResponse<Album> response = abstractSearch(ALBUM_RESPONSE_TYPE,
+        return abstractSearch(ALBUM_RESPONSE_TYPE,
                 null, null, null,
                 String.format("%s/%d/%s", ARTIST_SECTION, artist.id(), ALBUMS_SECTION), 25, false);
-        //response.data().forEach(album -> album.setArtist(artist));
-        return response;
     }
 
     public PartialSearchResponse<Playlist> getArtistPlaylists(Artist artist, int limit) {
@@ -148,9 +146,8 @@ public class Deezer {
     public User getLoggedInUser(){
         User loggedInUser = null;
         OAuthRequest request = new OAuthRequest(Verb.GET, String.format("%s/%s/me", API_URL_PREFIX, USER_SECTION));
-        try {
-            Response response = requestExecutor.execute(request);
-            loggedInUser = new Gson().fromJson(response.getBody(), User.class);
+        try(Response response = requestExecutor.execute(request)) {
+            loggedInUser = serializer.fromJson(response.getBody(), User.class);
             if (currentUserId == null)
                 currentUserId = loggedInUser.id();
         } catch (ExecutionException | InterruptedException | IOException e) {
@@ -166,10 +163,8 @@ public class Deezer {
     }
 
     public Playlist getPlaylist(long playlistId) {
-        Playlist playlist = abstractSearch(PLAYLIST_TYPE, null, null,
+        return abstractSearch(PLAYLIST_TYPE, null, null,
                 String.format("%s/%d", PLAYLIST_SECTION, playlistId));
-        //playlist.setCreator(getUser(playlist.creator().id()));
-        return playlist;
     }
 
     public PartialSearchResponse<Comment> getPlaylistComments(Playlist playlist) {
@@ -203,10 +198,9 @@ public class Deezer {
         if (order != null)
             request.addParameter("order", order.name());
         T searchResult = null;
-        try {
-            Response response = requestExecutor.execute(request);
+        try(Response response = requestExecutor.execute(request)) {
             String body = response.getBody();
-            searchResult = new Gson().fromJson(body, responseType);
+            searchResult = serializer.fromJson(body, responseType);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
@@ -227,7 +221,7 @@ public class Deezer {
             request.addParameter("top", String.valueOf(top));
         try(Response response = requestExecutor.execute(request)) {
             String body = response.getBody().replace("\"\"", "null");
-            return new Gson().fromJson(body, responseType);
+            return serializer.fromJson(body, responseType);
         } catch (ExecutionException | InterruptedException | IOException e) {
             e.printStackTrace();
         }

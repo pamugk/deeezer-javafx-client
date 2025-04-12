@@ -102,7 +102,7 @@ public class UserPageController {
 
     public void fillData(User user, boolean loggedInUser, Deezer deezerClient) {
         if (!loggedInUser) {
-            viewedUserImg.setImage(new Image(user.picture_medium().toString(), true));
+            viewedUserImg.setImage(new Image(user.pictureMedium().toString(), true));
             viewedUserNameLbl.setText(user.name());
         }
 
@@ -115,7 +115,7 @@ public class UserPageController {
         highlightsPlaylistFP.getChildren().clear();
         for (int i = 0; i < HIGHLIGHTS_LIMIT && i < playlists.data().size(); i++) {
             final Playlist playlist = playlists.data().get(i);
-            if (playlist.is_loved_track()) {
+            if (playlist.lovedTrack()) {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
@@ -154,7 +154,7 @@ public class UserPageController {
         favPlaylistsFP.getChildren().clear();
         playlistsCntLbl.setText(String.valueOf(playlists.total() - 1));
         for (final Playlist playlist: playlists.data()) {
-            if (playlist.is_loved_track()) {
+            if (playlist.lovedTrack()) {
                 continue;
             }
             final var playlistCard = new PlaylistCard();

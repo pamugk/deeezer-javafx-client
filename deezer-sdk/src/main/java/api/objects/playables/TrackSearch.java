@@ -1,5 +1,7 @@
 package api.objects.playables;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.net.URL;
 
 public record TrackSearch(
@@ -9,11 +11,14 @@ public record TrackSearch(
         URL share,
         boolean readable,
         String title,
-        String title_short,
-        String title_version,
+        @SerializedName("title_short")
+        String titleShort,
+        @SerializedName("title_version")
+        String titleVersion,
         int duration,
         int rank,
-        boolean explicit_lyrics,
+        @SerializedName("explicit_lyrics")
+        boolean explicitLyrics,
         String preview,
         Artist artist,
         Album album

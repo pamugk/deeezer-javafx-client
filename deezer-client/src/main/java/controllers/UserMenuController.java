@@ -43,7 +43,7 @@ public class UserMenuController {
             return;
         }
 
-        Image avatar = new Image(currentUser.picture_small().toString(), true);
+        Image avatar = new Image(currentUser.pictureSmall().toString(), true);
         userAvatar.setImage(avatar);
         userAccounttem.setText(currentUser.name());
         userMenuAvatar.setImage(avatar);

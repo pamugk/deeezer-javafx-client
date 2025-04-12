@@ -3,6 +3,7 @@ package api.objects.playables;
 import api.objects.utils.Contributor;
 import api.objects.utils.Genre;
 import api.objects.utils.search.SearchResponse;
+import com.google.gson.annotations.SerializedName;
 
 import java.net.URL;
 import java.util.Date;
@@ -16,25 +17,36 @@ public record Album(
         String title,
         String upc,
         URL cover,
-        URL cover_small,
-        URL cover_medium,
-        URL cover_big,
-        URL cover_xl,
-        long genre_id,
+        @SerializedName("cover_small")
+        URL coverSmall,
+        @SerializedName("cover_medium")
+        URL coverMedium,
+        @SerializedName("cover_big")
+        URL coverBig,
+        @SerializedName("cover_xl")
+        URL coverXl,
+        @SerializedName("genre_id")
+        long genreId,
         SearchResponse<Genre> genres,
         String label,
-        int nb_tracks,
+        @SerializedName("nb_tracks")
+        int trackCount,
         int duration,
         int fans,
         int rating,
-        Date release_date,
-        String record_type,
+        @SerializedName("release_date")
+        Date releaseDate,
+        @SerializedName("record_type")
+        String recordType,
         boolean available,
         Album alternative,
-        URL tracklist,
-        boolean explicit_lyrics,
-        int explicit_content_lyrics,
-        int explicit_content_cover,
+        URL trackList,
+        @SerializedName("explicit_lyrics")
+        boolean explicitLyrics,
+        @SerializedName("explicit_content_lyrics")
+        int explicitContentLyrics,
+        @SerializedName("explicit_content_cover")
+        int explicitContentCover,
         List<Contributor> contributors,
         Artist artist,
         SearchResponse<Track> tracks

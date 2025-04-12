@@ -16,17 +16,24 @@ public record Playlist(
         int duration,
         @SerializedName("public")
         boolean _public,
-        boolean is_loved_track,
+        @SerializedName("is_loved_track")
+        boolean lovedTrack,
         boolean collaborative,
         int rating,
-        int nb_tracks,
-        int unseen_track_count,
+        @SerializedName("nb_tracks")
+        int trackCount,
+        @SerializedName("unseen_track_count")
+        int unseenTrackCount,
         int fans,
         URL picture,
-        URL picture_small,
-        URL picture_medium,
-        URL picture_big,
-        URL picture_xl,
+        @SerializedName("picture_small")
+        URL pictureSmall,
+        @SerializedName("picture_medium")
+        URL pictureMedium,
+        @SerializedName("picture_big")
+        URL pictureBig,
+        @SerializedName("picture_xl")
+        URL pictureXl,
         String checksum,
         User creator,
         SearchResponse<Track> tracks

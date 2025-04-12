@@ -62,14 +62,14 @@ public class AlbumPageController {
     private Consumer<Artist> artistRedirectioner = artist -> {};
 
     public void fillData(Album album, Deezer deezerClient) {
-        albumCover.setImage(new Image(album.cover_medium().toString(), true));
+        albumCover.setImage(new Image(album.coverMedium().toString(), true));
         albumName.setText(album.title());
-        albumArtistImg.setImage(new Image(album.artist().picture_small().toString(), true));
+        albumArtistImg.setImage(new Image(album.artist().pictureSmall().toString(), true));
         albumArtist.setText(album.artist().name());
         albumTracksLbl.setText(String.format("%s: %d",
-                resources.getString("tracksCnt"),album.nb_tracks()));
+                resources.getString("tracksCnt"),album.trackCount()));
         albumDurationLbl.setText(String.format("%s", TimeUtils.secondsToNormalTime(album.duration(), resources)));
-        albumOutLbl.setText(String.format("%s", album.release_date().toInstant().atZone(ZoneId.systemDefault())
+        albumOutLbl.setText(String.format("%s", album.releaseDate().toInstant().atZone(ZoneId.systemDefault())
                 .format(DateTimeFormatter.ISO_LOCAL_DATE)));
         albumFollowersLbl.setText(String.format("%s: %d",
                 resources.getString("followers"), album.fans()));
@@ -83,7 +83,7 @@ public class AlbumPageController {
             albumCard.prefWidthProperty().bind(Bindings.add(-35, albumArtistDiscographyFP.widthProperty().divide(4.2)));
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(discographyAlbum);
-            albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
+            albumCard.setAlbumAction(() -> albumRedirectioner.accept(discographyAlbum));
             albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
             albumArtistDiscographyFP.getChildren().add(albumCard);
         }

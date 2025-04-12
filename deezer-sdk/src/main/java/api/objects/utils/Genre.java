@@ -1,5 +1,7 @@
 package api.objects.utils;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.net.URL;
 
 public record Genre(
@@ -7,9 +9,13 @@ public record Genre(
         String type,
         String name,
         URL picture,
-        URL picture_small,
-        URL picture_medium,
-        URL picture_big,
-        URL picture_xl
+        @SerializedName("picture_small")
+        URL pictureSmall,
+        @SerializedName("picture_medium")
+        URL pictureMedium,
+        @SerializedName("picture_big")
+        URL pictureBig,
+        @SerializedName("picture_xl")
+        URL pictureXl
 ) {
 }

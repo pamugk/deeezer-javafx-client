@@ -1,5 +1,7 @@
 package api.objects.utils;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.net.URL;
 import java.util.Date;
 
@@ -7,24 +9,35 @@ public record User(
         long id,
         String type,
         String name,
-        String lastname,
-        String firstname,
+        @SerializedName("lastname")
+        String lastName,
+        @SerializedName("firstname")
+        String firstName,
         String email,
         int status,
         Date birthday,
-        Date inscription_date,
+        @SerializedName("inscription_date")
+        Date inscriptionDate,
         String gender,
         URL link,
         URL picture,
-        URL picture_small,
-        URL picture_medium,
-        URL picture_big,
-        URL picture_xl,
+        @SerializedName("picture_small")
+        URL pictureSmall,
+        @SerializedName("picture_medium")
+        URL pictureMedium,
+        @SerializedName("picture_big")
+        URL pictureBig,
+        @SerializedName("picture_xl")
+        URL pictureXl,
         String country,
         String lang,
-        boolean is_kid,
-        String explicit_content_level,
-        String[] explicit_content_levels_available,
-        URL tracklist
+        @SerializedName("is_kid")
+        boolean kid,
+        @SerializedName("explicit_content_level")
+        String explicitContentLevel,
+        @SerializedName("explicit_content_levels_available")
+        String[] explicitContentLevelsAvailable,
+        @SerializedName("trackList")
+        URL trackList
 ) {
 }

@@ -88,9 +88,9 @@ public class ArtistPageController {
     private Consumer<User> userRedirectioner = user -> {};
 
     public void fillData(Artist artist, Deezer deezerClient) {
-        artistPicture.setImage(new Image(artist.picture_medium().toString(), true));
+        artistPicture.setImage(new Image(artist.pictureMedium().toString(), true));
         artistNameLbl.setText(artist.name());
-        artistFansLbl.setText(String.format("%s: %d", resources.getString("followers"), artist.nb_fan()));
+        artistFansLbl.setText(String.format("%s: %d", resources.getString("followers"), artist.fanCount()));
         if (deezerClient.getLoginStatus() == NOT_AUTHORIZED)
             artistAddToFavBtn.setVisible(false);
         else {
@@ -112,7 +112,7 @@ public class ArtistPageController {
             playlistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             playlistBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
 
-            ImageView playlistPicture = new ImageView(new Image(playlist.picture_small().toString(), true));
+            ImageView playlistPicture = new ImageView(new Image(playlist.pictureSmall().toString(), true));
             playlistPicture.setFitWidth(56);
             playlistPicture.setFitHeight(56);
             Button playlistBtn = new Button(null, playlistPicture);
@@ -134,7 +134,7 @@ public class ArtistPageController {
         }
         artistPlaylistsFP.getChildren().clear();
         for (final Playlist playlist: playlists.data()) {
-            if (playlist.is_loved_track()) {
+            if (playlist.lovedTrack()) {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
@@ -154,7 +154,7 @@ public class ArtistPageController {
             artistBox.setPrefHeight(Region.USE_COMPUTED_SIZE);
             artistBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
 
-            ImageView artistPicture = new ImageView(new Image(artist.picture_small().toString(), true));
+            ImageView artistPicture = new ImageView(new Image(similarArtist.pictureSmall().toString(), true));
             artistPicture.setFitWidth(56);
             artistPicture.setFitHeight(56);
             Button artistBtn = new Button(null, artistPicture);
@@ -180,7 +180,7 @@ public class ArtistPageController {
             artistCard.prefWidthProperty().bind(Bindings.add(-35, artistRelatedFP.widthProperty().divide(4.2)));
             artistCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             artistCard.setArtist(similarArtist);
-            artistCard.setAction(() -> artistRedirectioner.accept(artist));
+            artistCard.setAction(() -> artistRedirectioner.accept(similarArtist));
             artistRelatedFP.getChildren().add(artistCard);
         }
 
@@ -192,7 +192,7 @@ public class ArtistPageController {
             albumCard.setPrefHeight(Region.USE_COMPUTED_SIZE);
             albumCard.setAlbum(album);
             albumCard.setAlbumAction(() -> albumRedirectioner.accept(album));
-            albumCard.setArtistAction(() -> artistRedirectioner.accept(album.artist()));
+            albumCard.setArtistAction(() -> artistRedirectioner.accept(artist));
             artistDiscographyFP.getChildren().add(albumCard);
         }
         artistTopAlbumTracksTV.getItems().clear();
@@ -203,9 +203,9 @@ public class ArtistPageController {
             albumShowed = true;
 
             final Album topAlbumValue = topAlbum.get();
-            artistTopAlbumImg.setImage(new Image(topAlbumValue.cover_medium().toString(), true));
+            artistTopAlbumImg.setImage(new Image(topAlbumValue.coverMedium().toString(), true));
             artistTopAlbumName.setText(topAlbumValue.title());
-            artistTopAlbumRelease.setText(topAlbumValue.release_date().toInstant()
+            artistTopAlbumRelease.setText(topAlbumValue.releaseDate().toInstant()
                     .atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE));
             artistTopAlbumTracksTV.getItems().setAll(deezerClient.getAlbumTracks(topAlbumValue).data());
         }

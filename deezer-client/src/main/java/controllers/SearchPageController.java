@@ -162,7 +162,7 @@ public class SearchPageController {
         playlistsResultsFP.getChildren().clear();
         for (int i = 0; i < HIGHLIGHTS_LIMIT && i < searchSet.playlistResponse().data().size(); i++) {
             final Playlist playlist = searchSet.playlistResponse().data().get(i);
-            if (playlist.is_loved_track()) {
+            if (playlist.lovedTrack()) {
                 continue;
             }
             final var playlistCard = new PlaylistCard();
@@ -175,7 +175,7 @@ public class SearchPageController {
         foundPlaylistsFP.getChildren().clear();
         foundPlaylistsLabel.setText(String.valueOf(searchSet.playlistResponse().total() - 1));
         for (final Playlist playlist: searchSet.playlistResponse().data()) {
-            if (playlist.is_loved_track()) {
+            if (playlist.lovedTrack()) {
                 continue;
             }
             final var playlistCard = new PlaylistCard();

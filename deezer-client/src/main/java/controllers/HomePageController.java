@@ -42,7 +42,7 @@ public class HomePageController {
                 final PartialSearchResponse<Playlist> recommendedPlaylists = deezerClient.getRecommendedPlaylists(12);
                 recommendedPlaylistsFP.getChildren().clear();
                 for (final Playlist playlist: recommendedPlaylists.data()) {
-                    if (playlist.is_loved_track()) {
+                    if (playlist.lovedTrack()) {
                         continue;
                     }
                     final var playlistCard = new PlaylistCard();
