@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+
 <BorderPane styleClass="root" stylesheets="@../css/deezer-styles.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexController">
    <left>
       <fx:include fx:id="drawer" source="drawer.fxml" />

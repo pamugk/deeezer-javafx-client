@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import components.tables.TrackTable?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SearchPageController">
     <TabPane fx:id="searchTabPane" tabClosingPolicy="UNAVAILABLE">
         <padding>
@@ -23,7 +31,16 @@
                             <String fx:value="deezer-subtitle" />
                         </styleClass>
                     </Button>
-                    <TrackTable fx:id="tracksResultTV" VBox.vgrow="NEVER"/>
+                    <TableView fx:id="tracksResultTV" VBox.vgrow="NEVER">
+                        <columns>
+                            <TableColumn prefWidth="75.0" text="%number" />
+                            <TableColumn prefWidth="75.0" text="%track" />
+                            <TableColumn prefWidth="75.0" text="%artist" />
+                            <TableColumn prefWidth="75.0" text="%album" />
+                            <TableColumn prefWidth="75.0" text="%length" />
+                            <TableColumn prefWidth="75.0" text="%popularity" />
+                        </columns>
+                    </TableView>
                     <Button fx:id="albumsResultBtn" mnemonicParsing="false" onAction="#albumsResultBtn_OnAction" text="%albums">
                         <styleClass>
                             <String fx:value="deezer-button" />
@@ -80,7 +97,16 @@
                         <Label styleClass="card-header" text="%found" />
                         <Label fx:id="foundTracksLbl" styleClass="card-header" text="0" />
                     </HBox>
-                    <TrackTable fx:id="foundTracksTV" VBox.vgrow="NEVER"/>
+                    <TableView fx:id="foundTracksTV" VBox.vgrow="NEVER">
+                        <columns>
+                            <TableColumn prefWidth="75.0" text="%number" />
+                            <TableColumn prefWidth="75.0" text="%track" />
+                            <TableColumn prefWidth="75.0" text="%artist" />
+                            <TableColumn prefWidth="75.0" text="%album" />
+                            <TableColumn prefWidth="75.0" text="%length" />
+                            <TableColumn prefWidth="75.0" text="%popularity" />
+                        </columns>
+                    </TableView>
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>
@@ -147,26 +173,6 @@
                         <Label fx:id="foundPlaylistsLabel" styleClass="card-header" text="0" />
                     </HBox>
                     <FlowPane fx:id="foundPlaylistsFP" columnHalignment="CENTER" hgap="35.0" maxHeight="1.7976931348623157E308" prefWrapLength="200.0" styleClass="flow-pane" vgap="30.0" />
-                    <padding>
-                        <Insets bottom="80.0" left="80.0" right="80.0" />
-                    </padding>
-                </VBox>
-            </ScrollPane>
-        </Tab>
-        <Tab fx:id="mixResultsTab" closable="false" text="%mixes">
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-pane">
-                <VBox maxHeight="1.7976931348623157E308">
-                    <HBox>
-                        <VBox.margin>
-                            <Insets top="30.0" />
-                        </VBox.margin>
-                        <Label styleClass="card-header" text="%found">
-                            <font>
-                                <Font size="23.0" />
-                            </font>
-                        </Label>
-                        <Label fx:id="foundMixesLbl" styleClass="card-header" text="0" />
-                    </HBox>
                     <padding>
                         <Insets bottom="80.0" left="80.0" right="80.0" />
                     </padding>

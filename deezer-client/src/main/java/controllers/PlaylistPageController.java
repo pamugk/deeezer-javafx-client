@@ -2,10 +2,7 @@ package controllers;
 
 import api.Deezer;
 import api.objects.comments.Comment;
-import api.objects.playables.Album;
-import api.objects.playables.Artist;
-import api.objects.playables.Playlist;
-import api.objects.playables.TrackSearch;
+import api.objects.playables.*;
 import api.objects.utils.User;
 import components.cards.CommentCard;
 import javafx.event.ActionEvent;
@@ -43,57 +40,38 @@ public class PlaylistPageController {
     @FXML
     private Label playlistFollowersLbl;
     @FXML
-    private Button playlistListenBtn;
-    @FXML
     private Button playlistAddToLibBtn;
-    @FXML
-    private Button editPlaylistBtn;
     @FXML
     private ImageView playlistFollowingImg;
     @FXML
-    private TextField playlistSearchBox;
-    @FXML
-    private TableView<TrackSearch> playlistTracksTV;
-    @FXML
-    private TableColumn<TrackSearch, TrackSearch> playlistTrackIdxCol;
-    @FXML
-    private TableColumn<TrackSearch, String> playlistTrackTitleCol;
-    @FXML
-    private TableColumn<TrackSearch, Artist> playlistTrackArtistCol;
-    @FXML
-    private TableColumn<TrackSearch, Album> playlistTrackAlbumCol;
-    @FXML
-    private TableColumn<TrackSearch, Integer> playlistTrackLengthCol;
-    @FXML
-    private TableColumn<TrackSearch, Integer> playlistTrackPopularityCol;
+    private TableView<Track> playlistTracksTV;
     @FXML
     private VBox playlistCommentariesBox;
 
     private Consumer<User> userRedirectioner = user -> {};
 
     public void fillData(Playlist playlist, Deezer deezerClient) {
-        playlistPicture.setImage(new Image(playlist.getPicture_medium().toString(), true));
-        playlistTitleLbl.setText(playlist.getTitle());
-        playlistCreatorImg.setImage(new Image(playlist.getCreator().getPicture_small().toString(), true));
-        playlistCreatorBtn.setText(playlist.getCreator().getName());
-        playlistDescriptionLbl.setText(playlist.getDescription());
+        playlistPicture.setImage(new Image(playlist.picture_medium().toString(), true));
+        playlistTitleLbl.setText(playlist.title());
+        playlistCreatorImg.setImage(new Image(playlist.creator().picture_small().toString(), true));
+        playlistCreatorBtn.setText(playlist.creator().name());
+        playlistDescriptionLbl.setText(playlist.description());
         playlistTracksCountLbl.setText(String.format("%s: %d",
-                resources.getString("tracksCnt"), playlist.getNb_tracks()));
-        playlistDurationLbl.setText(TimeUtils.secondsToNormalTime(playlist.getDuration(), resources));
-        playlistFollowersLbl.setText(String.format("%s: %d", resources.getString("followers"), playlist.getFans()));
+                resources.getString("tracksCnt"), playlist.nb_tracks()));
+        playlistDurationLbl.setText(TimeUtils.secondsToNormalTime(playlist.duration(), resources));
+        playlistFollowersLbl.setText(String.format("%s: %d", resources.getString("followers"), playlist.fans()));
         if (deezerClient.getLoginStatus() == NOT_AUTHORIZED)
             playlistAddToLibBtn.setVisible(false);
         else {
             playlistAddToLibBtn.setVisible(true);
             playlistFollowingImg.setImage(new Image("src/main/resources/img/icon-like.png"));
         }
-        playlistTracksTV.getItems().clear();
-        playlistTracksTV.getItems().addAll(playlist.getTracks().getData());
+        playlistTracksTV.getItems().setAll(playlist.tracks().data());
         playlistCommentariesBox.getChildren().clear();
-        for (final Comment comment : deezerClient.getPlaylistComments(playlist).getData()) {
+        for (final Comment comment : deezerClient.getPlaylistComments(playlist).data()) {
             CommentCard commentCard = new CommentCard();
             commentCard.setComment(comment);
-            commentCard.setUserAction(() -> userRedirectioner.accept(comment.getAuthor()));
+            commentCard.setUserAction(() -> userRedirectioner.accept(comment.author()));
             playlistCommentariesBox.getChildren().add(commentCard);
         }
     }

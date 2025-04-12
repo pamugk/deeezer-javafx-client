@@ -1,6 +1,5 @@
 package controllers;
 
-import api.PartialSearchResponse;
 import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Playlist;
@@ -11,7 +10,6 @@ import components.cards.AlbumCard;
 import components.cards.ArtistCard;
 import components.cards.PlaylistCard;
 import components.cards.UserCard;
-import components.tables.TrackTable;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +30,7 @@ public class SearchPageController {
     @FXML
     private Button tracksResultBtn;
     @FXML
-    private TrackTable<TrackSearch> tracksResultTV;
+    private TableView<TrackSearch> tracksResultTV;
     @FXML
     private Button albumsResultBtn;
     @FXML
@@ -54,7 +52,7 @@ public class SearchPageController {
     @FXML
     private Label foundTracksLbl;
     @FXML
-    private TrackTable<TrackSearch> foundTracksTV;
+    private TableView<TrackSearch> foundTracksTV;
     @FXML
     private Tab albumResultsTab;
     @FXML
@@ -91,12 +89,11 @@ public class SearchPageController {
 
         boolean found = !searchSet.trackResponse().data().isEmpty();
         if (found) {
-            tracksResultTV.fill(
-                    new PartialSearchResponse<>(searchSet.trackResponse().data().stream().limit(6).collect(Collectors.toList())),
-                    null, true);
             searchTabPane.getTabs().add(trackResultsTab);
         }
-        foundTracksTV.fill(searchSet.trackResponse(), foundTracksLbl, true);
+        tracksResultTV.getItems().setAll(searchSet.trackResponse().data().stream().limit(6).collect(Collectors.toList()));
+        foundTracksTV.getItems().setAll(searchSet.trackResponse().data());
+        foundTracksLbl.setText(String.valueOf(searchSet.trackResponse()));
         tracksResultBtn.setVisible(found);
         tracksResultTV.setVisible(found);
 

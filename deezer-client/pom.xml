@@ -81,7 +81,6 @@
                         <list>components.cards.CommentCard</list>
                         <list>components.cards.PlaylistCard</list>
                         <list>components.cards.UserCard</list>
-                        <list>components.tables.TrackTable</list>
 
                         <list>controllers.AlbumPageController</list>
                         <list>controllers.ArtistPageController</list>

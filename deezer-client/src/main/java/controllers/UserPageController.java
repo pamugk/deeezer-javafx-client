@@ -11,7 +11,6 @@ import api.objects.utils.search.SearchOrder;
 import components.cards.AlbumCard;
 import components.cards.ArtistCard;
 import components.cards.PlaylistCard;
-import components.tables.TrackTable;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +74,7 @@ public class UserPageController {
     @FXML
     private Label favTracksLbl;
     @FXML
-    private TrackTable<Track> favTracksTV;
+    private TableView<Track> favTracksTV;
     @FXML
     private Tab myPlaylistsTab;
     @FXML
@@ -149,7 +148,8 @@ public class UserPageController {
             highlightsArtistFP.getChildren().add(artistCard);
         }
 
-        favTracksTV.fill(favTracks, favTracksLbl, true);
+        favTracksTV.getItems().setAll(favTracks.data());
+        favTracksLbl.setText(String.valueOf(favTracks.total()));
 
         favPlaylistsFP.getChildren().clear();
         playlistsCntLbl.setText(String.valueOf(playlists.total() - 1));

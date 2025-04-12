@@ -4,14 +4,13 @@ import api.Deezer;
 import api.PartialSearchResponse;
 import api.objects.playables.Album;
 import api.objects.playables.Artist;
-import api.objects.playables.TrackSearch;
+import api.objects.playables.Track;
 import components.cards.AlbumCard;
 import components.cards.ArtistCard;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,15 +52,7 @@ public class AlbumPageController {
     @FXML
     private ImageView albumAddToLibImg;
     @FXML
-    private TableView<TrackSearch> albumTracksTV;
-    @FXML
-    private TableColumn<TrackSearch, TrackSearch> albumTrackIdxCol;
-    @FXML
-    private TableColumn<TrackSearch, String> albumTrackName;
-    @FXML
-    private TableColumn<TrackSearch, Integer> albumTrackDurCol;
-    @FXML
-    private TableColumn<TrackSearch, Integer> albumTrackPopCol;
+    private TableView<Track> albumTracksTV;
     @FXML
     private FlowPane albumArtistDiscographyFP;
     @FXML
@@ -83,8 +74,7 @@ public class AlbumPageController {
         albumFollowersLbl.setText(String.format("%s: %d",
                 resources.getString("followers"), album.fans()));
 
-        albumTracksTV.getItems().clear();
-        albumTracksTV.getItems().addAll(album.tracks().getData());
+        albumTracksTV.getItems().setAll(album.tracks().data());
 
         final PartialSearchResponse<Album> albumArtistDiscography = deezerClient.getArtistDiscography(album.artist());
         albumArtistDiscographyFP.getChildren().clear();

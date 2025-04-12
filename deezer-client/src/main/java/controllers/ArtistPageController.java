@@ -3,10 +3,7 @@ package controllers;
 import api.Deezer;
 import api.PartialSearchResponse;
 import api.objects.comments.Comment;
-import api.objects.playables.Album;
-import api.objects.playables.Artist;
-import api.objects.playables.Playlist;
-import api.objects.playables.TrackSearch;
+import api.objects.playables.*;
 import api.objects.utils.User;
 import components.cards.AlbumCard;
 import components.cards.ArtistCard;
@@ -47,8 +44,6 @@ public class ArtistPageController {
     @FXML
     private Label artistFansLbl;
     @FXML
-    private Button artistPlayMixBtn;
-    @FXML
     private Button artistAddToFavBtn;
     @FXML
     private ImageView artistFollowedImg;
@@ -57,21 +52,9 @@ public class ArtistPageController {
     @FXML
     private Tab artistDiscographyTab;
     @FXML
-    private Button artistMPTracksBtn;
-    @FXML
-    private Button artistMtPReleaseBtn;
-    @FXML
-    private Button artistPlaylistsBtn;
-    @FXML
-    private Button artistSimiliarBtn;
-    @FXML
     private VBox artistPlaylistsBox;
     @FXML
     private TableView<TrackSearch> artistTopTracksTV;
-    @FXML
-    private TableColumn<TrackSearch, TrackSearch> artistTMPTIdxCol;
-    @FXML
-    private TableColumn<TrackSearch, String> artistTMPTTitleCol;
     @FXML
     private VBox artistRelatedBox;
     @FXML
@@ -81,33 +64,13 @@ public class ArtistPageController {
     @FXML
     private Label artistTopAlbumRelease;
     @FXML
-    private TableView<TrackSearch> artistTopAlbumTracksTV;
-    @FXML
-    private TableColumn<TrackSearch, TrackSearch> artistTATIdxCol;
-    @FXML
-    private TableColumn<TrackSearch, String> artistTATTitleCol;
+    private TableView<Track> artistTopAlbumTracksTV;
     @FXML
     private FlowPane artistDiscographyFP;
     @FXML
     private Tab artistPopularTracksTab;
     @FXML
-    private Button artistListenPopTracksBtn;
-    @FXML
-    private TextField artistPopTracksSearchBox;
-    @FXML
     private TableView<TrackSearch> artistPopTracksTV;
-    @FXML
-    private TableColumn<TrackSearch, TrackSearch> artistMPTIdxCol;
-    @FXML
-    private TableColumn<TrackSearch, String> artistMPTTitleCol;
-    @FXML
-    private TableColumn<TrackSearch, Artist> artistMPTArtistCol;
-    @FXML
-    private TableColumn<TrackSearch, Album> artistMPTAlbumCol;
-    @FXML
-    private TableColumn<TrackSearch, Integer> artistMPTPopCol;
-    @FXML
-    private TableColumn<TrackSearch, Integer> artistMPTLengthCol;
     @FXML
     private Tab artistRelatedTab;
     @FXML
@@ -205,7 +168,7 @@ public class ArtistPageController {
             artistInfoBox.setPrefWidth(Region.USE_COMPUTED_SIZE);
             artistBox.getChildren().add(artistInfoBox);
 
-            Label artistName = new Label(artist.name());
+            Label artistName = new Label(similarArtist.name());
             artistName.getStyleClass().add("deezer-secondary");
             artistInfoBox.getChildren().add(artistName);
 
@@ -244,7 +207,7 @@ public class ArtistPageController {
             artistTopAlbumName.setText(topAlbumValue.title());
             artistTopAlbumRelease.setText(topAlbumValue.release_date().toInstant()
                     .atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE));
-            artistTopAlbumTracksTV.getItems().addAll(deezerClient.getAlbumTracks(topAlbumValue).data());
+            artistTopAlbumTracksTV.getItems().setAll(deezerClient.getAlbumTracks(topAlbumValue).data());
         }
         artistTopAlbumImg.setVisible(albumShowed);
         artistTopAlbumName.setVisible(albumShowed);

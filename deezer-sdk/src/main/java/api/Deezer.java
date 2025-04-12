@@ -76,14 +76,14 @@ public class Deezer {
     public Album getAlbum(long albumId) {
         Album album = abstractSearch(ALBUM_TYPE, null, null,
                 String.format("%s/%d", ALBUM_SECTION, albumId));
-        album.tracks().data().forEach(track -> track.setAlbum(album));
+        //album.tracks().data().forEach(track -> track.setAlbum(album));
         return album;
     }
 
     public PartialSearchResponse<Track> getAlbumTracks(Album album) {
         PartialSearchResponse<Track> response = abstractSearch(TRACK_RESPONSE_TYPE, null, null, null,
                 String.format("%s/%d/%s", ALBUM_SECTION, album.id(), TRACKS_SECTION), 25, false);
-        response.data().forEach(track -> track.setAlbum(album));
+        //response.data().forEach(track -> track.setAlbum(album));
         return response;
     }
 
@@ -102,7 +102,7 @@ public class Deezer {
         PartialSearchResponse<Album> response = abstractSearch(ALBUM_RESPONSE_TYPE,
                 null, null, null,
                 String.format("%s/%d/%s", ARTIST_SECTION, artist.id(), ALBUMS_SECTION), 25, false);
-        response.data().forEach(album -> album.setArtist(artist));
+        //response.data().forEach(album -> album.setArtist(artist));
         return response;
     }
 
@@ -168,7 +168,7 @@ public class Deezer {
     public Playlist getPlaylist(long playlistId) {
         Playlist playlist = abstractSearch(PLAYLIST_TYPE, null, null,
                 String.format("%s/%d", PLAYLIST_SECTION, playlistId));
-        playlist.setCreator(getUser(playlist.creator().id()));
+        //playlist.setCreator(getUser(playlist.creator().id()));
         return playlist;
     }
 
@@ -225,23 +225,14 @@ public class Deezer {
             request.addParameter("order", order.name());
         if (getTop && top != -1)
             request.addParameter("top", String.valueOf(top));
-        PartialSearchResponse<T> searchResult = new PartialSearchResponse<>(responseType);
-        do
-            try {
-                Response response = requestExecutor.execute(
-                        searchResult.next() ==  null ? request :
-                                new OAuthRequest(Verb.GET, searchResult.next().toString()));
-                String body = response.getBody().replace("\"\"", "null");
-                PartialSearchResponse<T> nextPart = new Gson().fromJson(body, responseType);
-                searchResult.setTotal(nextPart.total());
-                searchResult.setNext(nextPart.next());
-                searchResult.getData().addAll(nextPart.data());
-            } catch (ExecutionException | InterruptedException | IOException e) {
-                e.printStackTrace();
-            }
-        while (searchResult.data().size() < top && searchResult.next() != null);
+        try(Response response = requestExecutor.execute(request)) {
+            String body = response.getBody().replace("\"\"", "null");
+            return new Gson().fromJson(body, responseType);
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
 
-        return searchResult;
+        return new PartialSearchResponse<>(responseType);
     }
 
     public FullSearchSet search(String query, Boolean strict) {
