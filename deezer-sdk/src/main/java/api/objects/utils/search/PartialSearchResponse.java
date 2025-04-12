@@ -1,20 +1,17 @@
-package api;
+package api.objects.utils.search;
 
-import java.lang.reflect.Type;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
+
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 
 public record PartialSearchResponse<T>(
+        @JsonSetter(nulls = Nulls.AS_EMPTY)
         List<T> data,
-        Type type,
         int total,
         URL prev,
         URL next
 ){
-    public PartialSearchResponse(Type type) {
-        this(Collections.emptyList(), type, 0, null, null);
-    }
-
     public boolean hasPrev() { return prev != null; }
 }

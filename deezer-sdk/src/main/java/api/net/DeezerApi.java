@@ -13,11 +13,9 @@ class DeezerApi extends DefaultApi20 {
         return InstanceHolder.INSTANCE;
     }
 
-    static String getTokenEndpoint() { return "https://connect.deezer.com/oauth/access_token.php"; }
-
     @Override
     public String getAccessTokenEndpoint() {
-        return getTokenEndpoint();
+        return "https://connect.deezer.com/oauth/access_token.php";
     }
 
     @Override

@@ -2,6 +2,9 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.*;
 
 import api.Configuration;
@@ -24,6 +27,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import javax.crypto.NoSuchPaddingException;
 
 public class IndexController implements Initializable {
 
@@ -96,19 +101,18 @@ public class IndexController implements Initializable {
             deezerClient = new Deezer(
                     new Configuration("/callback", "API_KEY", "API_SECRET")
             );
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
+        } catch (IOException | NoSuchPaddingException | CertificateException | NoSuchAlgorithmException | KeyStoreException e) {
+            throw new RuntimeException(e);
         }
 
         deezerClient.getAuthenticationEventHandler().addListener(new DeezerListener<>(this::onLoginResponse));
-        deezerClient.getAuthenticationEventHandler().addListener(new DeezerListener<>((event) -> {
-            userMenuController.processAuthenticationEvent(event, this.deezerClient.getLoggedInUser());
-        }));
+        deezerClient.getAuthenticationEventHandler().addListener(new DeezerListener<>((event) ->
+                userMenuController.processAuthenticationEvent(event, this.deezerClient.getLoggedInUser())));
 
         searchBarController.setSearchEngine(this::search);
         userMenuController.setLoginAction(deezerClient::login);
         userMenuController.setLogoutAction(deezerClient::logout);
+        userMenuController.setNavigator(this::navigate);
         drawerController.setNavigator(this::navigate);
 
         albumPageController.setAlbumRedirectioner((album) -> redirectToAlbum(album.id()));

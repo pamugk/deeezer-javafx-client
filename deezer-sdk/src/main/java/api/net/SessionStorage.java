@@ -44,20 +44,20 @@ class SessionStorage {
             byte[] cipheredBytes = cipher.doFinal(accessToken.getAccessToken().getBytes(StandardCharsets.UTF_8));
             writer.write(cipheredBytes);
         } catch (IllegalBlockSizeException | BadPaddingException | IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
     private String decipherToken()
             throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
-        String token = null;
+        String token;
         Key key = keyStore.getKey("key", "password".toCharArray());
         cipher.init(Cipher.DECRYPT_MODE, key);
         try (FileInputStream reader = new FileInputStream(storageFile.getPath())) {
             byte[] cipheredBytes = reader.readAllBytes();
             token = new String(cipher.doFinal(cipheredBytes), StandardCharsets.UTF_8);
         } catch (IOException | BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return token;
     }

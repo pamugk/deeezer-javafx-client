@@ -93,7 +93,7 @@ public class SearchPageController {
         }
         tracksResultTV.getItems().setAll(searchSet.trackResponse().data().stream().limit(6).collect(Collectors.toList()));
         foundTracksTV.getItems().setAll(searchSet.trackResponse().data());
-        foundTracksLbl.setText(String.valueOf(searchSet.trackResponse()));
+        foundTracksLbl.setText(String.valueOf(searchSet.trackResponse().total()));
         tracksResultBtn.setVisible(found);
         tracksResultTV.setVisible(found);
 

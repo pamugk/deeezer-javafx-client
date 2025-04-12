@@ -1,7 +1,7 @@
 package controllers;
 
 import api.Deezer;
-import api.PartialSearchResponse;
+import api.objects.utils.search.PartialSearchResponse;
 import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Track;
@@ -18,8 +18,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import utils.TimeUtils;
 
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -69,8 +69,8 @@ public class AlbumPageController {
         albumTracksLbl.setText(String.format("%s: %d",
                 resources.getString("tracksCnt"),album.trackCount()));
         albumDurationLbl.setText(String.format("%s", TimeUtils.secondsToNormalTime(album.duration(), resources)));
-        albumOutLbl.setText(String.format("%s", album.releaseDate().toInstant().atZone(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ISO_LOCAL_DATE)));
+        albumOutLbl.setText(String.format("%s", album.releaseDate()
+                .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))));
         albumFollowersLbl.setText(String.format("%s: %d",
                 resources.getString("followers"), album.fans()));
 

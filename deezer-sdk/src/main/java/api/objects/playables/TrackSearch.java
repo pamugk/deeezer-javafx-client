@@ -1,6 +1,6 @@
 package api.objects.playables;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URL;
 
@@ -11,13 +11,13 @@ public record TrackSearch(
         URL share,
         boolean readable,
         String title,
-        @SerializedName("title_short")
+        @JsonProperty("title_short")
         String titleShort,
-        @SerializedName("title_version")
+        @JsonProperty("title_version")
         String titleVersion,
         int duration,
         int rank,
-        @SerializedName("explicit_lyrics")
+        @JsonProperty("explicit_lyrics")
         boolean explicitLyrics,
         String preview,
         Artist artist,

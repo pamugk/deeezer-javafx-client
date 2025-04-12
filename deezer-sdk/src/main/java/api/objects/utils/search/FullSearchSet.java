@@ -1,6 +1,5 @@
 package api.objects.utils.search;
 
-import api.PartialSearchResponse;
 import api.objects.playables.*;
 import api.objects.utils.User;
 

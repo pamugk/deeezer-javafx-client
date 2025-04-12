@@ -67,6 +67,7 @@
                         <list>api.objects.playables.TrackSearch</list>
 
                         <list>api.objects.utils.search.FullSearchSet</list>
+                        <list>api.objects.utils.search.PartialSearchResponse</list>
                         <list>api.objects.utils.search.SearchOrder</list>
                         <list>api.objects.utils.search.SearchResponse</list>
 

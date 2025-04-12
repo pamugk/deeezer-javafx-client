@@ -1,43 +1,39 @@
 package api.objects.utils;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URL;
-import java.util.Date;
 
 public record User(
         long id,
         String type,
         String name,
-        @SerializedName("lastname")
+        @JsonProperty("lastname")
         String lastName,
-        @SerializedName("firstname")
+        @JsonProperty("firstname")
         String firstName,
         String email,
         int status,
-        Date birthday,
-        @SerializedName("inscription_date")
-        Date inscriptionDate,
         String gender,
         URL link,
         URL picture,
-        @SerializedName("picture_small")
+        @JsonProperty("picture_small")
         URL pictureSmall,
-        @SerializedName("picture_medium")
+        @JsonProperty("picture_medium")
         URL pictureMedium,
-        @SerializedName("picture_big")
+        @JsonProperty("picture_big")
         URL pictureBig,
-        @SerializedName("picture_xl")
+        @JsonProperty("picture_xl")
         URL pictureXl,
         String country,
         String lang,
-        @SerializedName("is_kid")
+        @JsonProperty("is_kid")
         boolean kid,
-        @SerializedName("explicit_content_level")
+        @JsonProperty("explicit_content_level")
         String explicitContentLevel,
-        @SerializedName("explicit_content_levels_available")
+        @JsonProperty("explicit_content_levels_available")
         String[] explicitContentLevelsAvailable,
-        @SerializedName("trackList")
+        @JsonProperty("trackList")
         URL trackList
 ) {
 }

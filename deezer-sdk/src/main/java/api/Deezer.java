@@ -8,17 +8,18 @@ import api.objects.comments.Comment;
 import api.objects.playables.*;
 import api.objects.utils.User;
 import api.objects.utils.search.FullSearchSet;
+import api.objects.utils.search.PartialSearchResponse;
 import api.objects.utils.search.SearchOrder;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
@@ -28,24 +29,22 @@ import java.security.cert.CertificateException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
+import static com.fasterxml.jackson.databind.DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+
 public class Deezer {
-    private DeezerRequestExecutor requestExecutor;
+    private final DeezerRequestExecutor requestExecutor;
     private final DeezerEventHandler<AuthenticationEvent> authenticationEventHandler;
     private Long currentUserId;
 
-    private final Gson serializer;
-
-    private static final Type ALBUM_TYPE = new TypeToken<Album>(){}.getType();
-    private static final Type ARTIST_TYPE = new TypeToken<Artist>(){}.getType();
-    private static final Type ALBUM_RESPONSE_TYPE = new TypeToken<PartialSearchResponse<Album>>(){}.getType();
-    private static final Type ARTIST_RESPONSE_TYPE = new TypeToken<PartialSearchResponse<Artist>>(){}.getType();
-    private static final Type COMMENT_RESPONSE_TYPE = new TypeToken<PartialSearchResponse<Comment>>(){}.getType();
-    private static final Type PLAYLIST_TYPE = new TypeToken<Playlist>(){}.getType();
-    private static final Type PLAYLIST_RESPONSE_TYPE = new TypeToken<PartialSearchResponse<Playlist>>(){}.getType();
-    private static final Type TRACK_RESPONSE_TYPE = new TypeToken<PartialSearchResponse<Track>>(){}.getType();
-    private static final Type TRACKSEARCH_RESPONSE_TYPE = new TypeToken<PartialSearchResponse<TrackSearch>>(){}.getType();
-    private static final Type USER_TYPE = new TypeToken<User>(){}.getType();
-    private static final Type USER_RESPONSE_TYPE = new TypeToken<PartialSearchResponse<User>>(){}.getType();
+    private final ObjectMapper serializer;
+    private final JavaType ALBUM_RESPONSE_TYPE;
+    private final JavaType ARTIST_RESPONSE_TYPE;
+    private final JavaType COMMENT_RESPONSE_TYPE;
+    private final JavaType PLAYLIST_RESPONSE_TYPE;
+    private final JavaType TRACK_RESPONSE_TYPE;
+    private final JavaType TRACKSEARCH_RESPONSE_TYPE;
+    private final JavaType USER_RESPONSE_TYPE;
 
     private static final String API_URL_PREFIX = "https://api.deezer.com";
 
@@ -62,24 +61,30 @@ public class Deezer {
     private static final String TRACKS_SECTION = "tracks";
     private static final String USER_SECTION = "user";
 
-    public Deezer(Configuration configuration) throws IOException {
+    public Deezer(Configuration configuration) throws IOException, NoSuchPaddingException, CertificateException, NoSuchAlgorithmException, KeyStoreException {
         authenticationEventHandler = new DeezerEventHandler<>();
-        serializer = new GsonBuilder().create();
+        serializer = JsonMapper.builder()
+                .addModule(new JavaTimeModule())
+                .configure(ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true)
+                .configure(FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .build();
+        ALBUM_RESPONSE_TYPE = serializer.getTypeFactory().constructParametricType(PartialSearchResponse.class, Album.class);
+        ARTIST_RESPONSE_TYPE = serializer.getTypeFactory().constructParametricType(PartialSearchResponse.class, Artist.class);
+        COMMENT_RESPONSE_TYPE = serializer.getTypeFactory().constructParametricType(PartialSearchResponse.class, Comment.class);
+        PLAYLIST_RESPONSE_TYPE = serializer.getTypeFactory().constructParametricType(PartialSearchResponse.class, Playlist.class);
+        TRACK_RESPONSE_TYPE = serializer.getTypeFactory().constructParametricType(PartialSearchResponse.class, Track.class);
+        TRACKSEARCH_RESPONSE_TYPE = serializer.getTypeFactory().constructParametricType(PartialSearchResponse.class, TrackSearch.class);
+        USER_RESPONSE_TYPE = serializer.getTypeFactory().constructParametricType(PartialSearchResponse.class, User.class);
 
-        try {
-            requestExecutor = new DeezerRequestExecutor(configuration.callbackContext(), configuration.apiKey(),
-                    configuration.apiSecret(), Arrays.asList(Permissions.values()));
-            requestExecutor.setAuthenticationEventHandler(authenticationEventHandler);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | CertificateException | KeyStoreException e) {
-            e.printStackTrace();
-        }
+        requestExecutor = new DeezerRequestExecutor(configuration.callbackContext(), configuration.apiKey(),
+                configuration.apiSecret(), Arrays.asList(Permissions.values()));
+        requestExecutor.setAuthenticationEventHandler(authenticationEventHandler);
     }
 
     public void stop() { requestExecutor.stop(); }
 
     public Album getAlbum(long albumId) {
-        return abstractSearch(ALBUM_TYPE, null, null,
-                String.format("%s/%d", ALBUM_SECTION, albumId));
+        return abstractGet(Album.class, String.format("%s/%d", ALBUM_SECTION, albumId));
     }
 
     public PartialSearchResponse<Track> getAlbumTracks(Album album) {
@@ -88,8 +93,7 @@ public class Deezer {
     }
 
     public Artist getArtist(long artistId) {
-        return abstractSearch(ARTIST_TYPE, null, null,
-                String.format("%s/%d", ARTIST_SECTION, artistId));
+        return abstractGet(Artist.class, String.format("%s/%d", ARTIST_SECTION, artistId));
     }
 
     public PartialSearchResponse<Comment> getArtistComments(Artist artist) {
@@ -133,7 +137,7 @@ public class Deezer {
             requestExecutor.authenticate();
         } catch (IOException | URISyntaxException | UnrecoverableKeyException |
                 NoSuchAlgorithmException | KeyStoreException | InvalidKeyException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -144,14 +148,14 @@ public class Deezer {
     }
 
     public User getLoggedInUser(){
-        User loggedInUser = null;
+        User loggedInUser;
         OAuthRequest request = new OAuthRequest(Verb.GET, String.format("%s/%s/me", API_URL_PREFIX, USER_SECTION));
         try(Response response = requestExecutor.execute(request)) {
-            loggedInUser = serializer.fromJson(response.getBody(), User.class);
+            loggedInUser = serializer.readValue(response.getBody(), User.class);
             if (currentUserId == null)
                 currentUserId = loggedInUser.id();
         } catch (ExecutionException | InterruptedException | IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return loggedInUser;
     }
@@ -163,8 +167,7 @@ public class Deezer {
     }
 
     public Playlist getPlaylist(long playlistId) {
-        return abstractSearch(PLAYLIST_TYPE, null, null,
-                String.format("%s/%d", PLAYLIST_SECTION, playlistId));
+        return abstractGet(Playlist.class, String.format("%s/%d", PLAYLIST_SECTION, playlistId));
     }
 
     public PartialSearchResponse<Comment> getPlaylistComments(Playlist playlist) {
@@ -187,46 +190,6 @@ public class Deezer {
         return abstractSearch(PLAYLIST_RESPONSE_TYPE, null, null, null,
                 String.format("%s/me/%s/%s", USER_SECTION, RECOMMENDATIONS_SECTION, PLAYLISTS_SECTION),
                 count, true);
-    }
-
-    private <T> T abstractSearch(
-            Type responseType, Boolean strict, SearchOrder order, String searchPlace) {
-        OAuthRequest request = new OAuthRequest(Verb.GET,
-                String.format("%s/%s", API_URL_PREFIX, searchPlace));
-        if (strict != null)
-            request.addParameter("strict", String.valueOf(strict));
-        if (order != null)
-            request.addParameter("order", order.name());
-        T searchResult = null;
-        try(Response response = requestExecutor.execute(request)) {
-            String body = response.getBody();
-            searchResult = serializer.fromJson(body, responseType);
-        } catch (ExecutionException | InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-        return searchResult;
-    }
-
-    private <T> PartialSearchResponse<T> abstractSearch(
-            Type responseType, String query, Boolean strict, SearchOrder order, String searchPlace, int top, boolean getTop) {
-        OAuthRequest request = new OAuthRequest(Verb.GET,
-                String.format("%s/%s", API_URL_PREFIX, searchPlace));
-        if (query != null)
-            request.addParameter("q", query);
-        if (strict != null)
-            request.addParameter("strict", String.valueOf(strict));
-        if (order != null)
-            request.addParameter("order", order.name());
-        if (getTop && top != -1)
-            request.addParameter("top", String.valueOf(top));
-        try(Response response = requestExecutor.execute(request)) {
-            String body = response.getBody().replace("\"\"", "null");
-            return serializer.fromJson(body, responseType);
-        } catch (ExecutionException | InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return new PartialSearchResponse<>(responseType);
     }
 
     public FullSearchSet search(String query, Boolean strict) {
@@ -285,6 +248,55 @@ public class Deezer {
     }
 
     public User getUser(long userId) {
-        return abstractSearch(USER_TYPE, null, null, String.format("%s/%d", USER_SECTION, userId));
+        return abstractGet(User.class, String.format("%s/%d", USER_SECTION, userId));
+    }
+
+    private <T> T abstractGet(Class<T> responseType, String searchPlace) {
+        OAuthRequest request = new OAuthRequest(Verb.GET,
+                String.format("%s/%s", API_URL_PREFIX, searchPlace));
+        try (Response response = requestExecutor.execute(request)) {
+            return serializer.readValue(response.getBody(), responseType);
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private <T> T abstractSearch(
+            JavaType responseType, Boolean strict, SearchOrder order, String searchPlace) {
+        OAuthRequest request = new OAuthRequest(Verb.GET,
+                String.format("%s/%s", API_URL_PREFIX, searchPlace));
+        if (strict != null) {
+            request.addParameter("strict", String.valueOf(strict));
+        }
+        if (order != null) {
+            request.addParameter("order", order.name());
+        }
+        try (Response response = requestExecutor.execute(request)) {
+            return serializer.readValue(response.getBody(), responseType);
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private <T> PartialSearchResponse<T> abstractSearch(
+            JavaType responseType, String query, Boolean strict, SearchOrder order, String searchPlace, int top, boolean getTop) {
+        OAuthRequest request = new OAuthRequest(Verb.GET,
+                String.format("%s/%s", API_URL_PREFIX, searchPlace));
+        if (query != null)
+            request.addParameter("q", query);
+        if (strict != null) {
+            request.addParameter("strict", String.valueOf(strict));
+        }
+        if (order != null) {
+            request.addParameter("order", order.name());
+        }
+        if (getTop && top != -1) {
+            request.addParameter("top", String.valueOf(top));
+        }
+        try (Response response = requestExecutor.execute(request)) {
+            return serializer.readValue(response.getBody(), responseType);
+        } catch (ExecutionException | InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
  }

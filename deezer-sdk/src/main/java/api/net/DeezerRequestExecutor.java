@@ -48,7 +48,7 @@ public class DeezerRequestExecutor {
             throws IOException, NoSuchAlgorithmException, NoSuchPaddingException,
             CertificateException, KeyStoreException {
         storage = new SessionStorage("storage", "keystorage");
-        tokenClient = new DeezerTokenClient(apiKey, apiSecret, DeezerApi.getTokenEndpoint());
+        tokenClient = new DeezerTokenClient(apiKey, apiSecret, DeezerApi.instance().getAccessTokenEndpoint());
         callbackServer = new DeezerCallbackServer(callbackContext, 8080);
         service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
@@ -95,14 +95,14 @@ public class DeezerRequestExecutor {
             try {
                 desktop.browse(new URI(url));
             } catch (IOException | URISyntaxException e) {
-                e.printStackTrace();
+                throw new CompletionException(e);
             }
-        }else{
+        } else{
             Runtime runtime = Runtime.getRuntime();
             try {
-                runtime.exec("xdg-open " + url);
+                runtime.exec(new String[] { "xdg-open", url });
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CompletionException(e);
             }
         }
     }

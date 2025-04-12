@@ -1,6 +1,6 @@
 package api.objects.playables;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URL;
 
@@ -11,17 +11,17 @@ public record Artist(
         URL share,
         String name,
         URL picture,
-        @SerializedName("picture_small")
+        @JsonProperty("picture_small")
         URL pictureSmall,
-        @SerializedName("picture_medium")
+        @JsonProperty("picture_medium")
         URL pictureMedium,
-        @SerializedName("picture_big")
+        @JsonProperty("picture_big")
         URL pictureBig,
-        @SerializedName("picture_xl")
+        @JsonProperty("picture_xl")
         URL pictureXl,
-        @SerializedName("nb_album")
+        @JsonProperty("nb_album")
         int albumCount,
-        @SerializedName("nb_fan")
+        @JsonProperty("nb_fan")
         int fanCount,
         boolean radio,
         URL trackList

@@ -57,7 +57,7 @@ public class UserMenuController {
         this.logoutAction = logoutAction;
     }
 
-    public void setNavigator() {
+    public void setNavigator(Consumer<Pages> navigator) {
         this.navigator = navigator;
     }
 

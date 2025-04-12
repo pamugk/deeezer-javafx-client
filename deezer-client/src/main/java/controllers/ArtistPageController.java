@@ -1,7 +1,7 @@
 package controllers;
 
 import api.Deezer;
-import api.PartialSearchResponse;
+import api.objects.utils.search.PartialSearchResponse;
 import api.objects.comments.Comment;
 import api.objects.playables.*;
 import api.objects.utils.User;
@@ -22,8 +22,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -205,8 +205,8 @@ public class ArtistPageController {
             final Album topAlbumValue = topAlbum.get();
             artistTopAlbumImg.setImage(new Image(topAlbumValue.coverMedium().toString(), true));
             artistTopAlbumName.setText(topAlbumValue.title());
-            artistTopAlbumRelease.setText(topAlbumValue.releaseDate().toInstant()
-                    .atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ISO_LOCAL_DATE));
+            artistTopAlbumRelease.setText(topAlbumValue.releaseDate()
+                    .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
             artistTopAlbumTracksTV.getItems().setAll(deezerClient.getAlbumTracks(topAlbumValue).data());
         }
         artistTopAlbumImg.setVisible(albumShowed);

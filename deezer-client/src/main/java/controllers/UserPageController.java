@@ -1,7 +1,7 @@
 package controllers;
 
 import api.Deezer;
-import api.PartialSearchResponse;
+import api.objects.utils.search.PartialSearchResponse;
 import api.objects.playables.Album;
 import api.objects.playables.Artist;
 import api.objects.playables.Playlist;

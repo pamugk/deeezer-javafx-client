@@ -7,9 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 public class SettingsPageController {
     @FXML
     private ImageView userImg;
@@ -47,8 +44,6 @@ public class SettingsPageController {
         usernameTextField.setText(loggedInUser.name());
         firstnameTextField.setText(loggedInUser.firstName());
         lastnameTextField.setText(loggedInUser.lastName());
-        birthdayTextField.setText(loggedInUser.birthday().toInstant().atZone(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ISO_LOCAL_DATE));
     }
 
     @FXML

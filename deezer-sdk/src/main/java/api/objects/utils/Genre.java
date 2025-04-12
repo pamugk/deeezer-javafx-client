@@ -1,6 +1,6 @@
 package api.objects.utils;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URL;
 
@@ -9,13 +9,13 @@ public record Genre(
         String type,
         String name,
         URL picture,
-        @SerializedName("picture_small")
+        @JsonProperty("picture_small")
         URL pictureSmall,
-        @SerializedName("picture_medium")
+        @JsonProperty("picture_medium")
         URL pictureMedium,
-        @SerializedName("picture_big")
+        @JsonProperty("picture_big")
         URL pictureBig,
-        @SerializedName("picture_xl")
+        @JsonProperty("picture_xl")
         URL pictureXl
 ) {
 }

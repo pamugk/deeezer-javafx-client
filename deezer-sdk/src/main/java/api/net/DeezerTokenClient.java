@@ -32,8 +32,7 @@ class DeezerTokenClient  implements Closeable {
             String access_token = rawResponse.split("&")[0].split("=")[1];
             return new OAuth2AccessToken(access_token, rawResponse);
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException();
         }
     }
 
